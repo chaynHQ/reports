@@ -49,3 +49,8 @@ You are an expert Next.js (App Router) architect building a high-performance, mu
    - The app must comply strictly with EU/UK GDPR.
    - ALL analytics, error logging (Rollbar), and tracking must be configured to anonymize data. IP tracking and user fingerprinting must be explicitly disabled in the configuration of these tools.
    - No tracking scripts may load without explicit cookie consent.
+
+5. **Latest packages and configuration:**
+   - ALL newly installed packages must be latest versions
+   - Check latest package documentation from official sources (package website or github repo)
+   - Ensure setup is optimised to Next.js and consider if additional server component setup is required.
