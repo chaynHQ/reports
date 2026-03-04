@@ -155,11 +155,25 @@ describe("Cookie settings button", () => {
     cy.setCookie(COOKIE, "accepted", { path: "/" });
     cy.visit("/");
     cy.get(GA4_SCRIPT, { timeout: 6000 }).should("exist");
+    // Wait for gtag to initialise, then stub it to capture consent update calls.
+    // The external gtag.js script loads asynchronously and can reassign window.gtag
+    // after our code nulls it, so checking window.gtag === undefined is unreliable.
+    // Instead, verify the GA4 Consent Mode v2 signal was sent — that is what stops
+    // data collection.
+    cy.window().should("have.property", "gtag").and("be.a", "function");
+    cy.window().then((win) => {
+      cy.stub(win, "gtag").as("gtag");
+    });
     // Revoke consent via settings button
     cy.get(SETTINGS_BTN).click();
     cy.get('button[aria-label="Decline cookies"]').click();
-    // window.gtag should now be undefined — GA4 consent mode has been signalled denied
-    cy.window().its("gtag").should("be.undefined");
+    // GA4 Consent Mode v2 must signal analytics_storage denied
+    cy.get("@gtag").should(
+      "have.been.calledWith",
+      "consent",
+      "update",
+      Cypress.sinon.match({ analytics_storage: "denied" }),
+    );
   });
 });
 

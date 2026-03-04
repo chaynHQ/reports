@@ -30,6 +30,8 @@ jobs:
   discover:
     name: Discover specs
     runs-on: ubuntu-24.04
+    permissions:
+      contents: read
     outputs:
       specs: ${{ steps.find.outputs.specs }}
     steps:
