@@ -65,6 +65,7 @@ jobs:
           config: video=false
         env:
           CYPRESS_BASE_URL: ${{ needs.wait-for-vercel.outputs.preview_url }}
+          CYPRESS_VERCEL_BYPASS_SECRET: ${{ secrets.CYPRESS_VERCEL_BYPASS_SECRET }}
 
       - uses: actions/upload-artifact@v4
         if: failure()
