@@ -1,11 +1,11 @@
 {
   "site": {
-    "title": "Chayn Varshik Report",
+    "title": "Chayn Prabhav Report",
     "description": "Chayn ki vaishvik ko darshane wali ek interactive report, jo lingo aur himsa ke shikar logon ki madad karti hai."
   },
   "home": {
-    "heading": "Chayn Report",
-    "intro": "Chayn ke varshik report mein aapka swagat hai."
+    "heading": "Chayn Prabhav Report",
+    "intro": "Chayn ke prabhav report mein aapka swagat hai."
   },
   "nav": {
     "skipToContent": "Mukhya saamagri par jaayein"
