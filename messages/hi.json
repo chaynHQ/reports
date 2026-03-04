@@ -1,0 +1,33 @@
+{
+  "site": {
+    "title": "Chayn Reports",
+    "description": "Chayn ke interactive reports — ek global charity jo lingo aur himsa ke shikar logon ki madad karti hai."
+  },
+  "home": {
+    "heading": "Chayn Prabhav Report",
+    "intro": "Chayn ke prabhav report mein aapka swagat hai."
+  },
+  "nav": {
+    "skipToContent": "Mukhya saamagri par jaayein"
+  },
+  "error": {
+    "heading": "Kuch galat ho gaya",
+    "tryAgain": "Phir koshish karein",
+    "critical": "Ek mahatvapurna error aaya",
+    "refreshPrompt": "Kuch galat ho gaya. Kripaya page ko refresh karein."
+  },
+  "cookieBanner": {
+    "regionLabel": "Cookie samati",
+    "heading": "Hum analytics cookies ka upyog karte hain",
+    "body": "yeh samajhne ke liye ki visitors hamare reports se kaise judtey hain aur Chayn ki samagri ko behtar banane ke liye. Koi bhi vyaktigat data becha ya advertisers ke saath share nahi kiya jaata.",
+    "privacyLink": "Niji niti",
+    "acceptButton": "Analytics sweekar karein",
+    "declineButton": "Mana karein",
+    "acceptAriaLabel": "Cookies sweekar karein",
+    "declineAriaLabel": "Cookies mana karein",
+    "updateHeading": "Apni cookie settings update karein",
+    "statusEnabled": "Cookies abhi enabled hain.",
+    "statusDisabled": "Cookies abhi disabled hain.",
+    "updateBody": "Hum analytics ka upyog karte hain yeh samajhne ke liye ki log hamare resources se kaise judtey hain aur survivors ke liye hamaari sahayata behtar banane ke liye. Koi bhi vyaktigat data store ya share nahi kiya jaata."
+  }
+}
