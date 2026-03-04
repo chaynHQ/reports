@@ -76,6 +76,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
       - name: Run Cypress tests
         uses: cypress-io/github-action@v6.7.16
         with:
@@ -84,6 +89,7 @@ jobs:
           headed: false
           spec: ${{ matrix.spec }}
           config: video=false
+          install-command: npm ci --legacy-peer-deps
         env:
           CYPRESS_BASE_URL: ${{ needs.wait-for-vercel.outputs.preview_url }}
 
