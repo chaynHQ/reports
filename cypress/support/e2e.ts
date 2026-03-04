@@ -1,11 +1,5 @@
-import "./commands";
+// Cypress support file — runs before every spec.
+// Add global commands and configuration here.
 
-if (Cypress.env("VERCEL_BYPASS_SECRET")) {
-  beforeEach(() => {
-    cy.intercept("**", (req) => {
-      req.headers["x-vercel-protection-bypass"] = Cypress.env(
-        "VERCEL_BYPASS_SECRET",
-      );
-    });
-  });
-}
+// Import default Cypress commands (visit, get, click, etc.)
+import "./commands";

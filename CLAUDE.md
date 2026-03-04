@@ -62,3 +62,8 @@ You are an expert Next.js (App Router) architect building a high-performance, mu
    - ALL newly installed packages must be latest versions
    - Check latest package documentation from official sources (package website or github repo)
    - Ensure setup is optimised to Next.js and consider if additional server component setup is required.
+
+6. **Test new functionality with Cypress:**
+   - New moderate-significant changes should be tested with cypress in the appropriate (possibly new) test file.
+   - Test effort is medium - test the core functionality but do not overengineer, test times and bloat are important
+   - Follow a similar structure as the existing tests to keep consistency.

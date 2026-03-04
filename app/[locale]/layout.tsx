@@ -6,6 +6,7 @@ import { notFound } from 'next/navigation';
 import { routing, type Locale } from '@/i18n/routing';
 import { getLocaleDirection } from '@/lib/locale-dir';
 import RollbarProvider from '@/components/RollbarProvider';
+import { ClientProviders } from '@/components/ClientProviders';
 import '../globals.css';
 
 // TODO (A11y): Run axe-core / Lighthouse against every locale variant to confirm
@@ -84,7 +85,10 @@ export default async function LocaleLayout({
             message catalogue from server context set up by the plugin —
             no explicit `messages` prop required.
           */}
-          <NextIntlClientProvider>{children}</NextIntlClientProvider>
+          <NextIntlClientProvider>
+            {children}
+            <ClientProviders />
+          </NextIntlClientProvider>
         </RollbarProvider>
       </body>
     </html>

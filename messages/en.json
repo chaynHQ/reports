@@ -15,5 +15,19 @@
     "tryAgain": "Try again",
     "critical": "A critical error occurred",
     "refreshPrompt": "Something went wrong. Please try refreshing the page."
+  },
+  "cookieBanner": {
+    "regionLabel": "Cookie consent",
+    "heading": "We use analytics cookies",
+    "body": "to understand how visitors engage with our reports and to improve Chayn\u2019s content. No personal data is stored or shared with third parties.",
+    "privacyLink": "Privacy policy",
+    "acceptButton": "Accept",
+    "declineButton": "Decline",
+    "acceptAriaLabel": "Accept cookies",
+    "declineAriaLabel": "Decline cookies",
+    "updateHeading": "Update your cookie settings",
+    "statusEnabled": "Cookies are currently enabled.",
+    "statusDisabled": "Cookies are currently disabled.",
+    "updateBody": "We use analytics to understand how people engage with our resources and improve our support for survivors. No personal data is stored or shared."
   }
 }
