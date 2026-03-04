@@ -3,9 +3,14 @@
  *
  * Verifies GDPR consent flow, GA4 injection gating, cookie attributes,
  * and basic accessibility. Requires NEXT_PUBLIC_GA_ID to be set (see .env.local).
+ *
+ * GA4 is loaded via <GoogleAnalytics> from @next/third-parties, which injects a
+ * script[src*="googletagmanager.com/gtag/js"] tag. anonymize_ip is deprecated in
+ * GA4 (Google anonymises IP by default) and is no longer set in the config.
  */
 
 const COOKIE = "chaynCookieConsent";
+const GA4_SCRIPT = 'script[src*="googletagmanager.com/gtag/js"]';
 
 describe("Cookie consent", () => {
   it("shows the banner on first visit", () => {
@@ -18,21 +23,17 @@ describe("Cookie consent", () => {
     cy.clearCookies();
     cy.visit("/");
     cy.getCookie(COOKIE).should("be.null");
-    cy.get("script#ga4-script").should("not.exist");
-    cy.get("script#ga4-config").should("not.exist");
+    cy.get(GA4_SCRIPT).should("not.exist");
   });
 
-  it("accept — hides banner, sets accepted cookie with path=/, loads GA4 with anonymize_ip", () => {
+  it("accept — hides banner, sets accepted cookie with path=/, loads GA4", () => {
     cy.clearCookies();
     cy.visit("/");
     cy.get('button[aria-label="Accept cookies"]').click();
     cy.contains("We use analytics cookies").should("not.exist");
     cy.getCookie(COOKIE).should("have.property", "value", "accepted");
     cy.getCookie(COOKIE).should("have.property", "path", "/");
-    cy.get("script#ga4-config", { timeout: 6000 }).should(($s) => {
-      expect($s.text()).to.include("anonymize_ip: true");
-      expect($s.text()).to.match(/gtag\('config',\s*'G-[A-Z0-9]+'/i);
-    });
+    cy.get(GA4_SCRIPT, { timeout: 6000 }).should("exist");
   });
 
   it("decline — hides banner, sets declined cookie, does not load GA4", () => {
@@ -43,18 +44,15 @@ describe("Cookie consent", () => {
     cy.getCookie(COOKIE).should("have.property", "value", "declined");
     cy.getCookie(COOKIE).should("have.property", "path", "/");
     cy.wait(1500);
-    cy.get("script#ga4-script").should("not.exist");
-    cy.get("script#ga4-config").should("not.exist");
+    cy.get(GA4_SCRIPT).should("not.exist");
   });
 
-  it("returning accepted visitor — no banner, GA4 auto-loads with anonymize_ip", () => {
+  it("returning accepted visitor — no banner, GA4 auto-loads", () => {
     cy.clearCookies();
     cy.setCookie(COOKIE, "accepted", { path: "/" });
     cy.visit("/");
     cy.contains("We use analytics cookies").should("not.exist");
-    cy.get("script#ga4-config", { timeout: 6000 }).should(($s) => {
-      expect($s.text()).to.include("anonymize_ip: true");
-    });
+    cy.get(GA4_SCRIPT, { timeout: 6000 }).should("exist");
   });
 
   it("returning declined visitor — no banner, GA4 not loaded", () => {
@@ -63,13 +61,13 @@ describe("Cookie consent", () => {
     cy.visit("/");
     cy.contains("We use analytics cookies").should("not.exist");
     cy.wait(1500);
-    cy.get("script#ga4-script").should("not.exist");
+    cy.get(GA4_SCRIPT).should("not.exist");
   });
 
   it("consent revoked — cookie is cleared and banner reappears on reload", () => {
     cy.setCookie(COOKIE, "accepted", { path: "/" });
     cy.visit("/");
-    cy.get("script#ga4-config", { timeout: 6000 }).should("exist");
+    cy.get(GA4_SCRIPT, { timeout: 6000 }).should("exist");
     // Simulate clearConsent(): clear the cookie then dispatch the consent change event
     cy.clearCookie(COOKIE);
     cy.window().then((win) =>
@@ -79,7 +77,7 @@ describe("Cookie consent", () => {
     cy.visit("/");
     cy.contains("We use analytics cookies").should("be.visible");
     cy.wait(1500);
-    cy.get("script#ga4-script").should("not.exist");
+    cy.get(GA4_SCRIPT).should("not.exist");
   });
 
   it("consent cookie survives a full page reload", () => {
@@ -106,7 +104,7 @@ describe("Cookie consent accessibility", () => {
     cy.get('button[aria-label="Accept cookies"]')
       .should("be.visible")
       .and("not.have.attr", "tabindex", "-1");
-    cy.get('button[aria-label="Decline analytics cookies"]')
+    cy.get('button[aria-label="Decline cookies"]')
       .should("be.visible")
       .and("not.have.attr", "tabindex", "-1");
   });
