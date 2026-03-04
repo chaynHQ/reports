@@ -2,11 +2,28 @@ name: Cypress E2E
 
 on:
   push:
-    branches: [main, develop]
-  pull_request:
-    branches: [develop]
+    branches: [develop, dependabot/**, "*test*"]
 
 jobs:
+  # ── Wait for Vercel preview deployment before running tests ──────────────────
+  # Vercel deploys on every push; we wait for it rather than building locally.
+  wait-for-vercel:
+    name: Wait for Vercel deployment
+    runs-on: ubuntu-24.04
+    permissions:
+      deployments: read
+      statuses: read
+    outputs:
+      preview_url: ${{ steps.wait.outputs.url }}
+    steps:
+      - name: Wait for Vercel preview deployment to be ready
+        uses: patrickedqvist/wait-for-vercel-preview@v1.3.2
+        id: wait
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          max_timeout: 1000
+          check_interval: 5
+
   # ── Discover spec files dynamically ─────────────────────────────────────────
   # Outputs a JSON array of spec paths so the test matrix is always in sync
   # with the filesystem — no manual updates needed when specs are added.
@@ -22,30 +39,15 @@ jobs:
           specs=$(find cypress/e2e -name "*.cy.ts" | sort | jq -R -s -c 'split("\n")[:-1]')
           echo "specs=$specs" >> $GITHUB_OUTPUT
 
-  # ── Build once, share the .next output across all test containers ────────────
-  build:
-    name: Build
-    runs-on: ubuntu-24.04
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install and build
-        uses: cypress-io/github-action@v7
-        with:
-          runTests: false
-          build: npm run build
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: next-build
-          path: .next
-          if-no-files-found: error
-
-  # ── One container per spec, generated from the discover job ─────────────────
+  # ── One container per spec, run against the Vercel preview URL ───────────────
   cypress:
-    name: 'Cypress (${{ matrix.spec }})'
-    needs: [build, discover]
+    name: "Cypress (${{ matrix.spec }})"
+    needs: [wait-for-vercel, discover]
     runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      checks: write
+      deployments: read
     strategy:
       fail-fast: false
       matrix:
@@ -53,17 +55,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/download-artifact@v4
-        with:
-          name: next-build
-          path: .next
-
       - name: Run Cypress tests
-        uses: cypress-io/github-action@v7
+        uses: cypress-io/github-action@v6.7.16
         with:
-          start: npm start
-          wait-on: 'http://localhost:3000'
+          browser: chrome
+          config-file: cypress.config.ts
+          headed: false
           spec: ${{ matrix.spec }}
+          config: video=false
+        env:
+          CYPRESS_BASE_URL: ${{ needs.wait-for-vercel.outputs.preview_url }}
 
       - uses: actions/upload-artifact@v4
         if: failure()
