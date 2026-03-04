@@ -2,6 +2,7 @@
 
 import { EVENTS } from "@/constants/events";
 import { trackEvent } from "@/lib/analytics";
+import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -56,6 +57,11 @@ export function CookieBanner() {
 
   const handleDecline = () => {
     setUpdateMode(false);
+    // Explicitly write the declined value before dispatching the event so that
+    // AnalyticsManager.readConsent() sees the updated cookie synchronously.
+    // react-cookie-consent also sets this cookie, but the timing is not guaranteed
+    // relative to the onDecline callback, which would cause the revocation effect to miss.
+    Cookies.set(CONSENT_COOKIE_NAME, CONSENT_COOKIE_DECLINED, { path: "/" });
     // No provider loads for declined users — correct GDPR behaviour.
     trackEvent(EVENTS.COOKIE_CONSENT_DECLINED, {});
     window.dispatchEvent(new Event(CONSENT_EVENT));
