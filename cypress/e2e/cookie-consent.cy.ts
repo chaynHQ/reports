@@ -66,6 +66,20 @@ describe('Cookie consent', () => {
     cy.get('script#ga4-script').should('not.exist')
   })
 
+  it('consent revoked — cookie is cleared and banner reappears on reload', () => {
+    cy.setCookie(COOKIE, 'accepted', { path: '/' })
+    cy.visit('/')
+    cy.get('script#ga4-config', { timeout: 6000 }).should('exist')
+    // Simulate clearConsent(): clear the cookie then dispatch the consent change event
+    cy.clearCookie(COOKIE)
+    cy.window().then((win) => win.dispatchEvent(new win.Event('chayn:consent-change')))
+    // On reload, banner reappears and GA4 does not load
+    cy.visit('/')
+    cy.contains('We use analytics cookies').should('be.visible')
+    cy.wait(1500)
+    cy.get('script#ga4-script').should('not.exist')
+  })
+
   it('consent cookie survives a full page reload', () => {
     cy.clearCookies()
     cy.setCookie(COOKIE, 'accepted', { path: '/' })
