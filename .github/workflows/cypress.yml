@@ -89,7 +89,6 @@ jobs:
           headed: false
           spec: ${{ matrix.spec }}
           config: video=false
-          install-command: npm ci --legacy-peer-deps
         env:
           CYPRESS_BASE_URL: ${{ needs.wait-for-vercel.outputs.preview_url }}
 
