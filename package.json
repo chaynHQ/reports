@@ -6,7 +6,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "npm run cypress:headless",
+    "cypress": "cypress open",
+    "cypress:headless": "cypress run --headless --browser chrome",
+    "cypress:headless-spec": "cypress run --headless --browser chrome --spec $SPEC",
+    "cypress:home": "cypress run --spec \"cypress/e2e/home.cy.ts\"",
+    "cypress:health": "cypress run --spec \"cypress/e2e/app-health.cy.ts\"",
+    "cypress:coverage": "npx nyc report --reporter=text-summary"
   },
   "dependencies": {
     "@rollbar/react": "^1.0.0",
@@ -21,6 +28,7 @@
     "@types/node": "^25",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "cypress": "^15.11.0",
     "eslint": "^10",
     "eslint-config-next": "16.1.6",
     "tailwindcss": "^4",

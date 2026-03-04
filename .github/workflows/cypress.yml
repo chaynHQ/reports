@@ -1,0 +1,73 @@
+name: Cypress E2E
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [develop]
+
+jobs:
+  # ── Discover spec files dynamically ─────────────────────────────────────────
+  # Outputs a JSON array of spec paths so the test matrix is always in sync
+  # with the filesystem — no manual updates needed when specs are added.
+  discover:
+    name: Discover specs
+    runs-on: ubuntu-24.04
+    outputs:
+      specs: ${{ steps.find.outputs.specs }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: find
+        run: |
+          specs=$(find cypress/e2e -name "*.cy.ts" | sort | jq -R -s -c 'split("\n")[:-1]')
+          echo "specs=$specs" >> $GITHUB_OUTPUT
+
+  # ── Build once, share the .next output across all test containers ────────────
+  build:
+    name: Build
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install and build
+        uses: cypress-io/github-action@v7
+        with:
+          runTests: false
+          build: npm run build
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: next-build
+          path: .next
+          if-no-files-found: error
+
+  # ── One container per spec, generated from the discover job ─────────────────
+  cypress:
+    name: 'Cypress (${{ matrix.spec }})'
+    needs: [build, discover]
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        spec: ${{ fromJson(needs.discover.outputs.specs) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: next-build
+          path: .next
+
+      - name: Run Cypress tests
+        uses: cypress-io/github-action@v7
+        with:
+          start: npm start
+          wait-on: 'http://localhost:3000'
+          spec: ${{ matrix.spec }}
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: cypress-screenshots-${{ strategy.job-index }}
+          path: cypress/screenshots
+          if-no-files-found: ignore
