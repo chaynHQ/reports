@@ -10,7 +10,7 @@ describe("Homepage content", () => {
   });
 
   it("has the correct document title", () => {
-    cy.title().should("eq", "Chayn Impact Report");
+    cy.title().should("eq", "Chayn Reports");
   });
 
   it("renders a single h1 with the report heading", () => {
