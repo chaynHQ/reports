@@ -22,7 +22,24 @@ declare global {
       params?: Record<string, unknown>,
     ) => void;
     dataLayer?: unknown[];
+    Cypress?: unknown; // set by Cypress test runner; used to guard test-unsafe side effects
   }
+}
+
+/**
+ * Sends a GA4 Consent Mode v2 revocation signal synchronously.
+ * Call immediately when consent is withdrawn — before any further gtag calls.
+ * Safe to call if gtag is not loaded (no-op).
+ */
+export function revokeGa4Consent(): void {
+  if (typeof window === "undefined") return;
+  if (typeof window.gtag !== "function") return;
+  window.gtag("consent", "update", {
+    analytics_storage: "denied",
+    ad_storage: "denied",
+    ad_user_data: "denied",
+    ad_personalization: "denied",
+  });
 }
 
 /** Fans out to GA4 and Vercel Analytics. Both are no-ops until their scripts load post-consent. */

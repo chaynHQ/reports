@@ -1,7 +1,8 @@
 "use client";
 
 import { EVENTS } from "@/constants/events";
-import { trackEvent } from "@/lib/analytics";
+import { revokeGa4Consent, trackEvent } from "@/lib/analytics";
+import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -18,9 +19,10 @@ export const OPEN_SETTINGS_EVENT = "chayn:open-settings";
 /**
  * Clears consent and notifies AnalyticsManager to stop rendering tracking scripts.
  * Call from a "Change cookie settings" link (GDPR Art. 7(3)).
- * NOTE: Hotjar has no JS unload method — prompt the user to reload after calling this.
+ * NOTE: Hotjar has no JS unload method — AnalyticsManager reloads the page automatically.
  */
 export function clearConsent() {
+  revokeGa4Consent(); // send Consent Mode v2 signal before analytics shut down
   trackEvent(EVENTS.COOKIE_CONSENT_REVOKED, {}); // fire while analytics are still active
   resetCookieConsentValue(CONSENT_COOKIE_NAME);
   window.dispatchEvent(new Event(CONSENT_EVENT));
@@ -56,6 +58,12 @@ export function CookieBanner() {
 
   const handleDecline = () => {
     setUpdateMode(false);
+    // Explicitly write the declined value before dispatching the event so that
+    // AnalyticsManager.readConsent() sees the updated cookie synchronously.
+    // react-cookie-consent also sets this cookie, but the timing is not guaranteed
+    // relative to the onDecline callback, which would cause the revocation effect to miss.
+    Cookies.set(CONSENT_COOKIE_NAME, CONSENT_COOKIE_DECLINED, { path: "/" });
+    revokeGa4Consent(); // synchronous Consent Mode v2 signal — does not depend on React effect timing
     // No provider loads for declined users — correct GDPR behaviour.
     trackEvent(EVENTS.COOKIE_CONSENT_DECLINED, {});
     window.dispatchEvent(new Event(CONSENT_EVENT));
