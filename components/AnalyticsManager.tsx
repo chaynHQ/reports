@@ -37,7 +37,7 @@ const HJ_SV = process.env.NEXT_PUBLIC_HOTJAR_SV
  *
  * Hotjar: no JS anonymize_ip flag exists — compliance relies on init-after-consent
  * (here) plus IP Anonymization enabled in the Hotjar dashboard (Settings → Privacy).
- * Hotjar also has no unload method, so a page reload is needed after consent revocation.
+ * Hotjar has no unload API; consent revocation triggers a page reload to stop recording.
  */
 export function AnalyticsManager() {
   const [consent, setConsent] = useState<boolean | null>(null);
@@ -63,18 +63,22 @@ export function AnalyticsManager() {
     // to signal analytics_storage: denied (stops data collection) and null out
     // window.gtag so trackEvent no longer fires GA4 calls.
     if (consent === false && gaActiveRef.current) {
-      if (typeof window.gtag === "function") {
-        // Consent Mode v2: deny analytics + ad signals (Chayn has no ad campaigns,
-        // but including ad params ensures a well-formed v2 consent update).
-        window.gtag("consent", "update", {
-          analytics_storage: "denied",
-          ad_storage: "denied",
-          ad_user_data: "denied",
-          ad_personalization: "denied",
-        });
-      }
+      // Consent Mode v2 signal is sent synchronously in CookieBanner.handleDecline /
+      // clearConsent — null out gtag here so trackEvent no longer fires GA4 calls.
       window.gtag = undefined;
       gaActiveRef.current = false;
+    }
+
+    // Hotjar has no JS stop API — the only way to terminate an active session
+    // recording after consent is withdrawn is a full page reload. The brief delay
+    // lets the banner close before the reload fires.
+    // Guard skips the reload during Cypress tests to avoid interrupting assertions.
+    if (
+      consent === false &&
+      hotjar.initialized() &&
+      typeof window.Cypress === "undefined"
+    ) {
+      setTimeout(() => window.location.reload(), 300);
     }
   }, [consent]);
 
