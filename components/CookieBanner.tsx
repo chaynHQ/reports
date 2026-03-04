@@ -3,89 +3,60 @@
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import CookieConsent, { resetCookieConsentValue } from "react-cookie-consent";
+import { trackEvent } from "@/lib/analytics";
+import { EVENTS } from "@/constants/events";
 
-// ─── Shared constants ─────────────────────────────────────────────────────────
 export const CONSENT_COOKIE_NAME = "chaynCookieConsent";
 export const CONSENT_COOKIE_ACCEPTED = "accepted";
 export const CONSENT_COOKIE_DECLINED = "declined";
-/** Custom DOM event dispatched whenever the user accepts or declines. */
+/** Dispatched on window whenever consent is accepted, declined, or revoked. */
 export const CONSENT_EVENT = "chayn:consent-change";
 
-// ─── Utility exposed for a future "Cookie preferences" UI ────────────────────
 /**
- * Clears the consent cookie and immediately notifies AnalyticsManager via
- * CONSENT_EVENT so GA4 and Vercel Analytics stop rendering in the current
- * session without requiring a page reload.
- *
- * Call this from a "Change cookie settings" link to satisfy GDPR Art. 7(3)
- * (withdrawal must be as easy as giving consent).
- *
- * NOTE: Hotjar has no JS unload method — a page reload is still required to
- * fully purge it after revocation. Callers should prompt the user to reload.
+ * Clears consent and notifies AnalyticsManager to stop rendering tracking scripts.
+ * Call from a "Change cookie settings" link (GDPR Art. 7(3)).
+ * NOTE: Hotjar has no JS unload method — prompt the user to reload after calling this.
  */
 export function clearConsent() {
+  trackEvent(EVENTS.COOKIE_CONSENT_REVOKED, {}); // fire while analytics are still active
   resetCookieConsentValue(CONSENT_COOKIE_NAME);
   window.dispatchEvent(new Event(CONSENT_EVENT));
 }
 
-// ─── Component ────────────────────────────────────────────────────────────────
-
-/**
- * CookieBanner
- *
- * EU/UK GDPR-compliant cookie consent banner.
- *
- * Cookie behaviour:
- *   - Stored in `chaynCookieConsent`; value is "accepted" or "declined".
- *   - `path: "/"` ensures the cookie is read on every locale route (e.g. /hi).
- *   - `sameSite: "strict"` prevents cross-site cookie leakage.
- *   - Expires after 365 days; user can revoke at any time via clearConsent().
- *
- * Accessibility (WCAG 2.1 AA):
- *   - Banner container carries `role="region"` + `aria-label` via
- *     `customContainerAttributes` so screen readers identify it as a landmark.
- *   - Each button carries an explicit `aria-label` via ariaAcceptLabel /
- *     ariaDeclineLabel (rendered as aria-label on the <button> elements).
- *   - Styled with raw Tailwind 4 classes; no clsx / tailwind-merge.
- *
- * Cross-component communication:
- *   - Fires `chayn:consent-change` on `window` so AnalyticsManager reacts
- *     immediately in the same browsing session without a page reload.
- */
+// TODO (A11y): Verify banner focus management with a screen reader — confirm focus
+// moves to the banner on first render and returns sensibly after a choice is made.
 export function CookieBanner() {
   const t = useTranslations("cookieBanner");
-  const dispatchConsentChange = () =>
+
+  const handleAccept = () => {
+    // GA4 loads after this fires, so accept is captured by Vercel Analytics only.
+    trackEvent(EVENTS.COOKIE_CONSENT_ACCEPTED, {});
     window.dispatchEvent(new Event(CONSENT_EVENT));
+  };
+
+  const handleDecline = () => {
+    // No provider loads for declined users — correct GDPR behaviour.
+    trackEvent(EVENTS.COOKIE_CONSENT_DECLINED, {});
+    window.dispatchEvent(new Event(CONSENT_EVENT));
+  };
 
   return (
     <CookieConsent
-      // ── Cookie ────────────────────────────────────────────────────────
       cookieName={CONSENT_COOKIE_NAME}
       cookieValue={CONSENT_COOKIE_ACCEPTED}
       declineCookieValue={CONSENT_COOKIE_DECLINED}
       expires={365}
       sameSite="strict"
-      // path: "/" ensures the consent cookie is accessible on every route,
-      // including /hi/* and future locale prefixes.
-      extraCookieOptions={{ path: "/" }}
-      // ── Behaviour ─────────────────────────────────────────────────────
+      extraCookieOptions={{ path: "/" }} // accessible on all locale routes e.g. /hi
       enableDeclineButton
       flipButtons
-      onAccept={dispatchConsentChange}
-      onDecline={dispatchConsentChange}
-      // ── Labels (WCAG 2.1 SC 1.3.1 / 4.1.2) ──────────────────────────
+      onAccept={handleAccept}
+      onDecline={handleDecline}
       buttonText={t("acceptButton")}
       declineButtonText={t("declineButton")}
       ariaAcceptLabel={t("acceptAriaLabel")}
       ariaDeclineLabel={t("declineAriaLabel")}
-      // ── Landmark role on the banner container ─────────────────────────
-      // customContainerAttributes is forwarded directly to the root <div>,
-      // giving assistive technologies a proper region landmark.
-      customContainerAttributes={{
-        role: "region",
-        "aria-label": t("regionLabel"),
-      }}
-      // ── Styling ───────────────────────────────────────────────────────
+      customContainerAttributes={{ role: "region", "aria-label": t("regionLabel") }}
       disableStyles
       containerClasses="fixed bottom-0 left-0 right-0 z-50 flex flex-col gap-4 border-t border-neutral-700 bg-neutral-900 px-6 py-5 text-white shadow-2xl sm:flex-row sm:items-center"
       contentClasses="flex-1 text-sm leading-relaxed text-neutral-200"
