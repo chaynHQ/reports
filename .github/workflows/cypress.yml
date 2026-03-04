@@ -2,7 +2,7 @@ name: Cypress E2E
 
 on:
   push:
-    branches: [develop, dependabot/**, "*test*"]
+    branches: [develop, dependabot/**, "*test*", "*cypress*"]
 
 jobs:
   # ── Wait for Vercel preview deployment before running tests ──────────────────
