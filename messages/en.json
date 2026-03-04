@@ -1,0 +1,19 @@
+{
+  "site": {
+    "title": "Chayn Impact Report",
+    "description": "An interactive report exploring Chayn's global impact in supporting survivors of gender-based violence and abuse."
+  },
+  "home": {
+    "heading": "Chayn Impact Report",
+    "intro": "Welcome to Chayn's impact report."
+  },
+  "nav": {
+    "skipToContent": "Skip to main content"
+  },
+  "error": {
+    "heading": "Something went wrong",
+    "tryAgain": "Try again",
+    "critical": "A critical error occurred",
+    "refreshPrompt": "Something went wrong. Please try refreshing the page."
+  }
+}

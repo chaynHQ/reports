@@ -11,6 +11,14 @@ npm run start    # Start production server
 npm run lint     # Run ESLint
 ```
 
+## Working principles
+
+- **Read before you write.** Understand the schema, component, or action before modifying it.
+- **Follow good patterns, not just existing ones.** Check existing code for conventions, but if you find a poor pattern, flag it and use a better approach — do not perpetuate bugs or anti-patterns.
+- **Minimal footprint.** Only change what is needed. Delete dead code after refactoring.
+- **Flag issues proactively.** If you notice a bug, security issue, or design problem adjacent to your task, mention it even if not asked.
+- **Clean codebase.** Always follow (or improve) existing coding patterns and best practices. Do not leave boilerplate code explaining new changes unless helpful in a future context.
+
 ## Project Overview
 
 A high-performance, multilingual **scrollytelling report** for [Chayn](https://www.chayn.co/), built with Next.js 16 App Router, React 19, TypeScript 5, and Tailwind CSS 4.

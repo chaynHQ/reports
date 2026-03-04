@@ -8,7 +8,8 @@
  *  - enforces a consistent, typed prop API across the app
  *
  * Must be rendered inside <RollbarProvider> to report errors. Since the Provider
- * wraps all children in app/layout.tsx, any use within app/ satisfies this automatically.
+ * wraps all children in app/[locale]/layout.tsx, any use within app/ satisfies
+ * this automatically.
  *
  * @rollbar/react's ErrorBoundary is a class component internally — it reads the
  * Rollbar instance from RollbarContext, so we do not need to manage that ourselves.
@@ -30,6 +31,7 @@
 // If you supply a custom fallback component, ensure it also includes an appropriate
 // ARIA live region and that interactive elements are keyboard-accessible.
 
+import { useTranslations } from 'next-intl';
 import { ErrorBoundary as RollbarErrorBoundary } from '@rollbar/react';
 import type { ComponentType, ReactNode } from 'react';
 
@@ -42,9 +44,10 @@ export interface FallbackProps {
 // TODO (A11y): Test DefaultFallback announcement with NVDA (Windows), JAWS, and
 // VoiceOver (macOS/iOS). Confirm the live region fires without requiring focus.
 function DefaultFallback() {
+  const t = useTranslations('error');
   return (
     <div role="alert" aria-live="assertive">
-      <p>Something went wrong. Please try refreshing the page.</p>
+      <p>{t('refreshPrompt')}</p>
     </div>
   );
 }
