@@ -1,0 +1,79 @@
+name: Cypress E2E
+
+on:
+  push:
+    branches: [develop, dependabot/**, "*test*", "*cypress*"]
+
+jobs:
+  # ── Wait for Vercel preview deployment before running tests ──────────────────
+  # Vercel deploys on every push; we wait for it rather than building locally.
+  wait-for-vercel:
+    name: Wait for Vercel deployment
+    runs-on: ubuntu-24.04
+    permissions:
+      deployments: read
+      statuses: read
+    outputs:
+      preview_url: ${{ steps.wait.outputs.url }}
+    steps:
+      - name: Wait for Vercel preview deployment to be ready
+        uses: patrickedqvist/wait-for-vercel-preview@v1.3.2
+        id: wait
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          max_timeout: 1000
+          check_interval: 5
+
+  # ── Discover spec files dynamically ─────────────────────────────────────────
+  # Outputs a JSON array of spec paths so the test matrix is always in sync
+  # with the filesystem — no manual updates needed when specs are added.
+  discover:
+    name: Discover specs
+    runs-on: ubuntu-24.04
+    outputs:
+      specs: ${{ steps.find.outputs.specs }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: find
+        run: |
+          specs=$(find cypress/e2e -name "*.cy.ts" | sort | jq -R -s -c 'split("\n")[:-1]')
+          echo "specs=$specs" >> $GITHUB_OUTPUT
+
+  # ── One container per spec, run against the Vercel preview URL ───────────────
+  cypress:
+    name: "Cypress (${{ matrix.spec }})"
+    needs: [wait-for-vercel, discover]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      checks: write
+      deployments: read
+    strategy:
+      fail-fast: false
+      matrix:
+        spec: ${{ fromJson(needs.discover.outputs.specs) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Run Cypress tests
+        uses: cypress-io/github-action@v6.7.16
+        with:
+          browser: chrome
+          config-file: cypress.config.ts
+          headed: false
+          spec: ${{ matrix.spec }}
+          config: video=false
+        env:
+          CYPRESS_BASE_URL: ${{ needs.wait-for-vercel.outputs.preview_url }}
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: cypress-screenshots-${{ strategy.job-index }}
+          path: cypress/screenshots
+          if-no-files-found: ignore
