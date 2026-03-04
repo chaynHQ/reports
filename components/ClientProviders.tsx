@@ -22,6 +22,11 @@ const AnalyticsManager = dynamic(
   { ssr: false }
 );
 
+const CookieSettingsButton = dynamic(
+  () => import("./CookieSettingsButton").then((m) => m.CookieSettingsButton),
+  { ssr: false }
+);
+
 export function ClientProviders() {
   return (
     <>
@@ -29,6 +34,8 @@ export function ClientProviders() {
       <AnalyticsManager />
       {/* Cookie consent banner: shown once per visitor */}
       <CookieBanner />
+      {/* Floating settings button: visible after initial choice (GDPR Art. 7(3)) */}
+      <CookieSettingsButton />
     </>
   );
 }

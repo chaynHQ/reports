@@ -24,6 +24,10 @@
     "acceptButton": "Analytics sweekar karein",
     "declineButton": "Mana karein",
     "acceptAriaLabel": "Cookies sweekar karein",
-    "declineAriaLabel": "Cookies mana karein"
+    "declineAriaLabel": "Cookies mana karein",
+    "updateHeading": "Apni cookie settings update karein",
+    "statusEnabled": "Cookies abhi enabled hain.",
+    "statusDisabled": "Cookies abhi disabled hain.",
+    "updateBody": "Hum analytics ka upyog karte hain yeh samajhne ke liye ki log hamare resources se kaise judtey hain aur survivors ke liye hamaari sahayata behtar banane ke liye. Koi bhi vyaktigat data store ya share nahi kiya jaata."
   }
 }

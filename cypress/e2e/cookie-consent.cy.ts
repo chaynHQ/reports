@@ -90,6 +90,79 @@ describe("Cookie consent", () => {
   });
 });
 
+describe("Cookie settings button", () => {
+  const SETTINGS_BTN = 'button[aria-label="Cookie settings"]';
+
+  it("does not appear before a consent choice is made", () => {
+    cy.clearCookies();
+    cy.visit("/");
+    cy.get(SETTINGS_BTN).should("not.exist");
+  });
+
+  it("appears after accepting cookies", () => {
+    cy.clearCookies();
+    cy.visit("/");
+    cy.get('button[aria-label="Accept cookies"]').click();
+    cy.get(SETTINGS_BTN).should("be.visible");
+  });
+
+  it("appears after declining cookies", () => {
+    cy.clearCookies();
+    cy.visit("/");
+    cy.get('button[aria-label="Decline cookies"]').click();
+    cy.get(SETTINGS_BTN).should("be.visible");
+  });
+
+  it("clicking it reopens banner with update heading and hides the button", () => {
+    cy.setCookie(COOKIE, "accepted", { path: "/" });
+    cy.visit("/");
+    cy.get(SETTINGS_BTN).should("be.visible").click();
+    cy.contains("Update your cookie settings").should("be.visible");
+    cy.get(SETTINGS_BTN).should("not.exist");
+  });
+
+  it("shows 'currently enabled' status when cookies were accepted", () => {
+    cy.setCookie(COOKIE, "accepted", { path: "/" });
+    cy.visit("/");
+    cy.get(SETTINGS_BTN).click();
+    cy.contains("Cookies are currently enabled.").should("be.visible");
+  });
+
+  it("shows 'currently disabled' status when cookies were declined", () => {
+    cy.setCookie(COOKIE, "declined", { path: "/" });
+    cy.visit("/");
+    cy.get(SETTINGS_BTN).click();
+    cy.contains("Cookies are currently disabled.").should("be.visible");
+  });
+
+  it("banner closes and button reappears after making a new choice in update mode", () => {
+    cy.setCookie(COOKIE, "accepted", { path: "/" });
+    cy.visit("/");
+    cy.get(SETTINGS_BTN).click();
+    cy.contains("Update your cookie settings").should("be.visible");
+    cy.get('button[aria-label="Decline cookies"]').click();
+    cy.contains("Update your cookie settings").should("not.exist");
+    cy.get(SETTINGS_BTN).should("be.visible");
+  });
+
+  it("appears again for a returning visitor (cookie already set)", () => {
+    cy.setCookie(COOKIE, "declined", { path: "/" });
+    cy.visit("/");
+    cy.get(SETTINGS_BTN).should("be.visible");
+  });
+
+  it("GA4 script is neutered after revoking consent mid-session", () => {
+    cy.setCookie(COOKIE, "accepted", { path: "/" });
+    cy.visit("/");
+    cy.get(GA4_SCRIPT, { timeout: 6000 }).should("exist");
+    // Revoke consent via settings button
+    cy.get(SETTINGS_BTN).click();
+    cy.get('button[aria-label="Decline cookies"]').click();
+    // window.gtag should now be undefined — GA4 consent mode has been signalled denied
+    cy.window().its("gtag").should("be.undefined");
+  });
+});
+
 describe("Cookie consent accessibility", () => {
   beforeEach(() => {
     cy.clearCookies();

@@ -25,7 +25,7 @@ declare global {
   }
 }
 
-/** Fans out to GA4 (if consent given) and Vercel Analytics (queues until script loads). */
+/** Fans out to GA4 and Vercel Analytics. Both are no-ops until their scripts load post-consent. */
 export function trackEvent<T extends EventName>(
   event: T,
   params: EventParams<T>,
@@ -40,5 +40,9 @@ export function trackEvent<T extends EventName>(
     window.gtag("event", event, params as Record<string, unknown>);
   }
 
-  track(event, params as unknown as VercelEventProperties);
+  // Only send to Vercel if the <Analytics /> script has loaded (i.e. consent given).
+  // window.va is set by the Vercel Analytics script — absent before consent.
+  if (typeof (window as Record<string, unknown>).va === "function") {
+    track(event, params as unknown as VercelEventProperties);
+  }
 }
