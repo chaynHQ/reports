@@ -1,0 +1,19 @@
+{
+  "site": {
+    "title": "Chayn Varshik Report",
+    "description": "Chayn ki vaishvik ko darshane wali ek interactive report, jo lingo aur himsa ke shikar logon ki madad karti hai."
+  },
+  "home": {
+    "heading": "Chayn Report",
+    "intro": "Chayn ke varshik report mein aapka swagat hai."
+  },
+  "nav": {
+    "skipToContent": "Mukhya saamagri par jaayein"
+  },
+  "error": {
+    "heading": "Kuch galat ho gaya",
+    "tryAgain": "Phir koshish karein",
+    "critical": "Ek mahatvapurna error aaya",
+    "refreshPrompt": "Kuch galat ho gaya. Kripaya page ko refresh karein."
+  }
+}

@@ -18,6 +18,11 @@
 // WCAG 2.1 AA contrast ratios and that the "Try again" button has a visible
 // keyboard focus indicator.
 
+// NOTE (i18n): Strings here are intentionally hardcoded in English and cannot use
+// useTranslations(). When global-error renders, the root layout — including
+// NextIntlClientProvider — has crashed and is unmounted. There is no i18n context
+// to read from. This is a known Next.js constraint for global error boundaries.
+
 import { useEffect } from 'react';
 import Rollbar from 'rollbar';
 import { clientConfig } from '@/lib/rollbar-config';

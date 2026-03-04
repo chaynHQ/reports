@@ -4,8 +4,9 @@
  * Next.js route-segment error boundary.
  *
  * Rendered automatically when an unhandled error occurs within a route segment.
- * The root layout (and therefore the RollbarProvider) remains mounted when this
- * renders, so useRollbar() is safe to use here.
+ * The root layout (and therefore the RollbarProvider and NextIntlClientProvider)
+ * remains mounted when this renders, so useRollbar() and useTranslations() are
+ * both safe to use here.
  *
  * This file MUST remain a Client Component — Next.js requires it.
  * See: https://nextjs.org/docs/app/api-reference/file-conventions/error
@@ -16,6 +17,7 @@
 // The reset button must be reachable via keyboard (Tab) and activated via Enter/Space.
 
 import { useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { useRollbar } from '@rollbar/react';
 
 interface ErrorPageProps {
@@ -25,6 +27,7 @@ interface ErrorPageProps {
 
 export default function ErrorPage({ error, reset }: ErrorPageProps) {
   const rollbar = useRollbar();
+  const t = useTranslations('error');
 
   useEffect(() => {
     rollbar.error(error, {
@@ -35,9 +38,9 @@ export default function ErrorPage({ error, reset }: ErrorPageProps) {
 
   return (
     <main role="alert" aria-live="assertive">
-      <h2>Something went wrong</h2>
+      <h2>{t('heading')}</h2>
       <button type="button" onClick={reset}>
-        Try again
+        {t('tryAgain')}
       </button>
     </main>
   );
