@@ -96,23 +96,23 @@ export function CookieBanner() {
         "aria-label": t("regionLabel"),
       }}
       disableStyles
-      containerClasses="fixed bottom-0 left-0 right-0 z-50 flex flex-col gap-4 border-t border-neutral-700 bg-neutral-900 px-6 py-5 text-white shadow-2xl sm:flex-row sm:items-center"
-      contentClasses="flex-1 text-sm leading-relaxed text-neutral-200"
+      containerClasses="fixed bottom-0 left-0 right-0 z-50 flex flex-col gap-4 border-t border-peach bg-cream px-6 py-5 shadow-lg sm:flex-row sm:items-center"
+      contentClasses="flex-1 text-sm leading-relaxed text-foreground/80"
       buttonWrapperClasses="flex shrink-0 gap-3"
-      buttonClasses="rounded-md bg-rose-600 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-rose-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-      declineButtonClasses="rounded-md border border-neutral-500 px-5 py-2 text-sm font-semibold text-neutral-300 transition-colors hover:border-neutral-300 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+      buttonClasses="rounded-full bg-red px-5 py-2 text-sm font-semibold text-cream transition-colors hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red focus-visible:ring-offset-2"
+      declineButtonClasses="rounded-full border border-red/30 px-5 py-2 text-sm font-semibold text-red transition-colors hover:border-red hover:bg-red/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red focus-visible:ring-offset-2"
     >
       {updateMode ? (
         <>
           <p>
-            <strong className="font-semibold text-white">{t("updateHeading")}</strong>
+            <strong className="font-semibold text-foreground">{t("updateHeading")}</strong>
           </p>
           <p>
             {statusText}{" "}{t("updateBody")}{" "}
             <Link
               target="_blank"
               href="https://www.chayn.co/policies/privacy-policy"
-              className="underline underline-offset-2 hover:text-rose-300 focus-visible:rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              className="underline underline-offset-2 hover:text-red focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red focus-visible:ring-offset-1"
             >
               {t("privacyLink")}
             </Link>
@@ -120,12 +120,12 @@ export function CookieBanner() {
         </>
       ) : (
         <p>
-          <strong className="font-semibold text-white">{t("heading")}</strong>{" "}
+          <strong className="font-semibold text-foreground">{t("heading")}</strong>{" "}
           {t("body")}{" "}
           <Link
             target="_blank"
             href="https://www.chayn.co/policies/privacy-policy"
-            className="underline underline-offset-2 hover:text-rose-300 focus-visible:rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            className="underline underline-offset-2 hover:text-red focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red focus-visible:ring-offset-1"
           >
             {t("privacyLink")}
           </Link>

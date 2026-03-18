@@ -37,9 +37,13 @@ export default function ErrorPage({ error, reset }: ErrorPageProps) {
   }, [error, rollbar]);
 
   return (
-    <main role="alert" aria-live="assertive">
-      <h2>{t('heading')}</h2>
-      <button type="button" onClick={reset}>
+    <main
+      role="alert"
+      aria-live="assertive"
+      className="flex min-h-screen flex-col items-center justify-center gap-6 bg-background px-6 py-24 text-center"
+    >
+      <h2 className="text-2xl text-foreground">{t('heading')}</h2>
+      <button type="button" onClick={reset} className="btn-pill bg-red text-cream hover:opacity-90">
         {t('tryAgain')}
       </button>
     </main>

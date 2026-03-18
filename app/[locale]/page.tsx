@@ -27,11 +27,11 @@ function HomePageContent() {
   const t = useTranslations('home');
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center px-6 py-24">
-      <h1 className="text-4xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
+    <main className="flex min-h-screen flex-col items-center justify-center bg-background px-6 py-24">
+      <h1 className="text-4xl tracking-tight text-foreground">
         {t('heading')}
       </h1>
-      <p className="mt-4 max-w-prose text-center text-lg text-zinc-600 dark:text-zinc-400">
+      <p className="mt-4 max-w-prose text-center text-lg text-foreground/60">
         {t('intro')}
       </p>
     </main>

@@ -1,27 +1,31 @@
-import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
-import { NextIntlClientProvider, hasLocale } from 'next-intl';
-import { getTranslations, setRequestLocale } from 'next-intl/server';
-import { notFound } from 'next/navigation';
-import { routing, type Locale } from '@/i18n/routing';
-import { getLocaleDirection } from '@/lib/locale-dir';
-import RollbarProvider from '@/components/RollbarProvider';
-import { ClientProviders } from '@/components/ClientProviders';
-import '../globals.css';
+import { ClientProviders } from "@/components/ClientProviders";
+import RollbarProvider from "@/components/RollbarProvider";
+import { routing, type Locale } from "@/i18n/routing";
+import { getLocaleDirection } from "@/lib/locale-dir";
+import type { Metadata } from "next";
+import { NextIntlClientProvider, hasLocale } from "next-intl";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Merriweather, Open_Sans } from "next/font/google";
+import { notFound } from "next/navigation";
+import "../globals.css";
 
 // TODO (A11y): Run axe-core / Lighthouse against every locale variant to confirm
 // lang and dir attributes are correctly announced by screen readers (VoiceOver,
-// NVDA, TalkBack). Verify font subsets load correctly for the 'hi' Latin
-// transliteration locale.
+// NVDA, TalkBack). Verify Merriweather and Open Sans subsets load correctly for
+// the 'hi' Latin transliteration locale.
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
+const merriweather = Merriweather({
+  variable: "--font-merriweather",
+  subsets: ["latin"],
+  weight: ["300", "400", "700", "900"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
+const openSans = Open_Sans({
+  variable: "--font-open-sans",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
 });
 
 /**
@@ -38,11 +42,51 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: 'site' });
+  const t = await getTranslations({ locale, namespace: "site" });
+
+  const siteUrl =
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://reports.chayn.co";
+  const title = t("title");
+  const description = t("description");
 
   return {
-    title: t('title'),
-    description: t('description'),
+    metadataBase: new URL(siteUrl),
+    title: {
+      default: title,
+      template: `%s | ${title}`,
+    },
+    description,
+    authors: [{ name: "Chayn", url: "https://www.chayn.co" }],
+    icons: {
+      icon: "/favicon.ico",
+      apple: "/apple-touch-icon.png",
+    },
+    openGraph: {
+      title,
+      description,
+      url: "/",
+      siteName: title,
+      locale,
+      type: "website",
+      images: [
+        {
+          url: "/og-image.png",
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/og-image.png"],
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
   };
 }
 
@@ -69,10 +113,12 @@ export default async function LocaleLayout({
   const dir = getLocaleDirection(locale as Locale);
 
   return (
-    <html lang={locale} dir={dir}>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    <html
+      lang={locale}
+      dir={dir}
+      className={`${merriweather.variable} ${openSans.variable}`}
+    >
+      <body className="bg-background text-foreground antialiased">
         {/*
           RollbarProvider wraps the tree so error boundaries and Client
           Components can access the Rollbar instance via useRollbar().
