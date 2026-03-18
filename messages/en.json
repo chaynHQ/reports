@@ -18,7 +18,8 @@
     "openMenu": "Open navigation menu",
     "closeMenu": "Close navigation menu",
     "goToChayn": "Go to Chayn",
-    "goToChaynLabel": "Go to Chayn website (opens in a new tab)"
+    "goToChaynLabel": "Go to Chayn website (opens in a new tab)",
+    "reportImageBasedAbuseResearch": "Image-based Abuse Research"
   },
   "footer": {
     "ariaLabel": "Site footer",

@@ -18,7 +18,8 @@
     "openMenu": "Navigation menu kholein",
     "closeMenu": "Navigation menu band karein",
     "goToChayn": "Chayn par jaayein",
-    "goToChaynLabel": "Chayn website par jaayein (nayi tab mein khuliga)"
+    "goToChaynLabel": "Chayn website par jaayein (nayi tab mein khuliga)",
+    "reportImageBasedAbuseResearch": "Image-based Abuse Research"
   },
   "footer": {
     "ariaLabel": "Site footer",

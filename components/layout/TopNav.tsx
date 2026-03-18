@@ -12,7 +12,6 @@ export async function TopNav() {
   const t = await getTranslations("nav");
 
   // Built inside the function so translated labels are available.
-  // Report item labels are proper nouns (product names) and remain in English.
   // Add NavLinkItem or NavDropdownItem entries here to extend the nav.
   const navItems: NavItem[] = [
     {
@@ -21,10 +20,10 @@ export async function TopNav() {
       label: t("reportsLabel"),
       menuLabel: t("reportsMenuLabel"),
       items: [
-        { href: "/reports/impact-2024", label: "Impact Report 2024" },
-        { href: "/reports/impact-2023", label: "Impact Report 2023" },
-        { href: "/reports/bloom-insights", label: "Bloom Insights" },
-        { href: "/reports/survivor-stories", label: "Survivor Stories" },
+        {
+          href: "/reports/image-based-abuse-research",
+          label: t("reportImageBasedAbuseResearch"),
+        },
       ],
     },
   ];
@@ -44,11 +43,7 @@ export async function TopNav() {
         closeMenu: t("closeMenu"),
       }}
     >
-      <Link
-        href="/"
-        aria-label={t("logoLabel")}
-        className={logoLinkStyles}
-      >
+      <Link href="/" aria-label={t("logoLabel")} className={logoLinkStyles}>
         <Image
           src="/chayn_logo.png"
           alt="Chayn"
