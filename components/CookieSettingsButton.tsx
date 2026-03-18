@@ -42,7 +42,7 @@ export function CookieSettingsButton() {
     <button
       onClick={handleClick}
       aria-label="Cookie settings"
-      className="fixed bottom-4 right-4 z-40 flex items-center gap-1.5 rounded-full bg-neutral-800 px-3 py-2 text-xs text-neutral-400 shadow-lg ring-1 ring-neutral-700 transition-colors hover:bg-neutral-700 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+      className="fixed bottom-4 right-4 z-40 flex items-center gap-1.5 rounded-full bg-peach-tint px-3 py-2 text-xs text-foreground/60 shadow-md ring-1 ring-peach transition-colors hover:bg-peach hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red focus-visible:ring-offset-2"
     >
       <CookieIcon />
       <span>Cookie settings</span>

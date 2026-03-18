@@ -42,12 +42,19 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
 
   return (
     <html lang="en">
-      <body>
+      {/* Inline styles: next/font CSS vars are unavailable here since the root
+          layout has crashed. Hard-coded brand values keep the page on-brand
+          without depending on the --font-* or --color-* custom properties. */}
+      <body style={{ backgroundColor: '#FFFBF5', color: '#1A1A1A', margin: 0, fontFamily: 'system-ui, sans-serif' }}>
         {/* TODO (A11y): Verify role="alert" is announced by screen readers in this
             context — the absence of a skip-link may affect navigation for keyboard users. */}
-        <main role="alert" aria-live="assertive">
-          <h1>A critical error occurred</h1>
-          <button type="button" onClick={reset}>
+        <main
+          role="alert"
+          aria-live="assertive"
+          className="flex min-h-screen flex-col items-center justify-center gap-6 px-6 py-24 text-center"
+        >
+          <h1 className="font-serif text-2xl text-foreground">A critical error occurred</h1>
+          <button type="button" onClick={reset} className="btn-pill bg-red text-cream hover:opacity-90">
             Try again
           </button>
         </main>

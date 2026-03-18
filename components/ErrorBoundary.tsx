@@ -46,8 +46,12 @@ export interface FallbackProps {
 function DefaultFallback() {
   const t = useTranslations('error');
   return (
-    <div role="alert" aria-live="assertive">
-      <p>{t('refreshPrompt')}</p>
+    <div
+      role="alert"
+      aria-live="assertive"
+      className="flex flex-col items-center gap-4 px-6 py-12 text-center"
+    >
+      <p className="text-foreground/60">{t('refreshPrompt')}</p>
     </div>
   );
 }
