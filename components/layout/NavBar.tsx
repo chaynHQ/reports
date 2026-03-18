@@ -43,7 +43,7 @@ const hamburgerStyles =
   "transition-colors hover:bg-peach focus-visible:outline-none focus-visible:ring-2 " +
   "focus-visible:ring-red focus-visible:ring-offset-2 focus-visible:ring-offset-peach-tint";
 
-interface NavScrollShellProps {
+interface NavBarProps {
   children: React.ReactNode;
   /** Plain serialisable data — safe to pass across the RSC/client boundary. */
   navItems: NavItem[];
@@ -52,16 +52,11 @@ interface NavScrollShellProps {
 }
 
 /**
- * Owns scroll-hide/reveal and mobile menu state.
- * Renders the full nav layout for both desktop and mobile.
+ * Client component — owns scroll-hide/reveal and mobile menu state.
+ * Renders the full <header> and <nav> layout for desktop and mobile.
  * Receives the logo as children from the TopNav Server Component.
  */
-export function NavScrollShell({
-  children,
-  navItems,
-  cta,
-  labels,
-}: NavScrollShellProps) {
+export function NavBar({ children, navItems, cta, labels }: NavBarProps) {
   const [isNavHidden, setIsNavHidden] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);

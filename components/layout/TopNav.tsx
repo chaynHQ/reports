@@ -1,7 +1,7 @@
 import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
-import { NavScrollShell, type NavItem } from "./NavScrollShell";
+import { NavBar, type NavItem } from "./NavBar";
 
 const logoLinkStyles =
   "flex items-center gap-3 rounded focus-visible:outline-none focus-visible:ring-2 " +
@@ -30,7 +30,7 @@ export async function TopNav() {
   ];
 
   return (
-    <NavScrollShell
+    <NavBar
       navItems={navItems}
       cta={{
         href: "https://www.chayn.co",
@@ -66,6 +66,6 @@ export async function TopNav() {
           {t("reportsSiteLabel")}
         </span>
       </Link>
-    </NavScrollShell>
+    </NavBar>
   );
 }

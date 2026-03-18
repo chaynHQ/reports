@@ -12,10 +12,26 @@ import {
 } from "@/components/icons";
 
 const SOCIAL_LINKS = [
-  { label: "Twitter / X", href: "https://twitter.com/ChaynHQ", icon: <XIcon /> },
-  { label: "Instagram", href: "https://www.instagram.com/chaynhq/", icon: <InstagramIcon /> },
-  { label: "LinkedIn", href: "https://www.linkedin.com/company/chayn/", icon: <LinkedInIcon /> },
-  { label: "Facebook", href: "https://www.facebook.com/chayn", icon: <FacebookIcon /> },
+  {
+    label: "Twitter / X",
+    href: "https://twitter.com/ChaynHQ",
+    icon: <XIcon />,
+  },
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/chaynhq/",
+    icon: <InstagramIcon />,
+  },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/company/chayn/",
+    icon: <LinkedInIcon />,
+  },
+  {
+    label: "Facebook",
+    href: "https://www.facebook.com/chayn",
+    icon: <FacebookIcon />,
+  },
   {
     label: "YouTube",
     href: "https://www.youtube.com/channel/UC5_1Ci2SWVjmbeH8_USm-Bg",
@@ -27,10 +43,6 @@ const SOCIAL_LINKS = [
 const logoLinkStyles =
   "inline-block rounded focus-visible:outline-none focus-visible:ring-2 " +
   "focus-visible:ring-red focus-visible:ring-offset-2 focus-visible:ring-offset-background";
-
-const bottomLinkStyles =
-  "text-xs text-foreground/50 transition-colors hover:text-foreground focus-visible:rounded " +
-  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red focus-visible:ring-offset-1 focus-visible:ring-offset-background";
 
 const linkStyles =
   "text-sm text-foreground/75 transition-colors hover:text-foreground focus-visible:rounded focus-visible:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red focus-visible:ring-offset-1 focus-visible:ring-offset-background";
@@ -80,23 +92,34 @@ function ColHeading({
 
 export async function Footer() {
   const t = await getTranslations("footer");
-  const year = new Date().getFullYear();
 
   const chaynCoLinks = [
     { label: t("chaynCoAbout"), href: "https://www.chayn.co/about" },
-    { label: t("chaynCoDonate"), href: "https://www.paypal.com/paypalme/chaynhq" },
+    {
+      label: t("chaynCoDonate"),
+      href: "https://www.paypal.com/paypalme/chaynhq",
+    },
     { label: t("chaynCoCareers"), href: "https://chayn-cio.breezy.hr/" },
   ];
 
   const orgChaynCoLinks = [
     { label: t("orgChaynCoProjects"), href: "https://org.chayn.co/projects" },
-    { label: t("orgChaynCoPartnerships"), href: "https://org.chayn.co/partnerships" },
+    {
+      label: t("orgChaynCoPartnerships"),
+      href: "https://org.chayn.co/partnerships",
+    },
     { label: t("orgChaynCoImpact"), href: "https://org.chayn.co/impact" },
   ];
 
   const legalLinks = [
-    { label: t("legalPolicies"), href: "https://www.chayn.co/policies/privacy-policy" },
-    { label: t("legalTrustCentre"), href: "https://app.eu.vanta.com/chayn.co/trust/yrbp5r3nj96a1dlq15h0y" },
+    {
+      label: t("legalPolicies"),
+      href: "https://www.chayn.co/policies/privacy-policy",
+    },
+    {
+      label: t("legalTrustCentre"),
+      href: "https://app.eu.vanta.com/chayn.co/trust/yrbp5r3nj96a1dlq15h0y",
+    },
     { label: t("legalContact"), href: "mailto:team@chayn.co" },
   ];
 

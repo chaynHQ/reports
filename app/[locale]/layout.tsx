@@ -1,7 +1,7 @@
-import { ClientProviders } from "@/components/ClientProviders";
-import { Footer } from "@/components/Footer";
-import RollbarProvider from "@/components/RollbarProvider";
-import { TopNav } from "@/components/TopNav";
+import { ClientProviders } from "@/components/analytics/ClientProviders";
+import RollbarProvider from "@/components/error/RollbarProvider";
+import { Footer } from "@/components/layout/Footer";
+import { TopNav } from "@/components/layout/TopNav";
 import { routing, type Locale } from "@/i18n/routing";
 import { getLocaleDirection } from "@/lib/locale-dir";
 import type { Metadata } from "next";
