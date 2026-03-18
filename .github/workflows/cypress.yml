@@ -17,7 +17,7 @@ jobs:
       preview_url: ${{ steps.wait.outputs.url }}
     steps:
       - name: Wait for Vercel preview deployment to be ready
-        uses: patrickedqvist/wait-for-vercel-preview@v1.3.2
+        uses: patrickedqvist/wait-for-vercel-preview@v1.3.3
         id: wait
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -35,7 +35,7 @@ jobs:
     outputs:
       specs: ${{ steps.find.outputs.specs }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - id: find
         run: |
           specs=$(find cypress/e2e -name "*.cy.ts" | sort | jq -R -s -c 'split("\n")[:-1]')
@@ -55,15 +55,15 @@ jobs:
       matrix:
         spec: ${{ fromJson(needs.discover.outputs.specs) }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: 24
           cache: npm
 
       - name: Run Cypress tests
-        uses: cypress-io/github-action@v6.7.16
+        uses: cypress-io/github-action@v7.1.5
         with:
           browser: chrome
           config-file: cypress.config.ts
@@ -74,7 +74,7 @@ jobs:
           CYPRESS_BASE_URL: ${{ needs.wait-for-vercel.outputs.preview_url }}
           NEXT_PUBLIC_GA_ID: ${{ secrets.NEXT_PUBLIC_GA_ID }}
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: failure()
         with:
           name: cypress-screenshots-${{ strategy.job-index }}
