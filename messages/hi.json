@@ -8,7 +8,38 @@
     "intro": "Chayn ke prabhav report mein aapka swagat hai."
   },
   "nav": {
-    "skipToContent": "Mukhya saamagri par jaayein"
+    "skipToContent": "Mukhya saamagri par jaayein",
+    "headerLabel": "Site header",
+    "primaryNav": "Mukhya navigation",
+    "logoLabel": "Chayn Reports — homepage par jaayein",
+    "reportsSiteLabel": "Reports",
+    "reportsLabel": "Reports",
+    "reportsMenuLabel": "Uplabdh reports",
+    "openMenu": "Navigation menu kholein",
+    "closeMenu": "Navigation menu band karein",
+    "goToChayn": "Chayn par jaayein",
+    "goToChaynLabel": "Chayn website par jaayein (nayi tab mein khuliga)"
+  },
+  "footer": {
+    "ariaLabel": "Site footer",
+    "tagline": "Ek global charity jo lingo aur himsa ke shikar logon ki madad karti hai.",
+    "charityRegistration": "Chayn CIO. UK Charity Number: 1196098",
+    "legalColumn": "Legal aur Jaankari",
+    "followUs": "Hamare saath judein",
+    "socialLinksLabel": "Chayn social media par",
+    "opensInNewTab": "nayi tab mein khuliga",
+    "chaynHomepageLabel": "Chayn — mukhya website par jaayein (nayi tab mein khuliga)",
+    "chaynCoAbout": "Chayn ke baare mein",
+    "chaynCoDonate": "Daan karein",
+    "chaynCoCareers": "Naukri ke avsar",
+    "orgChaynCoProjects": "Pariyojanaen",
+    "orgChaynCoPartnerships": "Saajhedaari",
+    "orgChaynCoImpact": "Prabhav",
+    "legalPolicies": "Hamari neeti",
+    "legalTrustCentre": "Trust Centre",
+    "legalContact": "Sampark karein",
+    "copyright": "© {year} Chayn. Sabhi adhikar surakshit.",
+    "backToReports": "Chayn Reports par wapas jaayein"
   },
   "error": {
     "heading": "Kuch galat ho gaya",

@@ -1,5 +1,7 @@
 import { ClientProviders } from "@/components/ClientProviders";
+import { Footer } from "@/components/Footer";
 import RollbarProvider from "@/components/RollbarProvider";
+import { TopNav } from "@/components/TopNav";
 import { routing, type Locale } from "@/i18n/routing";
 import { getLocaleDirection } from "@/lib/locale-dir";
 import type { Metadata } from "next";
@@ -85,6 +87,11 @@ export async function generateMetadata({
   };
 }
 
+const skipLinkStyles =
+  "fixed left-0 top-0 z-[100] -translate-y-full rounded-br bg-background px-4 py-3 text-sm font-medium " +
+  "text-foreground transition-transform focus-visible:translate-y-0 focus-visible:shadow-md " +
+  "focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-red";
+
 interface LocaleLayoutProps {
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
@@ -106,7 +113,7 @@ export default async function LocaleLayout({
   setRequestLocale(locale as Locale);
 
   const dir = getLocaleDirection(locale as Locale);
-  const t = await getTranslations({ locale, namespace: 'nav' });
+  const t = await getTranslations({ locale, namespace: "nav" });
 
   return (
     <html
@@ -116,11 +123,8 @@ export default async function LocaleLayout({
     >
       <body className="bg-background text-foreground antialiased">
         {/* Skip navigation — visually hidden until focused by keyboard users. */}
-        <a
-          href="#main-content"
-          className="fixed left-0 top-0 z-[100] -translate-y-full rounded-br bg-background px-4 py-3 text-sm font-medium text-foreground transition-transform focus-visible:translate-y-0 focus-visible:shadow-md focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-red"
-        >
-          {t('skipToContent')}
+        <a href="#main-content" className={skipLinkStyles}>
+          {t("skipToContent")}
         </a>
         {/*
           RollbarProvider wraps the tree so error boundaries and Client
@@ -129,14 +133,11 @@ export default async function LocaleLayout({
           — see lib/rollbar-config.ts.
         */}
         <RollbarProvider>
-          {/*
-            NextIntlClientProvider in next-intl v4 automatically reads the
-            message catalogue from server context set up by the plugin —
-            no explicit `messages` prop required.
-          */}
           <NextIntlClientProvider>
-            {children}
+            <TopNav />
             <ClientProviders />
+            {children}
+            <Footer />
           </NextIntlClientProvider>
         </RollbarProvider>
       </body>

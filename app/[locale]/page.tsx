@@ -1,6 +1,5 @@
-import { useTranslations } from 'next-intl';
-import { setRequestLocale } from 'next-intl/server';
-import type { Locale } from '@/i18n/routing';
+import type { Locale } from "@/i18n/routing";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 
 interface HomePageProps {
   params: Promise<{ locale: string }>;
@@ -8,27 +7,19 @@ interface HomePageProps {
 
 export default async function HomePage({ params }: HomePageProps) {
   const { locale } = await params;
-
-  // Enable static rendering for this page.
   setRequestLocale(locale as Locale);
-
-  return <HomePageContent />;
-}
-
-/**
- * Separated into a child component so translations are called inside the
- * RSC render tree (useTranslations is valid in Server Components).
- */
-function HomePageContent() {
-  const t = useTranslations('home');
+  const t = await getTranslations("home");
 
   return (
-    <main id="main-content" className="flex min-h-screen flex-col items-center justify-center bg-background px-6 py-24">
+    <main
+      id="main-content"
+      className="flex min-h-screen flex-col items-center justify-center bg-background px-6 pb-24 pt-40"
+    >
       <h1 className="text-4xl tracking-tight text-foreground">
-        {t('heading')}
+        {t("heading")}
       </h1>
       <p className="mt-4 max-w-prose text-center text-lg text-foreground/60">
-        {t('intro')}
+        {t("intro")}
       </p>
     </main>
   );

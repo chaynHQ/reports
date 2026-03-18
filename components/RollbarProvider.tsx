@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 /**
  * Rollbar context provider.
@@ -14,9 +14,9 @@
  * that would negate the RSC architecture entirely.
  */
 
-import { Provider } from '@rollbar/react';
-import { clientConfig } from '@/lib/rollbar-config';
-import type { ReactNode } from 'react';
+import { clientConfig } from "@/lib/rollbar-config";
+import { Provider } from "@rollbar/react";
+import type { ReactNode } from "react";
 
 export default function RollbarProvider({ children }: { children: ReactNode }) {
   return <Provider config={clientConfig}>{children}</Provider>;
