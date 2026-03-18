@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 /**
  * Next.js route-segment error boundary.
@@ -12,13 +12,9 @@
  * See: https://nextjs.org/docs/app/api-reference/file-conventions/error
  */
 
-// TODO (A11y): Test this error state with VoiceOver (macOS/iOS) and NVDA (Windows).
-// Confirm role="alert" announces without requiring user focus shift.
-// The reset button must be reachable via keyboard (Tab) and activated via Enter/Space.
-
-import { useEffect } from 'react';
-import { useTranslations } from 'next-intl';
-import { useRollbar } from '@rollbar/react';
+import { useRollbar } from "@rollbar/react";
+import { useTranslations } from "next-intl";
+import { useEffect } from "react";
 
 interface ErrorPageProps {
   error: Error & { digest?: string };
@@ -27,7 +23,7 @@ interface ErrorPageProps {
 
 export default function ErrorPage({ error, reset }: ErrorPageProps) {
   const rollbar = useRollbar();
-  const t = useTranslations('error');
+  const t = useTranslations("error");
 
   useEffect(() => {
     rollbar.error(error, {
@@ -42,9 +38,13 @@ export default function ErrorPage({ error, reset }: ErrorPageProps) {
       aria-live="assertive"
       className="flex min-h-screen flex-col items-center justify-center gap-6 bg-background px-6 py-24 text-center"
     >
-      <h2 className="text-2xl text-foreground">{t('heading')}</h2>
-      <button type="button" onClick={reset} className="btn-pill bg-red text-cream hover:opacity-90">
-        {t('tryAgain')}
+      <h2 className="text-2xl text-foreground">{t("heading")}</h2>
+      <button
+        type="button"
+        onClick={reset}
+        className="btn-pill bg-red text-cream hover:opacity-90"
+      >
+        {t("tryAgain")}
       </button>
     </main>
   );

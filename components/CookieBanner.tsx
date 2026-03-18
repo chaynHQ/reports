@@ -5,7 +5,7 @@ import { revokeGa4Consent, trackEvent } from "@/lib/analytics";
 import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CookieConsent, { resetCookieConsentValue } from "react-cookie-consent";
 
 export const CONSENT_COOKIE_NAME = "chaynCookieConsent";
@@ -28,8 +28,6 @@ export function clearConsent() {
   window.dispatchEvent(new Event(CONSENT_EVENT));
 }
 
-// TODO (A11y): Verify banner focus management with a screen reader — confirm focus
-// moves to the banner on first render and returns sensibly after a choice is made.
 export function CookieBanner() {
   const t = useTranslations("cookieBanner");
 
@@ -37,6 +35,7 @@ export function CookieBanner() {
   // prevConsent: the accepted/declined value that was set before update mode opened
   const [updateMode, setUpdateMode] = useState(false);
   const [prevConsent, setPrevConsent] = useState<string | null>(null);
+  const updateHeadingRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
     const handleOpenSettings = (e: Event) => {
@@ -48,6 +47,12 @@ export function CookieBanner() {
     return () =>
       window.removeEventListener(OPEN_SETTINGS_EVENT, handleOpenSettings);
   }, []);
+
+  useEffect(() => {
+    if (updateMode) {
+      updateHeadingRef.current?.focus();
+    }
+  }, [updateMode]);
 
   const handleAccept = () => {
     setUpdateMode(false);
@@ -104,11 +109,15 @@ export function CookieBanner() {
     >
       {updateMode ? (
         <>
-          <p>
-            <strong className="font-semibold text-foreground">{t("updateHeading")}</strong>
+          <p
+            ref={updateHeadingRef}
+            tabIndex={-1}
+            className="font-semibold text-foreground focus-visible:outline-none"
+          >
+            {t("updateHeading")}
           </p>
           <p>
-            {statusText}{" "}{t("updateBody")}{" "}
+            {statusText} {t("updateBody")}{" "}
             <Link
               target="_blank"
               href="https://www.chayn.co/policies/privacy-policy"
@@ -120,7 +129,9 @@ export function CookieBanner() {
         </>
       ) : (
         <p>
-          <strong className="font-semibold text-foreground">{t("heading")}</strong>{" "}
+          <strong className="font-semibold text-foreground">
+            {t("heading")}
+          </strong>{" "}
           {t("body")}{" "}
           <Link
             target="_blank"

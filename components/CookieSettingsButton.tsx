@@ -1,7 +1,8 @@
 "use client";
 
 import Cookies from "js-cookie";
-import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
+import { useEffect, useRef, useState } from "react";
 
 import {
   CONSENT_COOKIE_NAME,
@@ -9,10 +10,13 @@ import {
   OPEN_SETTINGS_EVENT,
 } from "./CookieBanner";
 
-// TODO (A11y): Verify this button is announced correctly by screen readers and
-// that focus returns to a sensible location after the cookie banner is dismissed.
 export function CookieSettingsButton() {
+  const t = useTranslations("cookieBanner");
   const [visible, setVisible] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  // Track whether the initial mount has completed so we only steal focus on
+  // a genuine consent decision, not when the button appears on page load.
+  const isMounted = useRef(false);
 
   useEffect(() => {
     const update = () => setVisible(!!Cookies.get(CONSENT_COOKIE_NAME));
@@ -27,6 +31,18 @@ export function CookieSettingsButton() {
     };
   }, []);
 
+  // Move focus to this button when it appears after a consent decision so
+  // keyboard users are not stranded when the cookie banner dismisses.
+  useEffect(() => {
+    if (!isMounted.current) {
+      isMounted.current = true;
+      return;
+    }
+    if (visible) {
+      buttonRef.current?.focus();
+    }
+  }, [visible]);
+
   const handleClick = () => {
     const currentConsent = Cookies.get(CONSENT_COOKIE_NAME);
     window.dispatchEvent(
@@ -38,14 +54,17 @@ export function CookieSettingsButton() {
 
   if (!visible) return null;
 
+  const label = t("settingsButtonLabel");
+
   return (
     <button
+      ref={buttonRef}
       onClick={handleClick}
-      aria-label="Cookie settings"
+      aria-label={label}
       className="fixed bottom-4 right-4 z-40 flex items-center gap-1.5 rounded-full bg-peach-tint px-3 py-2 text-xs text-foreground/60 shadow-md ring-1 ring-peach transition-colors hover:bg-peach hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red focus-visible:ring-offset-2"
     >
       <CookieIcon />
-      <span>Cookie settings</span>
+      <span>{label}</span>
     </button>
   );
 }
