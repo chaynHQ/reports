@@ -52,13 +52,13 @@ function DefaultFallback() {
   );
 }
 
-interface Props {
+interface ErrorBoundaryProps {
   children: ReactNode;
   /** Optional custom fallback component. Receives { error, resetError } props. */
   fallback?: ComponentType<FallbackProps>;
 }
 
-export default function ErrorBoundary({ children, fallback }: Props) {
+export default function ErrorBoundary({ children, fallback }: ErrorBoundaryProps) {
   return (
     <RollbarErrorBoundary fallbackUI={fallback ?? DefaultFallback}>
       {children}

@@ -31,17 +31,17 @@ export function clearConsent() {
 export function CookieBanner() {
   const t = useTranslations("cookieBanner");
 
-  // updateMode: true when reopened via CookieSettingsButton
-  // prevConsent: the accepted/declined value that was set before update mode opened
-  const [updateMode, setUpdateMode] = useState(false);
-  const [prevConsent, setPrevConsent] = useState<string | null>(null);
+  // isUpdateMode: true when reopened via CookieSettingsButton
+  // previousConsent: the accepted/declined value that was set before update mode opened
+  const [isUpdateMode, setIsUpdateMode] = useState(false);
+  const [previousConsent, setPreviousConsent] = useState<string | null>(null);
   const updateHeadingRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
     const handleOpenSettings = (e: Event) => {
       const detail = (e as CustomEvent<{ currentConsent: string }>).detail;
-      setPrevConsent(detail.currentConsent ?? null);
-      setUpdateMode(true);
+      setPreviousConsent(detail.currentConsent ?? null);
+      setIsUpdateMode(true);
     };
     window.addEventListener(OPEN_SETTINGS_EVENT, handleOpenSettings);
     return () =>
@@ -49,22 +49,22 @@ export function CookieBanner() {
   }, []);
 
   useEffect(() => {
-    if (updateMode) {
+    if (isUpdateMode) {
       updateHeadingRef.current?.focus();
     }
-  }, [updateMode]);
+  }, [isUpdateMode]);
 
   const handleAccept = () => {
-    setUpdateMode(false);
+    setIsUpdateMode(false);
     // GA4 loads after this fires, so accept is captured by Vercel Analytics only.
     trackEvent(EVENTS.COOKIE_CONSENT_ACCEPTED, {});
     window.dispatchEvent(new Event(CONSENT_EVENT));
   };
 
   const handleDecline = () => {
-    setUpdateMode(false);
+    setIsUpdateMode(false);
     // Explicitly write the declined value before dispatching the event so that
-    // AnalyticsManager.readConsent() sees the updated cookie synchronously.
+    // AnalyticsManager.syncConsentState() sees the updated cookie synchronously.
     // react-cookie-consent also sets this cookie, but the timing is not guaranteed
     // relative to the onDecline callback, which would cause the revocation effect to miss.
     Cookies.set(CONSENT_COOKIE_NAME, CONSENT_COOKIE_DECLINED, { path: "/" });
@@ -74,8 +74,8 @@ export function CookieBanner() {
     window.dispatchEvent(new Event(CONSENT_EVENT));
   };
 
-  const statusText =
-    prevConsent === CONSENT_COOKIE_ACCEPTED
+  const consentStatusText =
+    previousConsent === CONSENT_COOKIE_ACCEPTED
       ? t("statusEnabled")
       : t("statusDisabled");
 
@@ -89,7 +89,7 @@ export function CookieBanner() {
       extraCookieOptions={{ path: "/" }} // accessible on all locale routes e.g. /hi
       enableDeclineButton
       flipButtons
-      visible={updateMode ? "show" : "byCookieValue"}
+      visible={isUpdateMode ? "show" : "byCookieValue"}
       onAccept={handleAccept}
       onDecline={handleDecline}
       buttonText={t("acceptButton")}
@@ -107,7 +107,7 @@ export function CookieBanner() {
       buttonClasses="rounded-full bg-red px-5 py-2 text-sm font-semibold text-cream transition-colors hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red focus-visible:ring-offset-2"
       declineButtonClasses="rounded-full border border-red/30 px-5 py-2 text-sm font-semibold text-red transition-colors hover:border-red hover:bg-red/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red focus-visible:ring-offset-2"
     >
-      {updateMode ? (
+      {isUpdateMode ? (
         <>
           <p
             ref={updateHeadingRef}
@@ -117,9 +117,10 @@ export function CookieBanner() {
             {t("updateHeading")}
           </p>
           <p>
-            {statusText} {t("updateBody")}{" "}
+            {consentStatusText} {t("updateBody")}{" "}
             <Link
               target="_blank"
+              rel="noopener noreferrer"
               href="https://www.chayn.co/policies/privacy-policy"
               className="underline underline-offset-2 hover:text-red focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red focus-visible:ring-offset-1"
             >

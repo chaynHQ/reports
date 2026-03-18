@@ -8,7 +8,39 @@
     "intro": "Welcome to Chayn's impact report."
   },
   "nav": {
-    "skipToContent": "Skip to main content"
+    "skipToContent": "Skip to main content",
+    "headerLabel": "Site header",
+    "primaryNav": "Primary navigation",
+    "logoLabel": "Chayn Reports — go to homepage",
+    "reportsSiteLabel": "Reports",
+    "reportsLabel": "Reports",
+    "reportsMenuLabel": "Available reports",
+    "openMenu": "Open navigation menu",
+    "closeMenu": "Close navigation menu",
+    "goToChayn": "Go to Chayn",
+    "goToChaynLabel": "Go to Chayn website (opens in a new tab)",
+    "reportImageBasedAbuseResearch": "Image-based Abuse Research"
+  },
+  "footer": {
+    "ariaLabel": "Site footer",
+    "tagline": "A global charity supporting survivors of gender-based violence and abuse.",
+    "charityRegistration": "Chayn CIO. UK Charity Number: 1196098",
+    "legalColumn": "Legal & Info",
+    "followUs": "Follow us",
+    "socialLinksLabel": "Chayn on social media",
+    "opensInNewTab": "opens in a new tab",
+    "chaynHomepageLabel": "Chayn — go to main website (opens in a new tab)",
+    "chaynCoAbout": "About Chayn",
+    "chaynCoDonate": "Donate",
+    "chaynCoCareers": "Careers",
+    "orgChaynCoProjects": "Projects",
+    "orgChaynCoPartnerships": "Partnerships",
+    "orgChaynCoImpact": "Impact",
+    "legalPolicies": "Our Policies",
+    "legalTrustCentre": "Trust Centre",
+    "legalContact": "Contact",
+    "copyright": "© {year} Chayn. All rights reserved.",
+    "backToReports": "Back to Chayn Reports"
   },
   "error": {
     "heading": "Something went wrong",

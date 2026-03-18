@@ -42,31 +42,31 @@ const HJ_SV = process.env.NEXT_PUBLIC_HOTJAR_SV
 export function AnalyticsManager() {
   const [consent, setConsent] = useState<boolean | null>(null);
   // Tracks whether GA4 was loaded in this page session — needed to revoke cleanly.
-  const gaActiveRef = useRef(false);
+  const isGa4LoadedRef = useRef(false);
 
   useEffect(() => {
-    const readConsent = () => {
+    const syncConsentState = () => {
       setConsent(Cookies.get(CONSENT_COOKIE_NAME) === CONSENT_COOKIE_ACCEPTED);
     };
-    readConsent();
-    window.addEventListener(CONSENT_EVENT, readConsent);
-    return () => window.removeEventListener(CONSENT_EVENT, readConsent);
+    syncConsentState();
+    window.addEventListener(CONSENT_EVENT, syncConsentState);
+    return () => window.removeEventListener(CONSENT_EVENT, syncConsentState);
   }, []);
 
   useEffect(() => {
     if (consent === true) {
-      gaActiveRef.current = true;
+      isGa4LoadedRef.current = true;
     }
 
     // GA4 scripts persist in the DOM once injected by next/script — they cannot be
     // unloaded. When consent is withdrawn mid-session, use the GA4 Consent Mode API
     // to signal analytics_storage: denied (stops data collection) and null out
     // window.gtag so trackEvent no longer fires GA4 calls.
-    if (consent === false && gaActiveRef.current) {
+    if (consent === false && isGa4LoadedRef.current) {
       // Consent Mode v2 signal is sent synchronously in CookieBanner.handleDecline /
       // clearConsent — null out gtag here so trackEvent no longer fires GA4 calls.
       window.gtag = undefined;
-      gaActiveRef.current = false;
+      isGa4LoadedRef.current = false;
     }
 
     // Hotjar has no JS stop API — the only way to terminate an active session
