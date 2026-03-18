@@ -2,10 +2,6 @@ import { useTranslations } from 'next-intl';
 import { setRequestLocale } from 'next-intl/server';
 import type { Locale } from '@/i18n/routing';
 
-// TODO (A11y): This page will become the scrollytelling report entry point.
-// Ensure the first visible heading is an <h1> and all interactive sections
-// have appropriate ARIA landmark roles (main, section with aria-labelledby).
-
 interface HomePageProps {
   params: Promise<{ locale: string }>;
 }
@@ -27,7 +23,7 @@ function HomePageContent() {
   const t = useTranslations('home');
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-background px-6 py-24">
+    <main id="main-content" className="flex min-h-screen flex-col items-center justify-center bg-background px-6 py-24">
       <h1 className="text-4xl tracking-tight text-foreground">
         {t('heading')}
       </h1>

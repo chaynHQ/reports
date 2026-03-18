@@ -28,6 +28,7 @@
     "updateHeading": "Update your cookie settings",
     "statusEnabled": "Cookies are currently enabled.",
     "statusDisabled": "Cookies are currently disabled.",
-    "updateBody": "We use analytics to understand how people engage with our resources and improve our support for survivors. No personal data is stored or shared."
+    "updateBody": "We use analytics to understand how people engage with our resources and improve our support for survivors. No personal data is stored or shared.",
+    "settingsButtonLabel": "Cookie settings"
   }
 }

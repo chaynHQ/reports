@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 /**
  * Next.js root-level error boundary.
@@ -13,19 +13,14 @@
  * See: https://nextjs.org/docs/app/api-reference/file-conventions/global-error
  */
 
-// TODO (A11y): This component renders without the main layout, so no skip-link,
-// theme, or font context is present. Ensure the fallback UI independently meets
-// WCAG 2.1 AA contrast ratios and that the "Try again" button has a visible
-// keyboard focus indicator.
-
 // NOTE (i18n): Strings here are intentionally hardcoded in English and cannot use
 // useTranslations(). When global-error renders, the root layout — including
 // NextIntlClientProvider — has crashed and is unmounted. There is no i18n context
 // to read from. This is a known Next.js constraint for global error boundaries.
 
-import { useEffect } from 'react';
-import Rollbar from 'rollbar';
-import { clientConfig } from '@/lib/rollbar-config';
+import { clientConfig } from "@/lib/rollbar-config";
+import { useEffect } from "react";
+import Rollbar from "rollbar";
 
 interface GlobalErrorProps {
   error: Error & { digest?: string };
@@ -37,24 +32,65 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
     // Instantiate a fresh Rollbar instance — the Provider-managed instance is
     // unavailable because the root layout (and its RollbarProvider) has crashed.
     const rollbar = new Rollbar(clientConfig);
-    rollbar.error(error, { context: 'global-error', digest: error.digest });
+    rollbar.error(error, { context: "global-error", digest: error.digest });
   }, [error]);
 
   return (
     <html lang="en">
-      {/* Inline styles: next/font CSS vars are unavailable here since the root
-          layout has crashed. Hard-coded brand values keep the page on-brand
-          without depending on the --font-* or --color-* custom properties. */}
-      <body style={{ backgroundColor: '#FFFBF5', color: '#1A1A1A', margin: 0, fontFamily: 'system-ui, sans-serif' }}>
-        {/* TODO (A11y): Verify role="alert" is announced by screen readers in this
-            context — the absence of a skip-link may affect navigation for keyboard users. */}
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        {/* Critical styles inlined to guarantee rendering if the CSS bundle is
+            unavailable (e.g. network failure during a root layout crash). */}
+        <style>{`
+          .ge-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            border-radius: 9999px;
+            padding: 10px 24px;
+            background-color: #f0244d;
+            color: #fffbf5;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: opacity 0.15s;
+          }
+          .ge-btn:hover { opacity: 0.9; }
+          .ge-btn:focus-visible {
+            outline: 3px solid #f0244d;
+            outline-offset: 3px;
+          }
+        `}</style>
+      </head>
+      <body
+        style={{
+          backgroundColor: "#FFFBF5",
+          color: "#1A1A1A",
+          margin: 0,
+          fontFamily: "system-ui, sans-serif",
+        }}
+      >
         <main
           role="alert"
           aria-live="assertive"
-          className="flex min-h-screen flex-col items-center justify-center gap-6 px-6 py-24 text-center"
+          style={{
+            display: "flex",
+            minHeight: "100vh",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "24px",
+            padding: "96px 24px",
+            textAlign: "center",
+          }}
         >
-          <h1 className="font-serif text-2xl text-foreground">A critical error occurred</h1>
-          <button type="button" onClick={reset} className="btn-pill bg-red text-cream hover:opacity-90">
+          <h1 style={{ fontSize: "1.5rem", margin: 0 }}>
+            A critical error occurred
+          </h1>
+          <button type="button" onClick={reset} className="ge-btn">
             Try again
           </button>
         </main>

@@ -65,8 +65,6 @@
 /*
  * .btn-pill — pill-shaped CTA button base.
  * Apply colour/size variants alongside: e.g. bg-red text-cream.
- * TODO (A11y): Ensure sufficient colour contrast (4.5:1) on all
- * colour combinations used with this base class.
  */
 .btn-pill {
   @apply inline-flex items-center justify-center rounded-full px-6 py-2.5 font-medium leading-none transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red focus-visible:ring-offset-2;

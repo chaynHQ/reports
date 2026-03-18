@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 /**
  * Reusable Error Boundary.
@@ -27,13 +27,9 @@
  *   </ErrorBoundary>
  */
 
-// TODO (A11y): The default fallback uses role="alert" and aria-live="assertive".
-// If you supply a custom fallback component, ensure it also includes an appropriate
-// ARIA live region and that interactive elements are keyboard-accessible.
-
-import { useTranslations } from 'next-intl';
-import { ErrorBoundary as RollbarErrorBoundary } from '@rollbar/react';
-import type { ComponentType, ReactNode } from 'react';
+import { ErrorBoundary as RollbarErrorBoundary } from "@rollbar/react";
+import { useTranslations } from "next-intl";
+import type { ComponentType, ReactNode } from "react";
 
 /** Props passed to a custom fallback component by @rollbar/react. */
 export interface FallbackProps {
@@ -41,17 +37,17 @@ export interface FallbackProps {
   resetError: () => void;
 }
 
-// TODO (A11y): Test DefaultFallback announcement with NVDA (Windows), JAWS, and
-// VoiceOver (macOS/iOS). Confirm the live region fires without requiring focus.
 function DefaultFallback() {
-  const t = useTranslations('error');
+  const t = useTranslations("error");
   return (
     <div
       role="alert"
       aria-live="assertive"
       className="flex flex-col items-center gap-4 px-6 py-12 text-center"
     >
-      <p className="text-foreground/60">{t('refreshPrompt')}</p>
+      {/* Visually hidden heading gives screen reader users a landmark to navigate to. */}
+      <h2 className="sr-only">{t("heading")}</h2>
+      <p className="text-foreground/60">{t("refreshPrompt")}</p>
     </div>
   );
 }

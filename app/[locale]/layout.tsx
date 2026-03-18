@@ -9,11 +9,6 @@ import { Merriweather, Open_Sans } from "next/font/google";
 import { notFound } from "next/navigation";
 import "../globals.css";
 
-// TODO (A11y): Run axe-core / Lighthouse against every locale variant to confirm
-// lang and dir attributes are correctly announced by screen readers (VoiceOver,
-// NVDA, TalkBack). Verify Merriweather and Open Sans subsets load correctly for
-// the 'hi' Latin transliteration locale.
-
 const merriweather = Merriweather({
   variable: "--font-merriweather",
   subsets: ["latin"],
@@ -111,6 +106,7 @@ export default async function LocaleLayout({
   setRequestLocale(locale as Locale);
 
   const dir = getLocaleDirection(locale as Locale);
+  const t = await getTranslations({ locale, namespace: 'nav' });
 
   return (
     <html
@@ -119,6 +115,13 @@ export default async function LocaleLayout({
       className={`${merriweather.variable} ${openSans.variable}`}
     >
       <body className="bg-background text-foreground antialiased">
+        {/* Skip navigation — visually hidden until focused by keyboard users. */}
+        <a
+          href="#main-content"
+          className="fixed left-0 top-0 z-[100] -translate-y-full rounded-br bg-background px-4 py-3 text-sm font-medium text-foreground transition-transform focus-visible:translate-y-0 focus-visible:shadow-md focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-red"
+        >
+          {t('skipToContent')}
+        </a>
         {/*
           RollbarProvider wraps the tree so error boundaries and Client
           Components can access the Rollbar instance via useRollbar().
