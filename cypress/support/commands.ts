@@ -1,3 +1,5 @@
+export {};
+
 /**
  * Custom Cypress commands for the Chayn scrollytelling report.
  *

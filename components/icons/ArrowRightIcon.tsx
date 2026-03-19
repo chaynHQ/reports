@@ -4,7 +4,11 @@ interface ArrowRightIconProps {
   className?: string;
 }
 
-export function ArrowRightIcon({ width = 14, height = 14, className }: ArrowRightIconProps) {
+export function ArrowRightIcon({
+  width = 14,
+  height = 14,
+  className,
+}: ArrowRightIconProps) {
   return (
     <svg
       aria-hidden="true"

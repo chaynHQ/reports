@@ -1,5 +1,6 @@
-import type { Locale } from "@/i18n/routing";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+
+import type { Locale } from "@/i18n/routing";
 
 interface HomePageProps {
   params: Promise<{ locale: string }>;

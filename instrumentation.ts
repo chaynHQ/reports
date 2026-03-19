@@ -11,11 +11,11 @@
  */
 
 export async function register() {
-  if (process.env.NEXT_RUNTIME === 'nodejs') {
-    const { default: rollbarServer } = await import('./lib/rollbar.server');
+  if (process.env.NEXT_RUNTIME === "nodejs") {
+    const { default: rollbarServer } = await import("./lib/rollbar.server");
 
     if (rollbarServer.options.enabled) {
-      rollbarServer.log('Rollbar server-side instrumentation initialised.');
+      rollbarServer.log("Rollbar server-side instrumentation initialised.");
     }
   }
 }

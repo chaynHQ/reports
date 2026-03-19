@@ -4,7 +4,11 @@ interface ExternalLinkIconProps {
   className?: string;
 }
 
-export function ExternalLinkIcon({ width = 10, height = 10, className }: ExternalLinkIconProps) {
+export function ExternalLinkIcon({
+  width = 10,
+  height = 10,
+  className,
+}: ExternalLinkIconProps) {
   return (
     <svg
       aria-hidden="true"

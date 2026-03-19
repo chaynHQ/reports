@@ -7,19 +7,20 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "type-check": "tsc --noEmit && tsc --noEmit -p cypress/tsconfig.json",
     "test": "npm run cypress:headless",
     "cypress": "cypress open",
     "cypress:headless": "cypress run --headless --browser chrome",
     "cypress:headless-spec": "cypress run --headless --browser chrome --spec $SPEC",
-    "cypress:home": "cypress run --spec \"cypress/e2e/home.cy.ts\"",
     "cypress:health": "cypress run --spec \"cypress/e2e/app-health.cy.ts\"",
+    "cypress:layout": "cypress run --spec \"cypress/e2e/cookie-consent.cy.ts\"",
     "cypress:cookie-consent": "cypress run --spec \"cypress/e2e/cookie-consent.cy.ts\"",
+    "cypress:home": "cypress run --spec \"cypress/e2e/home.cy.ts\"",
     "cypress:coverage": "npx nyc report --reporter=text-summary"
   },
   "dependencies": {
     "@next/third-parties": "^16.1.7",
     "@rollbar/react": "^1.0.0",
-    "@types/js-cookie": "^3.0.6",
     "@vercel/analytics": "^2.0.1",
     "next": "16.1.7",
     "next-intl": "^4.8.3",
@@ -32,13 +33,13 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "^25",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "cypress": "^15.12.0",
     "eslint": "^10.0.3",
     "eslint-config-next": "16.1.7",
-    "start-server-and-test": "^2.1.5",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

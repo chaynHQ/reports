@@ -162,7 +162,10 @@ describe("Cookie settings button", () => {
     // data collection.
     cy.window().should("have.property", "gtag").and("be.a", "function");
     cy.window().then((win) => {
-      cy.stub(win, "gtag").as("gtag");
+      cy.stub(
+        win as unknown as { gtag: (...args: unknown[]) => void },
+        "gtag",
+      ).as("gtag");
     });
     // Revoke consent via settings button
     cy.get(SETTINGS_BTN).click();
