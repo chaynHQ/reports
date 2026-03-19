@@ -17,6 +17,8 @@
     "reportsMenuLabel": "Available reports",
     "openMenu": "Open navigation menu",
     "closeMenu": "Close navigation menu",
+    "changeLanguage": "Change language",
+    "languageMenu": "Language options",
     "goToChayn": "Go to Chayn",
     "goToChaynLabel": "Go to Chayn website (opens in a new tab)",
     "reportImageBasedAbuseResearch": "Image-based Abuse Research"
