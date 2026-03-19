@@ -40,6 +40,12 @@
     "world-atlas": "^2.0.2",
     "zustand": "^5.0.12"
   },
+  "overrides": {
+    "@visx/visx": {
+      "react": "$react",
+      "react-dom": "$react-dom"
+    }
+  },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/d3-geo": "^3.1.0",
