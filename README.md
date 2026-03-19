@@ -2,7 +2,7 @@
 
 [![Cypress E2E](https://github.com/chaynHQ/reports/actions/workflows/cypress.yml/badge.svg)](https://github.com/chaynHQ/reports/actions/workflows/cypress.yml)
 
-[Chayn Reports](https://reports.chayn.co) is an open-source, multilingual platform for publishing Chayn's research and impact reports as accessible, high-performance scrollytelling experiences. Built to be engaging in multiple languages and privacy-first.
+[Chayn Reports](https://reports.chayn.co) is an open-source, multilingual platform for publishing Chayn's research and reports as accessible, high-performance scrollytelling experiences. Built to be engaging in multiple languages and privacy-first.
 
 Since 2013, [Chayn](https://www.chayn.co/about) has reached over 500,000 survivors worldwide through trauma-informed, survivor-centred, and intersectional approaches — using open-source technology for positive social impact. These reports share our research, findings, and the voices of the communities we work with.
 
@@ -17,6 +17,8 @@ Explore Chayn's [website](https://www.chayn.co/about), [research](https://org.ch
 - [next-intl 4](https://next-intl.dev/) — i18n with English (UK) and Hindi (Latin script)
 - [Rollbar](https://rollbar.com/) — GDPR-compliant error logging (IP anonymised, no fingerprinting)
 - [GA4](https://analytics.google.com/), [Hotjar](https://www.hotjar.com/), [Vercel Analytics](https://vercel.com/analytics) — analytics gated behind explicit cookie consent
+- [Lenis](https://lenis.darkroom.engineering/) + [GSAP 3](https://gsap.com/) — smooth scroll engine and animation library, sharing a single rAF loop
+- [Zustand 5](https://zustand-demo.pmnd.rs/) — lightweight global state (active chapter, audio, interaction flags)
 - [Cypress 15](https://www.cypress.io/) — end-to-end testing
 - [GitHub Actions](https://github.com/features/actions) — CI pipeline
 

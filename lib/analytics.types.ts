@@ -39,6 +39,7 @@ export interface EventParamsMap {
   cookie_consent_accepted: Record<string, never>;
   cookie_consent_declined: Record<string, never>;
   cookie_consent_revoked: Record<string, never>;
+  leave_site_button_clicked: Record<string, never>;
 }
 
 export type EventParams<T extends EventName> = T extends keyof EventParamsMap

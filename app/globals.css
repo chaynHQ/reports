@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "lenis/dist/lenis.css";
 
 /* =====================================================================
    CHAYN DESIGN TOKENS
@@ -84,4 +85,18 @@
  */
 .card-bordered {
   @apply rounded-2xl border border-peach;
+}
+
+/* =====================================================================
+   HIGH CONTRAST MODE
+   Applied via data-high-contrast="true" on <html> by AccessibilityPanel.
+   Overrides colour tokens to maximise legibility for low-vision users.
+   ===================================================================== */
+
+[data-high-contrast="true"] {
+  --color-background: #ffffff;
+  --color-foreground: #000000;
+  --color-peach-tint: #f0f0f0;
+  --color-peach: #e0e0e0;
+  --color-cream: #ffffff;
 }

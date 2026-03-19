@@ -1,0 +1,60 @@
+"use client";
+
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Lenis from "lenis";
+import { useEffect, type ReactNode } from "react";
+import { useAppStore } from "@/lib/store/useAppStore";
+
+gsap.registerPlugin(ScrollTrigger);
+
+interface SmoothScrollProviderProps {
+  children: ReactNode;
+}
+
+/**
+ * Initialises Lenis smooth scrolling for the entire page and synchronises it
+ * with GSAP's ticker so scroll position and animations share a single rAF loop.
+ *
+ * Skips initialisation when the user has enabled reduced-motion — either at the
+ * OS level (A11y AA) or via the in-app accessibility panel. Reacts live when
+ * the store preference changes, destroying or recreating Lenis accordingly.
+ *
+ * Place this high in the layout tree (inside <body>) so all scrollytelling
+ * sections inherit the same scroll context. Use @gsap/react's `useGSAP` hook
+ * in individual animation components — do not create separate rAF loops.
+ */
+export function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
+  const reduceMotion = useAppStore((s) => s.reduceMotion);
+
+  useEffect(() => {
+    // Respect both the in-app pref and the OS-level preference.
+    if (
+      reduceMotion ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    )
+      return;
+
+    // autoRaf: false — GSAP's ticker drives the loop; Lenis must not start its own.
+    const lenis = new Lenis({ autoRaf: false });
+
+    // Notify ScrollTrigger of each Lenis scroll so triggers fire at the correct
+    // position when smooth scrolling is active.
+    lenis.on("scroll", ScrollTrigger.update);
+
+    // Drive Lenis with GSAP's ticker so scroll and animations share one rAF loop.
+    // lagSmoothing(0) prevents GSAP from throttling on hidden tabs, which would
+    // cause Lenis to stutter on tab re-focus.
+    const onTick = (time: number) => lenis.raf(time * 1000);
+
+    gsap.ticker.add(onTick);
+    gsap.ticker.lagSmoothing(0);
+
+    return () => {
+      gsap.ticker.remove(onTick);
+      lenis.destroy();
+    };
+  }, [reduceMotion]);
+
+  return <>{children}</>;
+}
