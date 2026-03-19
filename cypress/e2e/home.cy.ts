@@ -18,6 +18,6 @@ describe("Homepage content", () => {
   });
 
   it("renders the intro paragraph", () => {
-    cy.get("main p").should("contain.text", "Welcome to Chayn's reports.");
+    cy.get("main p").should("contain.text", "A designer showcase of the animation");
   });
 });
