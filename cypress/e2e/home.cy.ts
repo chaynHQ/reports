@@ -14,7 +14,7 @@ describe("Homepage content", () => {
   });
 
   it("renders a single h1 with the report heading", () => {
-    cy.get("h1").should("have.length", 1).and("contain.text", "Chayn reports");
+    cy.get("h1").should("have.length", 1).and("contain.text", "Interactive Storytelling Capabilities");
   });
 
   it("renders the intro paragraph", () => {
