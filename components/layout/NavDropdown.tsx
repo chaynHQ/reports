@@ -14,7 +14,7 @@ const menuStyles =
   "shadow-[0_8px_32px_rgba(0,0,0,0.12)] ring-1 ring-foreground/[0.06] [max-height:min(70vh,22rem)]";
 
 const menuItemStyles =
-  "group flex items-center justify-between rounded-xl px-4 py-2.5 text-sm font-medium text-foreground/65 " +
+  "group flex items-center justify-between rounded-xl px-4 py-2.5 text-sm font-medium text-foreground/80 " +
   "transition-all duration-150 hover:bg-peach/25 hover:text-foreground " +
   "focus-visible:bg-peach/25 focus-visible:text-foreground focus-visible:outline-none motion-reduce:transition-none";
 

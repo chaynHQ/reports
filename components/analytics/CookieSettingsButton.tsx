@@ -10,6 +10,11 @@ import {
   OPEN_SETTINGS_EVENT,
 } from "./CookieBanner";
 
+const settingsButtonStyles =
+  "fixed bottom-4 right-4 z-40 flex items-center gap-1.5 rounded-full bg-peach-tint px-3 py-2 " +
+  "text-xs text-foreground/80 shadow-md ring-1 ring-peach transition-colors hover:bg-peach hover:text-foreground " +
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red focus-visible:ring-offset-2";
+
 export function CookieSettingsButton() {
   const t = useTranslations("cookieBanner");
   const [isVisible, setIsVisible] = useState(false);
@@ -62,7 +67,7 @@ export function CookieSettingsButton() {
       ref={buttonRef}
       onClick={handleClick}
       aria-label={settingsButtonLabel}
-      className="fixed bottom-4 right-4 z-40 flex items-center gap-1.5 rounded-full bg-peach-tint px-3 py-2 text-xs text-foreground/60 shadow-md ring-1 ring-peach transition-colors hover:bg-peach hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red focus-visible:ring-offset-2"
+      className={settingsButtonStyles}
     >
       <CookieIcon />
       <span>{settingsButtonLabel}</span>

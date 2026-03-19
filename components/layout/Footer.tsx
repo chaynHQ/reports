@@ -40,18 +40,20 @@ const SOCIAL_LINKS = [
   { label: "GitHub", href: "https://github.com/chaynhq", icon: <GitHubIcon /> },
 ] as const;
 
+type FooterLink = { label: string; href: string };
+
 const logoLinkStyles =
   "inline-block rounded focus-visible:outline-none focus-visible:ring-2 " +
   "focus-visible:ring-red focus-visible:ring-offset-2 focus-visible:ring-offset-background";
 
 const linkStyles =
-  "text-sm text-foreground/75 transition-colors hover:text-foreground focus-visible:rounded focus-visible:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red focus-visible:ring-offset-1 focus-visible:ring-offset-background";
+  "text-sm text-foreground/80 transition-colors hover:text-foreground focus-visible:rounded focus-visible:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red focus-visible:ring-offset-1 focus-visible:ring-offset-background";
 
 const headingStyles =
-  "mb-4 text-sm font-semibold tracking-widest text-foreground/50";
+  "mb-4 text-sm font-semibold tracking-widest text-foreground/80";
 
 const headingLinkStyles =
-  "inline-flex items-center gap-1.5 transition-colors hover:text-foreground/75 " +
+  "inline-flex items-center gap-1.5 transition-colors hover:text-foreground/80 " +
   "focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red focus-visible:ring-offset-1 focus-visible:ring-offset-background";
 
 const socialIconStyles =
@@ -90,38 +92,67 @@ function ColHeading({
   return <h2 className={headingStyles}>{children}</h2>;
 }
 
+/** Reusable footer link column with an optional heading href. */
+function LinkColumn({
+  heading,
+  headingHref,
+  links,
+  newTabLabel,
+}: {
+  heading: string;
+  headingHref?: string;
+  links: FooterLink[];
+  newTabLabel: string;
+}) {
+  return (
+    <div>
+      <ColHeading href={headingHref} newTabLabel={headingHref ? newTabLabel : undefined}>
+        {heading}
+      </ColHeading>
+      <ul className="flex flex-col gap-4">
+        {links.map(({ label, href }) => {
+          const isMailto = href.startsWith("mailto:");
+          return (
+            <li key={href}>
+              <a
+                href={href}
+                target={isMailto ? undefined : "_blank"}
+                rel={isMailto ? undefined : "noopener noreferrer"}
+                aria-label={isMailto ? undefined : `${label} (${newTabLabel})`}
+                className={linkStyles}
+              >
+                {label}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+}
+
 export async function Footer() {
   const t = await getTranslations("footer");
 
-  const chaynCoLinks = [
+  const chaynCoLinks: FooterLink[] = [
     { label: t("chaynCoAbout"), href: "https://www.chayn.co/about" },
-    {
-      label: t("chaynCoDonate"),
-      href: "https://www.paypal.com/paypalme/chaynhq",
-    },
+    { label: t("chaynCoDonate"), href: "https://www.paypal.com/paypalme/chaynhq" },
     { label: t("chaynCoCareers"), href: "https://chayn-cio.breezy.hr/" },
   ];
 
-  const orgChaynCoLinks = [
+  const orgChaynCoLinks: FooterLink[] = [
     { label: t("orgChaynCoProjects"), href: "https://org.chayn.co/projects" },
-    {
-      label: t("orgChaynCoPartnerships"),
-      href: "https://org.chayn.co/partnerships",
-    },
+    { label: t("orgChaynCoPartnerships"), href: "https://org.chayn.co/partnerships" },
     { label: t("orgChaynCoImpact"), href: "https://org.chayn.co/impact" },
   ];
 
-  const legalLinks = [
-    {
-      label: t("legalPolicies"),
-      href: "https://www.chayn.co/policies/privacy-policy",
-    },
-    {
-      label: t("legalTrustCentre"),
-      href: "https://app.eu.vanta.com/chayn.co/trust/yrbp5r3nj96a1dlq15h0y",
-    },
+  const legalLinks: FooterLink[] = [
+    { label: t("legalPolicies"), href: "https://www.chayn.co/policies/privacy-policy" },
+    { label: t("legalTrustCentre"), href: "https://app.eu.vanta.com/chayn.co/trust/yrbp5r3nj96a1dlq15h0y" },
     { label: t("legalContact"), href: "mailto:team@chayn.co" },
   ];
+
+  const newTabLabel = t("opensInNewTab");
 
   return (
     <footer
@@ -129,7 +160,7 @@ export async function Footer() {
       className="border-t border-peach bg-white text-foreground"
     >
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-10 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-10 lg:[grid-template-columns:1.5fr_1fr_1fr_1fr] lg:gap-x-6">
           {/* Brand */}
           <div className="flex flex-col gap-4">
             <a
@@ -148,11 +179,11 @@ export async function Footer() {
               />
             </a>
 
-            <p className="max-w-[240px] text-sm leading-relaxed text-foreground/75">
+            <p className="max-w-[240px] text-sm leading-relaxed text-foreground/80">
               {t("tagline")}
             </p>
 
-            <p className="text-xs text-foreground/60">
+            <p className="text-xs text-foreground/80">
               {t("charityRegistration")}
             </p>
 
@@ -168,7 +199,7 @@ export async function Footer() {
                       href={href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      aria-label={`${label} (${t("opensInNewTab")})`}
+                      aria-label={`${label} (${newTabLabel})`}
                       className={socialIconStyles}
                     >
                       {icon}
@@ -179,82 +210,25 @@ export async function Footer() {
             </div>
           </div>
 
-          {/* chayn.co */}
-          <div>
-            <ColHeading
-              href="https://www.chayn.co"
-              newTabLabel={t("opensInNewTab")}
-            >
-              chayn.co
-            </ColHeading>
-            <ul className="flex flex-col gap-3">
-              {chaynCoLinks.map(({ label, href }) => (
-                <li key={href}>
-                  <a
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`${label} (${t("opensInNewTab")})`}
-                    className={linkStyles}
-                  >
-                    {label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <LinkColumn
+            heading="chayn.co"
+            headingHref="https://www.chayn.co"
+            links={chaynCoLinks}
+            newTabLabel={newTabLabel}
+          />
 
-          {/* org.chayn.co */}
-          <div>
-            <ColHeading
-              href="https://org.chayn.co"
-              newTabLabel={t("opensInNewTab")}
-            >
-              org.chayn.co
-            </ColHeading>
-            <ul className="flex flex-col gap-3">
-              {orgChaynCoLinks.map(({ label, href }) => (
-                <li key={href}>
-                  <a
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`${label} (${t("opensInNewTab")})`}
-                    className={linkStyles}
-                  >
-                    {label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <LinkColumn
+            heading="org.chayn.co"
+            headingHref="https://org.chayn.co"
+            links={orgChaynCoLinks}
+            newTabLabel={newTabLabel}
+          />
 
-          {/* Legal */}
-          <div>
-            <ColHeading>{t("legalColumn")}</ColHeading>
-            <ul className="flex flex-col gap-3">
-              {legalLinks.map(({ label, href }) => {
-                const isMailto = href.startsWith("mailto:");
-                return (
-                  <li key={href}>
-                    <a
-                      href={href}
-                      target={isMailto ? undefined : "_blank"}
-                      rel={isMailto ? undefined : "noopener noreferrer"}
-                      aria-label={
-                        isMailto
-                          ? undefined
-                          : `${label} (${t("opensInNewTab")})`
-                      }
-                      className={linkStyles}
-                    >
-                      {label}
-                    </a>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
+          <LinkColumn
+            heading={t("legalColumn")}
+            links={legalLinks}
+            newTabLabel={newTabLabel}
+          />
         </div>
       </div>
     </footer>
