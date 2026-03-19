@@ -17,8 +17,8 @@ describe("Navigation", () => {
     cy.get('nav[aria-label="Primary navigation"]').should("exist");
   });
 
-  it("renders the Chayn logo link with accessible label", () => {
-    cy.get('a[aria-label="Chayn Reports — go to homepage"]').should("exist");
+  it("renders the logo link with accessible label", () => {
+    cy.get('a[aria-label="Chayn — go to homepage"]').should("exist");
   });
 
   it("renders the Go to Chayn CTA link", () => {

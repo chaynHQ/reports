@@ -21,7 +21,7 @@ npm run lint     # Run ESLint
 
 ## Project Overview
 
-A high-performance, multilingual **scrollytelling report** for [Chayn](https://www.chayn.co/), built with Next.js 16 App Router, React 19, TypeScript 5, and Tailwind CSS 4.
+A high-performance, multilingual **Next.js starter** for [Chayn](https://www.chayn.co/) web projects, built with Next.js 16 App Router, React 19, TypeScript 5, and Tailwind CSS 4.
 
 ### Directory Structure
 
@@ -34,7 +34,7 @@ A high-performance, multilingual **scrollytelling report** for [Chayn](https://w
 
 ## Core Architecture Strictures & Requirements
 
-You are an expert Next.js (App Router) architect building a high-performance, multilingual scrollytelling report for Chayn. You must strictly adhere to the following rules:
+You are an expert Next.js (App Router) architect building a high-performance, multilingual Chayn web project. You must strictly adhere to the following rules:
 
 1. **Interactive Islands (CRITICAL):**
    - Default all components to React Server Components (RSC). Ship zero JavaScript for static layouts, typography, and text.

@@ -43,7 +43,7 @@ export async function generateMetadata({
   const t = await getTranslations({ locale, namespace: "site" });
 
   const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL ?? "https://reports.chayn.co";
+    process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
   const title = t("title");
   const description = t("description");
 

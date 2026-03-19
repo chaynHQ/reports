@@ -35,6 +35,6 @@ describe('App health', () => {
   it('/hi locale loads and sets lang="hi"', () => {
     cy.visit('/hi')
     cy.get('html').should('have.attr', 'lang', 'hi')
-    cy.get('h1').should('contain.text', 'Chayn Prabhav Report')
+    cy.get('h1').should('contain.text', 'Swagat')
   })
 })

@@ -10,19 +10,16 @@ describe("Homepage content", () => {
   });
 
   it("has the correct document title", () => {
-    cy.title().should("eq", "Chayn Reports");
+    cy.title().should("eq", "Chayn");
   });
 
-  it("renders a single h1 with the report heading", () => {
+  it("renders a single h1 heading", () => {
     cy.get("h1")
       .should("have.length", 1)
-      .and("contain.text", "Chayn Impact Report");
+      .and("contain.text", "Welcome");
   });
 
   it("renders the intro paragraph", () => {
-    cy.get("main p").should(
-      "contain.text",
-      "Welcome to Chayn's impact report.",
-    );
+    cy.get("main p").should("contain.text", "Add your content here.");
   });
 });

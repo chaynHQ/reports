@@ -1,10 +1,10 @@
 export {};
 
 /**
- * Custom Cypress commands for the Chayn scrollytelling report.
+ * Custom Cypress commands for Chayn Next.js projects.
  *
  * These commands are designed to help test scroll-driven interactions,
- * GSAP animations, and dynamically imported Client Components that only
+ * animations, and dynamically imported Client Components that only
  * mount once a section enters the viewport.
  */
 
@@ -31,7 +31,7 @@ Cypress.Commands.add("scrollToDepth", (percent: number) => {
 /**
  * Assert that an element is currently visible within the viewport.
  *
- * Use this after scrolling to confirm that a scrollytelling section has
+ * Use this after scrolling to confirm that a section has
  * entered view and therefore any deferred animations/imports should have
  * been triggered.
  *

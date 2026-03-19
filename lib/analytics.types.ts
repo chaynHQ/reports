@@ -18,7 +18,7 @@ export interface EventParamsMap {
   scroll_depth: {
     depth_percent: 25 | 50 | 75 | 100;
   };
-  report_complete: {
+  page_complete: {
     time_on_page_seconds?: number;
     locale: string;
   };

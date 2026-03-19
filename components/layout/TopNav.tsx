@@ -1,6 +1,5 @@
 import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
-import Image from "next/image";
 import { NavBar, type NavItem } from "./NavBar";
 
 const logoLinkStyles =
@@ -11,30 +10,20 @@ const logoLinkStyles =
 export async function TopNav() {
   const t = await getTranslations("nav");
 
-  // Built inside the function so translated labels are available.
   // Add NavLinkItem or NavDropdownItem entries here to extend the nav.
-  const navItems: NavItem[] = [
-    {
-      type: "dropdown",
-      id: "reports-menu",
-      label: t("reportsLabel"),
-      menuLabel: t("reportsMenuLabel"),
-      items: [
-        {
-          href: "/reports/image-based-abuse-research",
-          label: t("reportImageBasedAbuseResearch"),
-        },
-      ],
-    },
-  ];
+  // Example NavLinkItem:   { type: "link", href: "/about", label: "About" }
+  // Example NavDropdownItem:
+  //   { type: "dropdown", id: "sections-menu", label: "Sections", menuLabel: "Site sections",
+  //     items: [{ href: "/sections/intro", label: "Introduction" }] }
+  const navItems: NavItem[] = [];
 
   return (
     <NavBar
       navItems={navItems}
       cta={{
         href: "https://www.chayn.co",
-        label: t("goToChayn"),
-        ariaLabel: t("goToChaynLabel"),
+        label: t("ctaLabel"),
+        ariaLabel: t("ctaAriaLabel"),
       }}
       labels={{
         header: t("headerLabel"),
@@ -43,22 +32,10 @@ export async function TopNav() {
         closeMenu: t("closeMenu"),
       }}
     >
+      {/* Replace this text logo with your own <Image> once you have a logo asset. */}
       <Link href="/" aria-label={t("logoLabel")} className={logoLinkStyles}>
-        <Image
-          src="/chayn_logo.png"
-          alt="Chayn"
-          width={140}
-          height={48}
-          className="h-10 w-auto"
-          priority
-        />
-        {/* Divider + label give this sub-site its own identity within the Chayn brand */}
-        <span
-          aria-hidden="true"
-          className="hidden h-6 w-px bg-foreground/20 sm:block"
-        />
-        <span className="hidden text-base font-semibold text-foreground/70 sm:inline">
-          {t("reportsSiteLabel")}
+        <span className="text-lg font-bold tracking-tight text-foreground">
+          {t("siteName")}
         </span>
       </Link>
     </NavBar>

@@ -1,25 +1,22 @@
 {
   "site": {
-    "title": "Chayn Reports",
-    "description": "Chayn ke interactive reports — ek global charity jo lingo aur himsa ke shikar logon ki madad karti hai."
+    "title": "Chayn",
+    "description": "Chayn — lingo aur himsa ke shikar logon ki madad karne wali ek global charity."
   },
   "home": {
-    "heading": "Chayn Prabhav Report",
-    "intro": "Chayn ke prabhav report mein aapka swagat hai."
+    "heading": "Swagat",
+    "intro": "Apni samagri yahan jodein."
   },
   "nav": {
     "skipToContent": "Mukhya saamagri par jaayein",
     "headerLabel": "Site header",
     "primaryNav": "Mukhya navigation",
-    "logoLabel": "Chayn Reports — homepage par jaayein",
-    "reportsSiteLabel": "Reports",
-    "reportsLabel": "Reports",
-    "reportsMenuLabel": "Uplabdh reports",
+    "logoLabel": "Chayn — homepage par jaayein",
+    "siteName": "Chayn",
     "openMenu": "Navigation menu kholein",
     "closeMenu": "Navigation menu band karein",
-    "goToChayn": "Chayn par jaayein",
-    "goToChaynLabel": "Chayn website par jaayein (nayi tab mein khuliga)",
-    "reportImageBasedAbuseResearch": "Image-based Abuse Research"
+    "ctaLabel": "Chayn par jaayein",
+    "ctaAriaLabel": "Chayn website par jaayein (nayi tab mein khuliga)"
   },
   "footer": {
     "ariaLabel": "Site footer",
@@ -38,9 +35,7 @@
     "orgChaynCoImpact": "Prabhav",
     "legalPolicies": "Hamari neeti",
     "legalTrustCentre": "Trust Centre",
-    "legalContact": "Sampark karein",
-    "copyright": "© {year} Chayn. Sabhi adhikar surakshit.",
-    "backToReports": "Chayn Reports par wapas jaayein"
+    "legalContact": "Sampark karein"
   },
   "error": {
     "heading": "Kuch galat ho gaya",
@@ -51,7 +46,7 @@
   "cookieBanner": {
     "regionLabel": "Cookie samati",
     "heading": "Hum analytics cookies ka upyog karte hain",
-    "body": "yeh samajhne ke liye ki visitors hamare reports se kaise judtey hain aur Chayn ki samagri ko behtar banane ke liye. Koi bhi vyaktigat data becha ya advertisers ke saath share nahi kiya jaata.",
+    "body": "yeh samajhne ke liye ki visitors is site se kaise judtey hain aur Chayn ki samagri ko behtar banane ke liye. Koi bhi vyaktigat data becha ya advertisers ke saath share nahi kiya jaata.",
     "privacyLink": "Niji niti",
     "acceptButton": "Analytics sweekar karein",
     "declineButton": "Mana karein",

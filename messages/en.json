@@ -1,25 +1,22 @@
 {
   "site": {
-    "title": "Chayn Reports",
-    "description": "Interactive reports from Chayn, a global charity supporting survivors of gender-based violence and abuse."
+    "title": "Chayn",
+    "description": "Chayn — a global charity supporting survivors of gender-based violence and abuse."
   },
   "home": {
-    "heading": "Chayn Impact Report",
-    "intro": "Welcome to Chayn's impact report."
+    "heading": "Welcome",
+    "intro": "Add your content here."
   },
   "nav": {
     "skipToContent": "Skip to main content",
     "headerLabel": "Site header",
     "primaryNav": "Primary navigation",
-    "logoLabel": "Chayn Reports — go to homepage",
-    "reportsSiteLabel": "Reports",
-    "reportsLabel": "Reports",
-    "reportsMenuLabel": "Available reports",
+    "logoLabel": "Chayn — go to homepage",
+    "siteName": "Chayn",
     "openMenu": "Open navigation menu",
     "closeMenu": "Close navigation menu",
-    "goToChayn": "Go to Chayn",
-    "goToChaynLabel": "Go to Chayn website (opens in a new tab)",
-    "reportImageBasedAbuseResearch": "Image-based Abuse Research"
+    "ctaLabel": "Go to Chayn",
+    "ctaAriaLabel": "Go to Chayn website (opens in a new tab)"
   },
   "footer": {
     "ariaLabel": "Site footer",
@@ -38,9 +35,7 @@
     "orgChaynCoImpact": "Impact",
     "legalPolicies": "Our Policies",
     "legalTrustCentre": "Trust Centre",
-    "legalContact": "Contact",
-    "copyright": "© {year} Chayn. All rights reserved.",
-    "backToReports": "Back to Chayn Reports"
+    "legalContact": "Contact"
   },
   "error": {
     "heading": "Something went wrong",
@@ -51,7 +46,7 @@
   "cookieBanner": {
     "regionLabel": "Cookie consent",
     "heading": "We use analytics cookies",
-    "body": "to understand how visitors engage with our reports and to improve Chayn\u2019s content. No personal data is stored or shared with third parties.",
+    "body": "to understand how visitors engage with this site and to improve Chayn\u2019s content. No personal data is stored or shared with third parties.",
     "privacyLink": "Privacy policy",
     "acceptButton": "Accept",
     "declineButton": "Decline",

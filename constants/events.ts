@@ -3,10 +3,10 @@
  * Add new events here, then add their parameter shape to lib/analytics.types.ts > EventParamsMap.
  */
 export const EVENTS = {
-  // ── Scrollytelling ───────────────────────────────────────────────────────
+  // ── Engagement ───────────────────────────────────────────────────────────
   SECTION_VIEW: "section_view",
   SCROLL_DEPTH: "scroll_depth",
-  REPORT_COMPLETE: "report_complete",
+  PAGE_COMPLETE: "page_complete",
 
   // ── Interactions ─────────────────────────────────────────────────────────
   CTA_CLICK: "cta_click",
