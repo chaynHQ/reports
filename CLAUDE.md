@@ -43,8 +43,9 @@ You are an expert Next.js (App Router) architect building a high-performance, mu
 
 2. **Styling & Dependencies:**
    - Use standard Tailwind CSS template literals. Do not use `clsx` or `tailwind-merge`.
+   - Abstract classes into variables like `const containerStyles = "text-sm"`.
    - Rely on native semantic HTML and ARIA attributes for Accessibility (A11y).
-   - **A11y Mandate:** You must ensure A11y AA compatibility.
+   - **A11y Mandate:** You must ensure A11y AA compatibility. This includes not using text lighter than foreground/80
    - For state, use Zustand.
 
 3. **Internationalization (i18n):**

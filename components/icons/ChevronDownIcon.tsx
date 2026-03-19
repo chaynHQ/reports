@@ -4,7 +4,11 @@ interface ChevronDownIconProps {
   className?: string;
 }
 
-export function ChevronDownIcon({ width = 16, height = 16, className }: ChevronDownIconProps) {
+export function ChevronDownIcon({
+  width = 16,
+  height = 16,
+  className,
+}: ChevronDownIconProps) {
   return (
     <svg
       aria-hidden="true"

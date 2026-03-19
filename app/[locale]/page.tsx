@@ -19,7 +19,7 @@ export default async function HomePage({ params }: HomePageProps) {
       <h1 className="text-4xl tracking-tight text-foreground">
         {t("heading")}
       </h1>
-      <p className="mt-4 max-w-prose text-center text-lg text-foreground/60">
+      <p className="mt-4 max-w-prose text-center text-lg text-foreground/80">
         {t("intro")}
       </p>
     </main>

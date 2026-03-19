@@ -21,6 +21,8 @@ import { ErrorBoundary as RollbarErrorBoundary } from "@rollbar/react";
 import { useTranslations } from "next-intl";
 import type { ComponentType, ReactNode } from "react";
 
+const fallbackStyles = "flex flex-col items-center gap-4 px-6 py-12 text-center";
+
 /** Props passed to a custom fallback component by @rollbar/react. */
 export interface FallbackProps {
   error: Error | null;
@@ -33,11 +35,11 @@ function DefaultFallback() {
     <div
       role="alert"
       aria-live="assertive"
-      className="flex flex-col items-center gap-4 px-6 py-12 text-center"
+      className={fallbackStyles}
     >
       {/* visually hidden heading gives screen reader users a landmark to navigate to. */}
       <h2 className="sr-only">{t("heading")}</h2>
-      <p className="text-foreground/60">{t("refreshPrompt")}</p>
+      <p className="text-foreground/80">{t("refreshPrompt")}</p>
     </div>
   );
 }
