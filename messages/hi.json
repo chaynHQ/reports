@@ -4,18 +4,18 @@
     "description": "Chayn ke interactive reports — ek global charity jo lingo aur himsa ke shikar logon ki madad karti hai."
   },
   "home": {
-    "heading": "Interactive Storytelling Capabilities",
+    "heading": "Chayn Prabhav Report",
     "intro": "Chayn ke scrollytelling reports ke liye animation aur data-visualisation components ka ek designer showcase. Interactions dekhne ke liye scroll karein.",
     "sections": {
-      "pullQuote": "Pull Quote",
-      "stats": "Animated Statistics",
-      "barChart": "Animated Bar Chart",
+      "pullQuote": "Mukhya Uddharan",
+      "stats": "Sanchaalit Aankde",
+      "barChart": "Sanchaalit Bar Chart",
       "areaChart": "Trend Area Chart",
-      "map": "Interactive Map",
-      "audio": "Audio Narration",
+      "map": "Interactive Naksha",
+      "audio": "Audio Varnan",
       "cards": "Horizontal Scroll Cards",
-      "stickyScroll": "Sticky Scroll Narrative",
-      "horizontalScroll": "Horizontal Scroll (scroll-driven)"
+      "stickyScroll": "Sticky Scroll Katha",
+      "horizontalScroll": "Horizontal Scroll (scroll-sanchaalit)"
     },
     "demoNotes": {
       "pullQuote": "Mukhya nishkarsho ke liye puri-chadi typographic pal. Server Component ke roop mein render — zero JavaScript bheja gaya.",
@@ -125,18 +125,18 @@
     "step2StatLabel": "piditon mein mahilaen ya ladkiyaan hain",
     "step3Category": "Maansik prabhav",
     "step3Heading": "Nuksan prarambhik ghatna se kahin aage jata hai",
-    "step3Body": "Survivors ne chinta, avसाद, aur post-traumatic stress jaisi lasting maansik takleefon ki report ki hai. Kai log digital spaces se hat jaate hain — rozgaar, samudaay, aur sahayata networks khote hain.",
+    "step3Body": "Survivors ne chinta, avsaad, aur post-traumatic stress jaisi lasting maansik takleefon ki report ki hai. Kai log digital spaces se hat jaate hain — rozgaar, samudaay, aur sahayata networks khote hain.",
     "step3Stat": "78%",
     "step3StatLabel": "ek saal se adhik samay tak maansik nuksan report kiya",
     "step4Category": "Pranaaligat kami",
     "step4Heading": "Report karne ke raaste adhikanssh ke liye pahunch se bahar hain",
     "step4Body": "Gambhir nuksan ke bavajood, sirf aath mein se ek survivor ne police ko suchna di. Baadhaon mein avishwas, sharam, kanooni raston ki jaankari ka abhav, aur punah-pida ka darr shamil hai.",
-    "step4Stat": "1 mein 1 in 8",
+    "step4Stat": "8 mein se 1",
     "step4StatLabel": "survivors ne police ko suchit kiya"
   },
   "nav": {
     "skipToContent": "Mukhya saamagri par jaayein",
-    "headerLabel": "Site header",
+    "headerLabel": "Saait header",
     "primaryNav": "Mukhya navigation",
     "logoLabel": "Chayn Reports — homepage par jaayein",
     "reportsSiteLabel": "Reports",
@@ -151,7 +151,7 @@
     "reportImageBasedAbuseResearch": "Image-based Abuse Research"
   },
   "footer": {
-    "ariaLabel": "Site footer",
+    "ariaLabel": "Saait footer",
     "tagline": "Ek global charity jo lingo aur himsa ke shikar logon ki madad karti hai.",
     "charityRegistration": "Chayn CIO. UK Charity Number: 1196098",
     "legalColumn": "Legal aur Jaankari",
@@ -182,19 +182,19 @@
     "refreshPrompt": "Kuch galat ho gaya. Kripaya page ko refresh karein."
   },
   "accessibility": {
-    "openPanel": "Accessibility",
-    "closePanel": "Accessibility panel band karein",
-    "panelTitle": "Accessibility",
+    "openPanel": "Sugamyata",
+    "closePanel": "Sugamyata panel band karein",
+    "panelTitle": "Sugamyata",
     "reduceMotion": "Motion kam karein",
     "reduceMotionDesc": "Animations aur smooth scroll rokta hai",
-    "muteAudio": "Mute",
+    "muteAudio": "Shaant karein",
     "muteAudioDesc": "Sabhi audio narration band karta hai",
-    "highContrast": "High contrast",
+    "highContrast": "Uchch contrast",
     "highContrastDesc": "Text aur background ka contrast badhata hai",
     "prefsSaved": "Preferences save ho gayi",
     "prefsNotSaved": "Preferences save karne ke liye cookies accept karein",
-    "muteAudioLabel": "Mute",
-    "unmuteAudioLabel": "Unmute"
+    "muteAudioLabel": "Shaant karein",
+    "unmuteAudioLabel": "Aavaaz chalayein"
   },
   "cookieBanner": {
     "regionLabel": "Cookie samati",
@@ -209,6 +209,6 @@
     "statusEnabled": "Cookies abhi enabled hain.",
     "statusDisabled": "Cookies abhi disabled hain.",
     "updateBody": "Hum analytics ka upyog karte hain yeh samajhne ke liye ki log hamare resources se kaise judtey hain aur survivors ke liye hamaari sahayata behtar banane ke liye. Koi bhi vyaktigat data store ya share nahi kiya jaata.",
-    "settingsButtonLabel": "Cookie settings"
+    "settingsButtonLabel": "Cookie vinyaas"
   }
 }
