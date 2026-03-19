@@ -2,6 +2,7 @@ import { ClientProviders } from "@/components/analytics/ClientProviders";
 import { RollbarProvider } from "@/components/error/RollbarProvider";
 import { Footer } from "@/components/layout/Footer";
 import { TopNav } from "@/components/layout/TopNav";
+import { SmoothScrollProvider } from "@/context/SmoothScrollProvider";
 import { routing, type Locale } from "@/i18n/routing";
 import { getLocaleDirection } from "@/lib/locale-dir";
 import type { Metadata } from "next";
@@ -135,10 +136,12 @@ export default async function LocaleLayout({
         */}
         <RollbarProvider>
           <NextIntlClientProvider>
-            <TopNav />
-            <ClientProviders />
-            {children}
-            <Footer />
+            <SmoothScrollProvider>
+              <TopNav />
+              <ClientProviders />
+              {children}
+              <Footer />
+            </SmoothScrollProvider>
           </NextIntlClientProvider>
         </RollbarProvider>
       </body>
