@@ -2,7 +2,9 @@
   "compilerOptions": {
     "target": "es6",
     "lib": ["es6", "dom"],
-    "types": ["cypress", "node"],
+    "types": ["cypress"],
+    "moduleResolution": "bundler",
+    "module": "esnext",
     "sourceMap": true
   },
   "include": ["**/*.ts"]

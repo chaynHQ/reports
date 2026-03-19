@@ -22,7 +22,9 @@ declare global {
       params?: Record<string, unknown>,
     ) => void;
     dataLayer?: unknown[];
-    Cypress?: unknown; // set by Cypress test runner; used to guard test-unsafe side effects
+    /** Set by Cypress test runner; used to guard test-unsafe side effects. */
+    Cypress?: unknown;
+    // window.va is declared by @vercel/analytics — no redeclaration needed.
   }
 }
 
@@ -59,7 +61,7 @@ export function trackEvent<T extends EventName>(
 
   // Only send to Vercel if the <Analytics /> script has loaded (i.e. consent given).
   // window.va is set by the Vercel Analytics script — absent before consent.
-  if (typeof (window as Record<string, unknown>).va === "function") {
+  if (typeof window.va === "function") {
     track(event, params as unknown as VercelEventProperties);
   }
 }

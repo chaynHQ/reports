@@ -4,11 +4,10 @@
  * Next.js route-segment error boundary.
  *
  * Rendered automatically when an unhandled error occurs within a route segment.
- * The root layout (and therefore the RollbarProvider and NextIntlClientProvider)
- * remains mounted when this renders, so useRollbar() and useTranslations() are
- * both safe to use here.
+ * The root layout (and therefore RollbarProvider and NextIntlClientProvider)
+ * remains mounted, so useRollbar() and useTranslations() are both safe here.
  *
- * This file MUST remain a Client Component — Next.js requires it.
+ * This file must remain a client component — Next.js requires it.
  * See: https://nextjs.org/docs/app/api-reference/file-conventions/error
  */
 

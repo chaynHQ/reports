@@ -1,9 +1,8 @@
 "use client";
 
+import { ArrowRightIcon, ChevronDownIcon } from "@/components/icons";
 import { Link } from "@/i18n/navigation";
 import { useEffect, useRef, useState } from "react";
-
-import { ArrowRightIcon, ChevronDownIcon } from "@/components/icons";
 
 const triggerStyles =
   "inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-sm font-semibold text-foreground " +

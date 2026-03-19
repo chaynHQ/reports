@@ -1,11 +1,12 @@
 "use client";
 
-import { Analytics } from "@vercel/analytics/react";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { Analytics } from "@vercel/analytics/react";
 import Cookies from "js-cookie";
 import { useEffect, useRef, useState } from "react";
 import { hotjar } from "react-hotjar";
-
+import { EVENTS } from "@/constants/events";
+import { trackEvent } from "@/lib/analytics";
 import {
   CONSENT_COOKIE_ACCEPTED,
   CONSENT_COOKIE_NAME,
@@ -43,19 +44,32 @@ export function AnalyticsManager() {
   const [consent, setConsent] = useState<boolean | null>(null);
   // Tracks whether GA4 was loaded in this page session — needed to revoke cleanly.
   const isGa4LoadedRef = useRef(false);
+  // Set when the user actively accepts; consumed by the consent effect after scripts render.
+  // Never set on page load, so returning visitors don't re-fire the accepted event.
+  const pendingTrackAcceptedRef = useRef(false);
 
   useEffect(() => {
     const syncConsentState = () => {
       setConsent(Cookies.get(CONSENT_COOKIE_NAME) === CONSENT_COOKIE_ACCEPTED);
     };
-    syncConsentState();
-    window.addEventListener(CONSENT_EVENT, syncConsentState);
-    return () => window.removeEventListener(CONSENT_EVENT, syncConsentState);
+    const handleConsentEvent = () => {
+      if (Cookies.get(CONSENT_COOKIE_NAME) === CONSENT_COOKIE_ACCEPTED) {
+        pendingTrackAcceptedRef.current = true;
+      }
+      syncConsentState();
+    };
+    syncConsentState(); // page load — no tracking flag set
+    window.addEventListener(CONSENT_EVENT, handleConsentEvent);
+    return () => window.removeEventListener(CONSENT_EVENT, handleConsentEvent);
   }, []);
 
   useEffect(() => {
     if (consent === true) {
       isGa4LoadedRef.current = true;
+      if (pendingTrackAcceptedRef.current) {
+        pendingTrackAcceptedRef.current = false;
+        trackEvent(EVENTS.COOKIE_CONSENT_ACCEPTED, {});
+      }
     }
 
     // GA4 scripts persist in the DOM once injected by next/script — they cannot be

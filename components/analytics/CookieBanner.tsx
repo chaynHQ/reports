@@ -6,27 +6,17 @@ import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import CookieConsent, { resetCookieConsentValue } from "react-cookie-consent";
+import CookieConsent from "react-cookie-consent";
 
 export const CONSENT_COOKIE_NAME = "chaynCookieConsent";
 export const CONSENT_COOKIE_ACCEPTED = "accepted";
-export const CONSENT_COOKIE_DECLINED = "declined";
+const CONSENT_COOKIE_DECLINED = "declined";
 /** Dispatched on window whenever consent is accepted, declined, or revoked. */
 export const CONSENT_EVENT = "chayn:consent-change";
 /** Dispatched by CookieSettingsButton to open the banner in update mode. */
 export const OPEN_SETTINGS_EVENT = "chayn:open-settings";
 
-/**
- * Clears consent and notifies AnalyticsManager to stop rendering tracking scripts.
- * Call from a "Change cookie settings" link (GDPR Art. 7(3)).
- * NOTE: Hotjar has no JS unload method — AnalyticsManager reloads the page automatically.
- */
-export function clearConsent() {
-  revokeGa4Consent(); // send Consent Mode v2 signal before analytics shut down
-  trackEvent(EVENTS.COOKIE_CONSENT_REVOKED, {}); // fire while analytics are still active
-  resetCookieConsentValue(CONSENT_COOKIE_NAME);
-  window.dispatchEvent(new Event(CONSENT_EVENT));
-}
+const PRIVACY_POLICY_URL = "https://www.chayn.co/policies/privacy-policy";
 
 export function CookieBanner() {
   const t = useTranslations("cookieBanner");
@@ -56,8 +46,9 @@ export function CookieBanner() {
 
   const handleAccept = () => {
     setIsUpdateMode(false);
-    // GA4 loads after this fires, so accept is captured by Vercel Analytics only.
-    trackEvent(EVENTS.COOKIE_CONSENT_ACCEPTED, {});
+    // Explicitly write accepted cookie before dispatching so AnalyticsManager reads
+    // it synchronously in the event handler — mirrors the same guarantee in handleDecline.
+    Cookies.set(CONSENT_COOKIE_NAME, CONSENT_COOKIE_ACCEPTED, { path: "/" });
     window.dispatchEvent(new Event(CONSENT_EVENT));
   };
 
@@ -78,6 +69,9 @@ export function CookieBanner() {
     previousConsent === CONSENT_COOKIE_ACCEPTED
       ? t("statusEnabled")
       : t("statusDisabled");
+
+  const privacyLinkStyles =
+    "underline underline-offset-2 hover:text-red focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red focus-visible:ring-offset-1";
 
   return (
     <CookieConsent
@@ -119,10 +113,10 @@ export function CookieBanner() {
           <p>
             {consentStatusText} {t("updateBody")}{" "}
             <Link
+              href={PRIVACY_POLICY_URL}
               target="_blank"
               rel="noopener noreferrer"
-              href="https://www.chayn.co/policies/privacy-policy"
-              className="underline underline-offset-2 hover:text-red focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red focus-visible:ring-offset-1"
+              className={privacyLinkStyles}
             >
               {t("privacyLink")}
             </Link>
@@ -135,9 +129,10 @@ export function CookieBanner() {
           </strong>{" "}
           {t("body")}{" "}
           <Link
+            href={PRIVACY_POLICY_URL}
             target="_blank"
-            href="https://www.chayn.co/policies/privacy-policy"
-            className="underline underline-offset-2 hover:text-red focus-visible:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red focus-visible:ring-offset-1"
+            rel="noopener noreferrer"
+            className={privacyLinkStyles}
           >
             {t("privacyLink")}
           </Link>

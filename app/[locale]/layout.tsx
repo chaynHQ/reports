@@ -1,5 +1,5 @@
 import { ClientProviders } from "@/components/analytics/ClientProviders";
-import RollbarProvider from "@/components/error/RollbarProvider";
+import { RollbarProvider } from "@/components/error/RollbarProvider";
 import { Footer } from "@/components/layout/Footer";
 import { TopNav } from "@/components/layout/TopNav";
 import { routing, type Locale } from "@/i18n/routing";
@@ -9,6 +9,7 @@ import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Merriweather, Open_Sans } from "next/font/google";
 import { notFound } from "next/navigation";
+import type { ReactNode } from "react";
 import "../globals.css";
 
 const merriweather = Merriweather({
@@ -93,7 +94,7 @@ const skipLinkStyles =
   "focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-red";
 
 interface LocaleLayoutProps {
-  children: React.ReactNode;
+  children: ReactNode;
   params: Promise<{ locale: string }>;
 }
 

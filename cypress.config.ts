@@ -10,6 +10,6 @@ export default defineConfig({
     specPattern: "cypress/e2e/**/*.cy.ts",
     supportFile: "cypress/support/e2e.ts",
     video: false,
-    setupNodeEvents(_on, _config) {},
+    setupNodeEvents() {},
   },
 });

@@ -1,9 +1,8 @@
 "use client";
 
-import { Link } from "@/i18n/navigation";
-import { useEffect, useRef, useState } from "react";
-
 import { ChevronDownIcon, MenuToggleIcon } from "@/components/icons";
+import { Link } from "@/i18n/navigation";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { NavDropdown } from "./NavDropdown";
 
 export type NavLinkItem = { type: "link"; href: string; label: string };
@@ -44,7 +43,7 @@ const hamburgerStyles =
   "focus-visible:ring-red focus-visible:ring-offset-2 focus-visible:ring-offset-peach-tint";
 
 interface NavBarProps {
-  children: React.ReactNode;
+  children: ReactNode;
   /** Plain serialisable data — safe to pass across the RSC/client boundary. */
   navItems: NavItem[];
   cta: { href: string; label: string; ariaLabel: string };
@@ -80,9 +79,13 @@ export function NavBar({ children, navItems, cta, labels }: NavBarProps) {
   };
 
   useEffect(() => {
-    prefersReducedMotion.current = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
+    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    prefersReducedMotion.current = motionQuery.matches;
+    const handleMotionChange = (e: MediaQueryListEvent) => {
+      prefersReducedMotion.current = e.matches;
+      if (e.matches) setIsNavHidden(false);
+    };
+    motionQuery.addEventListener("change", handleMotionChange);
 
     const handleScroll = () => {
       const currentY = window.scrollY;
@@ -103,7 +106,10 @@ export function NavBar({ children, navItems, cta, labels }: NavBarProps) {
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      motionQuery.removeEventListener("change", handleMotionChange);
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   useEffect(() => {

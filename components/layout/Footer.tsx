@@ -1,6 +1,3 @@
-import { getTranslations } from "next-intl/server";
-import Image from "next/image";
-
 import {
   ExternalLinkIcon,
   FacebookIcon,
@@ -10,6 +7,9 @@ import {
   XIcon,
   YouTubeIcon,
 } from "@/components/icons";
+import { getTranslations } from "next-intl/server";
+import Image from "next/image";
+import type { ReactNode } from "react";
 
 const SOCIAL_LINKS = [
   {
@@ -65,7 +65,7 @@ function ColHeading({
   href,
   newTabLabel,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   href?: string;
   newTabLabel?: string;
 }) {

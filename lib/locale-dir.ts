@@ -1,4 +1,4 @@
-import type { Locale } from '@/i18n/routing';
+import type { Locale } from "@/i18n/routing";
 
 /**
  * Maps each supported locale to its writing direction.
@@ -7,13 +7,13 @@ import type { Locale } from '@/i18n/routing';
  * so future locales (e.g. Arabic, Farsi, Hebrew) can be added here without
  * touching the layout.
  */
-const LOCALE_DIRECTIONS: Record<Locale, 'ltr' | 'rtl'> = {
-  en: 'ltr',
-  hi: 'ltr',
+const LOCALE_DIRECTIONS: Record<Locale, "ltr" | "rtl"> = {
+  en: "ltr",
+  hi: "ltr",
   // Example future RTL entry:
   // ar: 'rtl',
 };
 
-export function getLocaleDirection(locale: Locale): 'ltr' | 'rtl' {
-  return LOCALE_DIRECTIONS[locale] ?? 'ltr';
+export function getLocaleDirection(locale: Locale): "ltr" | "rtl" {
+  return LOCALE_DIRECTIONS[locale] ?? "ltr";
 }

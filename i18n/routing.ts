@@ -1,4 +1,4 @@
-import { defineRouting } from 'next-intl/routing';
+import { defineRouting } from "next-intl/routing";
 
 /**
  * Central routing definition consumed by middleware, navigation helpers,
@@ -11,16 +11,16 @@ import { defineRouting } from 'next-intl/routing';
  */
 export const routing = defineRouting({
   /** All supported locales. First entry is the default. */
-  locales: ['en', 'hi'] as const,
+  locales: ["en", "hi"] as const,
 
   /** Default locale — UK English. */
-  defaultLocale: 'en',
+  defaultLocale: "en",
 
   /**
    * Prefix strategy: 'as-needed' omits the locale prefix for the default
    * locale (`/` instead of `/en/`), giving cleaner canonical URLs.
    */
-  localePrefix: 'as-needed',
+  localePrefix: "as-needed",
 });
 
 export type Locale = (typeof routing.locales)[number];

@@ -1,13 +1,9 @@
 "use client";
 
 /**
- * ClientProviders
- *
- * Thin "use client" wrapper that dynamic-imports browser-only islands with
- * { ssr: false }. In Next.js 16+, `ssr: false` is only permitted inside a
- * Client Component, not a Server Component (RSC), so we bridge the gap here.
- *
- * Mount once at the root layout level. Zero UI of its own.
+ * Client boundary that dynamic-imports browser-only components with ssr: false.
+ * Next.js 16+ only permits ssr: false inside a client component, so this bridges
+ * the RSC/client boundary. Mount once at root layout level. Zero UI of its own.
  */
 
 import dynamic from "next/dynamic";
@@ -30,11 +26,11 @@ const CookieSettingsButton = dynamic(
 export function ClientProviders() {
   return (
     <>
-      {/* Analytics scripts: activated only after explicit cookie consent */}
+      {/* analytics scripts: activated only after explicit cookie consent */}
       <AnalyticsManager />
-      {/* Cookie consent banner: shown once per visitor */}
+      {/* cookie consent banner: shown once per visitor */}
       <CookieBanner />
-      {/* Floating settings button: visible after initial choice (GDPR Art. 7(3)) */}
+      {/* floating settings button: visible after initial choice (GDPR Art. 7(3)) */}
       <CookieSettingsButton />
     </>
   );

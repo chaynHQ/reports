@@ -1,10 +1,9 @@
 "use client";
 
+import { CookieIcon } from "@/components/icons";
 import Cookies from "js-cookie";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
-
-import { CookieIcon } from "@/components/icons";
 import {
   CONSENT_COOKIE_NAME,
   CONSENT_EVENT,
@@ -20,7 +19,8 @@ export function CookieSettingsButton() {
   const hasMounted = useRef(false);
 
   useEffect(() => {
-    const syncVisibility = () => setIsVisible(!!Cookies.get(CONSENT_COOKIE_NAME));
+    const syncVisibility = () =>
+      setIsVisible(!!Cookies.get(CONSENT_COOKIE_NAME));
     // Hide immediately when the banner opens in update mode; re-evaluate after a choice is made.
     const hideOnSettingsOpen = () => setIsVisible(false);
     syncVisibility();
@@ -69,4 +69,3 @@ export function CookieSettingsButton() {
     </button>
   );
 }
-
