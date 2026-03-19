@@ -4,8 +4,37 @@
     "description": "Interactive reports from Chayn, a global charity supporting survivors of gender-based violence and abuse."
   },
   "home": {
-    "heading": "Chayn Impact Report",
-    "intro": "Welcome to Chayn's impact report."
+    "heading": "Chayn reports",
+    "intro": "Welcome to Chayn's reports.",
+    "audioSectionHeading": "Audio Narration",
+    "audioTrackTitle": "Grounding audio",
+    "audioNarrationLabel": "Audio narration for Chapter 1",
+    "dataSectionHeading": "Reports by Type",
+    "mapSectionHeading": "Global Reach",
+    "chart": {
+      "nonConsensualSharing": "Non-consensual sharing",
+      "threatsToShare": "Threats to share",
+      "deepfakeImages": "Deepfake images",
+      "sextortion": "Sextortion",
+      "otherUnknown": "Other / unknown",
+      "casesLabel": "cases",
+      "source": "Source: Chayn Image-based Abuse Research, 2024"
+    },
+    "map": {
+      "ukLabel": "United Kingdom",
+      "pakistanLabel": "Pakistan",
+      "legendLabel": "Highlighted countries"
+    }
+  },
+  "interactive": {
+    "audio": {
+      "play": "Play",
+      "pause": "Pause",
+      "loading": "Loading…",
+      "playLabel": "Play: {title}",
+      "pauseLabel": "Pause: {title}",
+      "duration": "Duration: {duration}"
+    }
   },
   "nav": {
     "skipToContent": "Skip to main content",

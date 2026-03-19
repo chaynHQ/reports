@@ -2,7 +2,7 @@
 
 [![Cypress E2E](https://github.com/chaynHQ/reports/actions/workflows/cypress.yml/badge.svg)](https://github.com/chaynHQ/reports/actions/workflows/cypress.yml)
 
-[Chayn Reports](https://reports.chayn.co) is an open-source, multilingual platform for publishing Chayn's research and impact reports as accessible, high-performance scrollytelling experiences. Built to be engaging in multiple languages and privacy-first.
+[Chayn Reports](https://reports.chayn.co) is an open-source, multilingual platform for publishing Chayn's research and reports as accessible, high-performance scrollytelling experiences. Built to be engaging in multiple languages and privacy-first.
 
 Since 2013, [Chayn](https://www.chayn.co/about) has reached over 500,000 survivors worldwide through trauma-informed, survivor-centred, and intersectional approaches — using open-source technology for positive social impact. These reports share our research, findings, and the voices of the communities we work with.
 

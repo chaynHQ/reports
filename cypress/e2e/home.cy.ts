@@ -14,15 +14,10 @@ describe("Homepage content", () => {
   });
 
   it("renders a single h1 with the report heading", () => {
-    cy.get("h1")
-      .should("have.length", 1)
-      .and("contain.text", "Chayn Impact Report");
+    cy.get("h1").should("have.length", 1).and("contain.text", "Chayn reports");
   });
 
   it("renders the intro paragraph", () => {
-    cy.get("main p").should(
-      "contain.text",
-      "Welcome to Chayn's impact report.",
-    );
+    cy.get("main p").should("contain.text", "Welcome to Chayn's reports.");
   });
 });
