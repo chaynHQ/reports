@@ -5,7 +5,36 @@
   },
   "home": {
     "heading": "Chayn Prabhav Report",
-    "intro": "Chayn ke prabhav report mein aapka swagat hai."
+    "intro": "Chayn ke prabhav report mein aapka swagat hai.",
+    "audioSectionHeading": "Audio Narration",
+    "audioTrackTitle": "Grounding audio",
+    "audioNarrationLabel": "Adhyay 1 ke liye audio narration",
+    "dataSectionHeading": "Prakar ke anusar report",
+    "mapSectionHeading": "Vaishvik pahunch",
+    "chart": {
+      "nonConsensualSharing": "Bina sahmat ke sajha karna",
+      "threatsToShare": "Sajha karne ki dhamki",
+      "deepfakeImages": "Deepfake chitra",
+      "sextortion": "Sextortion",
+      "otherUnknown": "Anya / Anjaan",
+      "casesLabel": "mamle",
+      "source": "Strot: Chayn Image-based Abuse Research, 2024"
+    },
+    "map": {
+      "ukLabel": "Yunaited Kingdom",
+      "pakistanLabel": "Pakistan",
+      "legendLabel": "Highlighted desh"
+    }
+  },
+  "interactive": {
+    "audio": {
+      "play": "Play karein",
+      "pause": "Pause karein",
+      "loading": "Load ho raha hai…",
+      "playLabel": "Play karein: {title}",
+      "pauseLabel": "Pause karein: {title}",
+      "duration": "Awadhi: {duration}"
+    }
   },
   "nav": {
     "skipToContent": "Mukhya saamagri par jaayein",
