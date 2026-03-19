@@ -1,5 +1,5 @@
-import createMiddleware from 'next-intl/middleware';
-import { routing } from '@/i18n/routing';
+import createMiddleware from "next-intl/middleware";
+import { routing } from "@/i18n/routing";
 
 /**
  * Next.js 16 Proxy (formerly `middleware.ts` — renamed in Next.js 16).
@@ -24,6 +24,6 @@ export const config = {
      * - Files with an extension (e.g. .svg, .png, .js, .css)
      * - api routes
      */
-    '/((?!api|_next/static|_next/image|favicon\\.ico|.*\\..*).*)',
+    "/((?!api|_next/static|_next/image|favicon\\.ico|.*\\..*).*)",
   ],
 };

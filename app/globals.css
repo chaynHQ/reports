@@ -1,26 +1,87 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* =====================================================================
+   CHAYN DESIGN TOKENS
+   Tailwind v4 theme configuration.
+
+   Fonts use a plain @theme block (no inline) so Tailwind creates proper
+   CSS custom properties on :root that the Preflight and base styles can
+   reference via var(). The next/font variable classes must be applied to
+   <html> in layout.tsx so --font-open-sans and --font-merriweather are
+   available on :root when these var() references are resolved.
+
+   Colours use @theme inline — static hex values don't need an extra
+   CSS variable indirection.
+
+   Usage: bg-red, text-cream, bg-background, text-foreground,
+          font-sans (Open Sans), font-serif (Merriweather)
+   ===================================================================== */
+
+@theme {
+  --font-sans: var(--font-open-sans);
+  --font-serif: var(--font-merriweather);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* --- Primary palette ---------------------------------------------- */
+  --color-peach-tint: #ffeae0;
+  --color-red: #f0244d;
+  --color-peach: #ffbfa3;
+  --color-cream: #fffbf5;
+
+  /* --- Secondary palette -------------------------------------------- */
+  --color-green: #d5e3d2;
+  --color-lilac: #b5bfe8;
+  --color-lilac-tint: #e1e6fc;
+  --color-olive: #d7cd97;
+  --color-blue: #2899d5;
+  --color-pink: #f4d6d8;
+  --color-yellow: #fecb37;
+
+  /* --- Semantic aliases ---------------------------------------------- */
+  --color-background: #fffbf5;
+  --color-foreground: #333333;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* =====================================================================
+   BASE STYLES
+   ===================================================================== */
+
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-merriweather), Georgia, serif;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* =====================================================================
+   UTILITY CLASSES
+   ===================================================================== */
+
+/*
+ * .btn-pill — pill-shaped CTA button base.
+ * Apply colour/size variants alongside: e.g. bg-red text-cream.
+ */
+.btn-pill {
+  @apply inline-flex items-center justify-center rounded-full px-6 py-2.5 font-medium leading-none transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red focus-visible:ring-offset-2;
+}
+
+/*
+ * .card — rounded container base for content cards and sections.
+ * Add background/border colours alongside as needed.
+ */
+.card {
+  @apply rounded-2xl;
+}
+
+/*
+ * .card-bordered — card with a soft peach border, suitable for
+ * content blocks on cream backgrounds.
+ */
+.card-bordered {
+  @apply rounded-2xl border border-peach;
 }
