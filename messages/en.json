@@ -4,37 +4,135 @@
     "description": "Interactive reports from Chayn, a global charity supporting survivors of gender-based violence and abuse."
   },
   "home": {
-    "heading": "Chayn reports",
-    "intro": "Welcome to Chayn's reports.",
-    "audioSectionHeading": "Audio Narration",
-    "audioTrackTitle": "Grounding audio",
-    "audioNarrationLabel": "Audio narration for Chapter 1",
-    "dataSectionHeading": "Reports by Type",
-    "mapSectionHeading": "Global Reach",
-    "chart": {
-      "nonConsensualSharing": "Non-consensual sharing",
-      "threatsToShare": "Threats to share",
-      "deepfakeImages": "Deepfake images",
-      "sextortion": "Sextortion",
-      "otherUnknown": "Other / unknown",
-      "casesLabel": "cases",
-      "source": "Source: Chayn Image-based Abuse Research, 2024"
+    "heading": "Interactive Storytelling Capabilities",
+    "intro": "A designer showcase of the animation and data-visualisation components available for Chayn's scrollytelling reports. Scroll through each section to explore the interactions.",
+    "sections": {
+      "pullQuote": "Pull Quote",
+      "stats": "Animated Statistics",
+      "barChart": "Animated Bar Chart",
+      "areaChart": "Trend Area Chart",
+      "map": "Interactive Map",
+      "audio": "Audio Narration",
+      "cards": "Horizontal Scroll Cards",
+      "stickyScroll": "Sticky Scroll Narrative",
+      "horizontalScroll": "Horizontal Scroll (scroll-driven)"
     },
-    "map": {
-      "ukLabel": "United Kingdom",
-      "pakistanLabel": "Pakistan",
-      "legendLabel": "Highlighted countries"
+    "demoNotes": {
+      "pullQuote": "Full-width typographic moments for key findings. Rendered as a Server Component — zero JavaScript shipped.",
+      "stats": "Numbers count up from zero as the reader scrolls into view. Powered by GSAP ScrollTrigger with stagger support.",
+      "barChart": "Horizontal bars animate in on scroll using GSAP ScrollTrigger. Data values and labels are driven by translations.",
+      "areaChart": "A trend line and filled area that draws from left to right on scroll. Uses Visx area/line shapes with a GSAP clip-path animation and LinearGradient fill.",
+      "map": "World map using Visx's Mercator projection. Highlighted countries respond to hover and focus with contextual callouts.",
+      "audio": "Audio clips via Howler.js with an animated waveform indicator. Play button toggles state; waveform responds in real time with GSAP.",
+      "cards": "Full-width swipeable moments using CSS scroll-snap. Each card is a bold statistic — suitable for survivor snippets or key data points.",
+      "stickyScroll": "The core scrollytelling pattern. A visual panel sticks on the left while narrative chapters scroll on the right. The stat and background update at each chapter boundary — driven by GSAP ScrollTrigger. On mobile, stats appear inline above each chapter.",
+      "horizontalScroll": "Vertical scrolling drives horizontal content movement. The outer container height is computed in JS to match the track's pixel width exactly, so the last panel lands precisely when the section exits. GSAP scrubs the track's x-position against the scroll distance. Each panel is a full-screen editorial moment."
     }
   },
-  "interactive": {
-    "audio": {
-      "play": "Play",
-      "pause": "Pause",
-      "loading": "Loading…",
-      "playLabel": "Play: {title}",
-      "pauseLabel": "Pause: {title}",
-      "duration": "Duration: {duration}"
-    }
+  "pullQuote": {
+    "quote": "Technology-facilitated abuse doesn't exist in isolation — it is embedded in broader systems of power, control, and inequality.",
+    "attribution": "Chayn, Image-based Abuse Research 2024"
+  },
+  "statCounter": {
+    "casesLabel": "cases of image-based abuse documented in 2024",
+    "countriesLabel": "countries represented in Chayn's research",
+    "survivorsLabel": "of survivors reported lasting psychological impact"
+  },
+  "animatedChart": {
+    "title": "Image-based Abuse by Type",
+    "nonConsensualSharing": "Non-consensual sharing",
+    "threatsToShare": "Threats to share",
+    "deepfakeImages": "Deepfake images",
+    "sextortion": "Sextortion",
+    "otherUnknown": "Other / unknown",
+    "casesLabel": "cases",
+    "source": "Source: Chayn Image-based Abuse Research, 2024",
+    "ariaLabel": "Bar chart: image-based abuse cases by type in 2024. Non-consensual sharing 847, Threats to share 623, Deepfake images 412, Sextortion 298, Other or unknown 201.",
+    "tableCaption": "Image-based abuse cases by type, 2024",
+    "categoryHeader": "Type of abuse",
+    "casesHeader": "Cases"
+  },
+  "areaChart": {
+    "title": "Cases Reported Over Time",
+    "yAxisLabel": "Cases",
+    "source": "Source: Chayn aggregate data, 2019–2023",
+    "ariaLabel": "Area chart showing cases reported per year from 2019 to 2023, with an upward trend from 412 to 847 cases."
+  },
+  "interactiveMap": {
+    "title": "Research Locations",
+    "ukLabel": "United Kingdom",
+    "pakistanLabel": "Pakistan",
+    "legendLabel": "Research locations",
+    "ukDetail": "247 participants across England, Scotland, and Wales",
+    "pakistanDetail": "600 participants across Lahore, Karachi, and Islamabad",
+    "hoverPrompt": "Hover or tap a highlighted country for details",
+    "mapAriaLabel": "World map highlighting Chayn's research locations in the United Kingdom and Pakistan"
+  },
+  "audioTrigger": {
+    "play": "Play",
+    "pause": "Pause",
+    "loading": "Loading…",
+    "playLabel": "Play: {title}",
+    "pauseLabel": "Pause: {title}",
+    "duration": "Duration: {duration}",
+    "title": "Opening Narration",
+    "narrationLabel": "Audio narration — opening section",
+    "statusPlaying": "Playing",
+    "statusPaused": "Paused"
+  },
+  "horizontalCards": {
+    "scrollPrompt": "Scroll to explore",
+    "listLabel": "Key statistics",
+    "source": "Source: Chayn Research, 2024",
+    "card1Stat": "1 in 3",
+    "card1Label": "women globally have experienced online harassment or abuse",
+    "card2Stat": "90%",
+    "card2Label": "of image-based abuse victims are women or girls",
+    "card3Stat": "2×",
+    "card3Label": "more likely to experience abuse on platforms without reporting tools",
+    "card4Stat": "7 yrs",
+    "card4Label": "average time before a survivor feels able to seek support",
+    "card5Stat": "£0",
+    "card5Label": "cost to the perpetrator in most jurisdictions worldwide"
+  },
+  "horizontalScroll": {
+    "scrollCue": "Scroll to continue",
+    "panel1Eyebrow": "Chayn Research 2024",
+    "panel1Heading": "Image-Based Abuse: A Global Crisis",
+    "panel1Body": "A survivor-centred investigation into technology-facilitated abuse across the United Kingdom and Pakistan.",
+    "panel2Eyebrow": "The global scale",
+    "panel2Stat": "1.2M",
+    "panel2Body": "estimated cases of image-based abuse reported worldwide each year",
+    "panel3Eyebrow": "Survivor voices",
+    "panel3Quote": "I felt like the internet had been turned against me. There was nowhere to go, and no one who truly understood.",
+    "panel3Attribution": "Anonymous survivor, UK, 2024",
+    "panel4Eyebrow": "Take action",
+    "panel4Heading": "Support Survivors",
+    "panel4Body": "Access Chayn's full research, survivor tools, and resources — or donate to fund ongoing work.",
+    "panel4Cta": "Visit Chayn",
+    "panel4Cta2": "Donate"
+  },
+  "stickyScroll": {
+    "step1Category": "Scale of abuse",
+    "step1Heading": "Thousands of cases documented each year",
+    "step1Body": "Chayn's research captured 847 cases of image-based abuse in 2024 alone — a figure representing only those who sought support. The true scale is estimated to be significantly higher, as most survivors do not report or access formal help.",
+    "step1Stat": "847",
+    "step1StatLabel": "documented cases in 2024",
+    "step2Category": "Who is affected",
+    "step2Heading": "Women and girls bear the greatest burden",
+    "step2Body": "Ninety percent of image-based abuse victims identified in our research were women or girls. The harm disproportionately targets those already facing marginalisation — including women of colour, disabled women, and LGBTQ+ individuals.",
+    "step2Stat": "90%",
+    "step2StatLabel": "of victims are women or girls",
+    "step3Category": "Psychological impact",
+    "step3Heading": "The harm extends far beyond the initial incident",
+    "step3Body": "Survivors report lasting psychological effects including anxiety, depression, and post-traumatic stress. Many withdraw from digital spaces entirely — losing access to employment, community, and the very support networks that could help them recover.",
+    "step3Stat": "78%",
+    "step3StatLabel": "report psychological harm lasting over a year",
+    "step4Category": "Systemic gaps",
+    "step4Heading": "Reporting pathways remain out of reach for most",
+    "step4Body": "Despite experiencing serious harm, only one in eight survivors reported the abuse to police. Barriers include disbelief, shame, lack of awareness of legal routes, and fear of re-traumatisation through formal reporting processes.",
+    "step4Stat": "1 in 8",
+    "step4StatLabel": "survivors reported abuse to police"
   },
   "nav": {
     "skipToContent": "Skip to main content",
@@ -72,6 +170,10 @@
     "legalContact": "Contact",
     "copyright": "© {year} Chayn. All rights reserved.",
     "backToReports": "Back to Chayn Reports"
+  },
+  "leaveSite": {
+    "button": "Leave this site",
+    "ariaLabel": "Leave this site quickly — opens a safe page and replaces browser history"
   },
   "error": {
     "heading": "Something went wrong",

@@ -10,17 +10,22 @@ import dynamic from "next/dynamic";
 
 const CookieBanner = dynamic(
   () => import("./CookieBanner").then((m) => m.CookieBanner),
-  { ssr: false }
+  { ssr: false },
 );
 
 const AnalyticsManager = dynamic(
   () => import("./AnalyticsManager").then((m) => m.AnalyticsManager),
-  { ssr: false }
+  { ssr: false },
 );
 
 const CookieSettingsButton = dynamic(
   () => import("./CookieSettingsButton").then((m) => m.CookieSettingsButton),
-  { ssr: false }
+  { ssr: false },
+);
+
+const LeaveSiteButton = dynamic(
+  () => import("../layout/LeaveSiteButton").then((m) => m.LeaveSiteButton),
+  { ssr: false },
 );
 
 export function ClientProviders() {
@@ -32,6 +37,8 @@ export function ClientProviders() {
       <CookieBanner />
       {/* floating settings button: visible after initial choice (GDPR Art. 7(3)) */}
       <CookieSettingsButton />
+      {/* leave site button: always visible for user safety */}
+      <LeaveSiteButton />
     </>
   );
 }

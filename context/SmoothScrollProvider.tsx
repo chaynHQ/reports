@@ -1,8 +1,11 @@
 "use client";
 
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import { useEffect, type ReactNode } from "react";
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface SmoothScrollProviderProps {
   children: ReactNode;
@@ -26,6 +29,10 @@ export function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
 
     // autoRaf: false — GSAP's ticker drives the loop; Lenis must not start its own.
     const lenis = new Lenis({ autoRaf: false });
+
+    // Notify ScrollTrigger of each Lenis scroll so triggers fire at the correct
+    // position when smooth scrolling is active.
+    lenis.on("scroll", ScrollTrigger.update);
 
     // Drive Lenis with GSAP's ticker so scroll and animations share one rAF loop.
     // lagSmoothing(0) prevents GSAP from throttling on hidden tabs, which would
