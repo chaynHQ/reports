@@ -1,18 +1,11 @@
 "use client";
 
 import { useGSAP } from "@gsap/react";
-import { Howl } from "howler";
 import gsap from "gsap";
+import { Howl } from "howler";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
-
-// TODO (A11y): Before shipping this component:
-// 1. Add an aria-live="polite" region so screen readers announce state changes
-//    ("Playing", "Paused") without moving focus away from the button.
-// 2. Expose a transcript or caption file via aria-describedby when available.
-// 3. If a seek bar is added: role="slider" with aria-valuemin / aria-valuenow /
-//    aria-valuemax / aria-valuetext.
-// 4. Verify disabled-state colour contrast meets AA (≥ 3:1 for UI components).
+import { useAppStore } from "@/lib/store/useAppStore";
 
 gsap.registerPlugin(useGSAP);
 
@@ -28,21 +21,18 @@ interface AudioTriggerProps {
 const formatTime = (seconds: number) =>
   `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, "0")}`;
 
-const cardStyles =
-  "card-bordered flex flex-col gap-5 bg-peach-tint p-6";
-const titleStyles =
-  "font-serif text-lg leading-snug text-foreground";
-const waveContainerStyles =
-  "flex items-end gap-1";
-const barBaseStyles =
-  "w-1 rounded-full bg-red origin-bottom";
-const footerStyles =
-  "flex items-center justify-between";
-const durationStyles =
-  "font-sans text-xs text-foreground/60";
+const cardStyles = "card-bordered flex flex-col gap-5 bg-peach-tint p-6";
+const srOnlyStyles = "sr-only";
+const titleStyles = "font-serif text-lg leading-snug text-foreground";
+const waveContainerStyles = "flex items-end gap-1";
+const barBaseStyles = "w-1 rounded-full bg-red origin-bottom";
+const footerStyles = "flex items-center justify-between";
+const durationStyles = "font-sans text-xs text-foreground/80";
 
 export function AudioTrigger({ src, label, title }: AudioTriggerProps) {
-  const t = useTranslations("interactive.audio");
+  const t = useTranslations("audioTrigger");
+  const isAudioMuted = useAppStore((s) => s.isAudioMuted);
+  const setIsAudioMuted = useAppStore((s) => s.setIsAudioMuted);
   const soundRef = useRef<Howl | null>(null);
   const waveRef = useRef<HTMLDivElement>(null);
   const waveTl = useRef<gsap.core.Timeline | null>(null);
@@ -61,7 +51,8 @@ export function AudioTrigger({ src, label, title }: AudioTriggerProps) {
         setIsReady(true);
         setDuration(sound.duration());
       },
-      onloaderror: (_id, err) => console.error("[AudioTrigger] Load error:", err),
+      onloaderror: (_id, err) =>
+        console.error("[AudioTrigger] Load error:", err),
       onplay: () => setIsPlaying(true),
       onpause: () => setIsPlaying(false),
       onstop: () => setIsPlaying(false),
@@ -76,7 +67,6 @@ export function AudioTrigger({ src, label, title }: AudioTriggerProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [srcKey]);
 
-  // Build the waveform animation once. Play/pause it via isPlaying.
   useGSAP(
     () => {
       waveTl.current = gsap
@@ -89,40 +79,90 @@ export function AudioTrigger({ src, label, title }: AudioTriggerProps) {
           ease: "power1.inOut",
         });
     },
-    { scope: waveRef }
+    { scope: waveRef },
   );
 
+  const reduceMotion = useAppStore((s) => s.reduceMotion);
+
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (reduceMotion || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      waveTl.current?.pause(0);
+      return;
+    }
     if (isPlaying) {
       waveTl.current?.play();
     } else {
-      // Seek to 0 so bars reset to rest height when paused.
       waveTl.current?.pause(0);
     }
-  }, [isPlaying]);
+  }, [isPlaying, reduceMotion]);
+
+  // Pause playback immediately when muted via the accessibility panel
+  useEffect(() => {
+    const s = soundRef.current;
+    if (!s) return;
+    if (isAudioMuted && isPlaying) s.pause();
+  }, [isAudioMuted, isPlaying]);
 
   const toggle = () => {
     const s = soundRef.current;
     if (!s) return;
-    isPlaying ? s.pause() : s.play();
+    if (isPlaying) {
+      s.pause();
+      return;
+    }
+    // Clicking play whilst muted implicitly unmutes — the intent is clear.
+    if (isAudioMuted) setIsAudioMuted(false);
+    s.play();
   };
 
-  const buttonLabel = isPlaying ? t("pauseLabel", { title }) : t("playLabel", { title });
-  const buttonText = isPlaying ? t("pause") : isReady ? t("play") : t("loading");
+  const buttonLabel = isPlaying
+    ? t("pauseLabel", { title })
+    : t("playLabel", { title });
+  const buttonText = isPlaying
+    ? t("pause")
+    : isReady
+      ? t("play")
+      : t("loading");
+
+  const statusText = isReady
+    ? isPlaying
+      ? t("statusPlaying")
+      : t("statusPaused")
+    : "";
 
   return (
     <div role="region" aria-label={label} className={cardStyles}>
-      {/* TODO (A11y): add aria-live="polite" region here */}
+      <span aria-live="polite" aria-atomic="true" className={srOnlyStyles}>
+        {statusText}
+      </span>
       <p className={titleStyles}>{title}</p>
 
-      {/* Waveform indicator — hidden from assistive tech (decorative) */}
       <div ref={waveRef} aria-hidden="true" className={waveContainerStyles}>
-        <div data-wave-bar className={barBaseStyles} style={{ height: "10px" }} />
-        <div data-wave-bar className={barBaseStyles} style={{ height: "18px" }} />
-        <div data-wave-bar className={barBaseStyles} style={{ height: "24px" }} />
-        <div data-wave-bar className={barBaseStyles} style={{ height: "16px" }} />
-        <div data-wave-bar className={barBaseStyles} style={{ height: "12px" }} />
+        <div
+          data-wave-bar
+          className={barBaseStyles}
+          style={{ height: "10px" }}
+        />
+        <div
+          data-wave-bar
+          className={barBaseStyles}
+          style={{ height: "18px" }}
+        />
+        <div
+          data-wave-bar
+          className={barBaseStyles}
+          style={{ height: "24px" }}
+        />
+        <div
+          data-wave-bar
+          className={barBaseStyles}
+          style={{ height: "16px" }}
+        />
+        <div
+          data-wave-bar
+          className={barBaseStyles}
+          style={{ height: "12px" }}
+        />
       </div>
 
       <div className={footerStyles}>

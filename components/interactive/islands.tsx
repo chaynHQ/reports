@@ -25,3 +25,33 @@ export const InteractiveMap = dynamic(
   () => import("./InteractiveMap").then((m) => m.InteractiveMap),
   { ssr: false }
 );
+
+export const AreaChart = dynamic(
+  () => import("./AreaChart").then((m) => m.AreaChart),
+  { ssr: false }
+);
+
+export const StatCounter = dynamic(
+  () => import("./StatCounter").then((m) => m.StatCounter),
+  { ssr: false }
+);
+
+export const HorizontalCards = dynamic(
+  () => import("./HorizontalCards").then((m) => m.HorizontalCards),
+  { ssr: false }
+);
+
+export const ScrollReveal = dynamic(
+  () => import("./ScrollReveal").then((m) => m.ScrollReveal),
+  { ssr: false }
+);
+
+export const StickyScroll = dynamic(
+  () => import("./StickyScroll").then((m) => m.StickyScroll),
+  { ssr: false }
+);
+
+export const HorizontalScroll = dynamic(
+  () => import("./HorizontalScroll").then((m) => m.HorizontalScroll),
+  { ssr: false }
+);

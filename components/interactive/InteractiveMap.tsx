@@ -2,46 +2,56 @@
 
 import { Graticule, Mercator } from "@visx/geo";
 import { ParentSize } from "@visx/responsive";
-import { useTranslations } from "next-intl";
+import React, { useMemo, useState } from "react";
 import { feature } from "topojson-client";
-// world-atlas/countries-110m.json is typed via types/world-atlas.d.ts
 import worldAtlas from "world-atlas/countries-110m.json";
-
-// TODO (A11y): Before shipping this component:
-// 1. Add role="img" and a descriptive aria-label to the <svg> naming the data
-//    context (e.g. "World map highlighting the United Kingdom and Pakistan").
-// 2. Each highlighted <path> needs tabIndex={0}, role="button", an aria-label
-//    with the country name, and an onKeyDown handler (Enter + Space).
-// 3. Provide a visually-hidden text alternative listing highlighted countries
-//    and their significance (WCAG 1.1.1).
-// 4. Visible focus indicator: change stroke/strokeWidth on :focus-visible (CSS
-//    outline does not render on SVG elements in all browsers).
-
-// ISO 3166-1 numeric codes as stored in world-atlas features.
-// String comparison is used because world-atlas ids may be strings or numbers.
-const HIGHLIGHTS: Record<string, { fill: string; stroke: string }> = {
-  "826": { fill: "var(--color-red)",   stroke: "var(--color-red)" },   // United Kingdom
-  "586": { fill: "var(--color-peach)", stroke: "var(--color-peach)" }, // Pakistan
-};
 
 const countries = feature(worldAtlas, worldAtlas.objects.countries).features;
 
 const cardStyles =
-  "card-bordered flex flex-col gap-4 bg-background overflow-hidden p-0";
-const mapStyles =
-  "w-full overflow-hidden bg-peach-tint";
+  "card-bordered flex flex-col gap-0 bg-background overflow-hidden p-0";
+const mapStyles = "w-full overflow-hidden bg-peach-tint";
 const legendStyles =
-  "flex flex-wrap items-center gap-4 px-5 py-4";
+  "flex flex-wrap items-center gap-4 px-5 py-4 border-t border-foreground/8";
 const legendItemStyles =
   "flex items-center gap-2 font-sans text-sm text-foreground/80";
+const calloutStyles =
+  "px-5 py-4 bg-peach-tint border-t border-foreground/8 font-sans text-sm text-foreground/80";
+const promptStyles = "px-5 pb-3 font-sans text-xs text-foreground/80";
+const srOnlyStyles = "sr-only";
 
-export function InteractiveMap() {
-  const t = useTranslations("home.map");
+export interface CountryHighlight {
+  /** Numeric feature ID from world-atlas (e.g. "826" for UK, "586" for Pakistan). */
+  id: string;
+  fill: string;
+  stroke?: string;
+  /** Display name shown in legend and callout. */
+  label: string;
+  /** Detail text shown in callout on hover/focus. */
+  detail?: string;
+}
 
-  const legendItems = [
-    { id: "826", label: t("ukLabel"),       fill: "var(--color-red)" },
-    { id: "586", label: t("pakistanLabel"), fill: "var(--color-peach)" },
-  ];
+export interface InteractiveMapProps {
+  highlights: CountryHighlight[];
+  legendLabel: string;
+  mapAriaLabel: string;
+  hoverPrompt?: string;
+}
+
+export function InteractiveMap({
+  highlights,
+  legendLabel,
+  mapAriaLabel,
+  hoverPrompt,
+}: InteractiveMapProps) {
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
+
+  const highlightMap = useMemo(
+    () => new Map(highlights.map((h) => [h.id, h])),
+    [highlights],
+  );
+
+  const activeHighlight = hoveredId ? highlightMap.get(hoveredId) : null;
 
   return (
     <div className={cardStyles}>
@@ -51,7 +61,6 @@ export function InteractiveMap() {
             if (width === 0) return null;
 
             const height = Math.round(width * 0.5);
-            // Mercator scale: fills the full width with the standard world view.
             const scale = (width / 2 / Math.PI) * 0.9;
 
             return (
@@ -59,10 +68,14 @@ export function InteractiveMap() {
                 width={width}
                 height={height}
                 className="block"
-                // TODO (A11y): add role="img" aria-label="..." here
+                role="img"
+                aria-label={mapAriaLabel}
               >
-                {/* Ocean fill */}
-                <rect width={width} height={height} fill="var(--color-peach-tint)" />
+                <rect
+                  width={width}
+                  height={height}
+                  fill="var(--color-peach-tint)"
+                />
 
                 <Mercator
                   data={countries}
@@ -77,17 +90,55 @@ export function InteractiveMap() {
                         strokeWidth={0.5}
                       />
                       {features.map(({ feature: f, path: d }, i) => {
-                        const highlight = HIGHLIGHTS[String(f.id)];
+                        const id = String(f.id);
+                        const highlight = highlightMap.get(id);
+                        const isHovered = hoveredId === id;
                         return (
                           <path
                             key={`country-${i}`}
                             d={d ?? ""}
                             fill={highlight?.fill ?? "var(--color-foreground)"}
-                            fillOpacity={highlight ? 0.9 : 0.12}
-                            stroke={highlight?.stroke ?? "var(--color-foreground)"}
+                            fillOpacity={
+                              highlight ? (isHovered ? 1 : 0.85) : 0.12
+                            }
+                            stroke={
+                              highlight?.stroke ?? highlight?.fill ?? "var(--color-foreground)"
+                            }
                             strokeOpacity={highlight ? 0.6 : 0.25}
-                            strokeWidth={highlight ? 1 : 0.4}
-                            // TODO (A11y): add tabIndex role aria-label onKeyDown for highlighted countries
+                            strokeWidth={highlight ? (isHovered ? 2 : 1) : 0.4}
+                            style={
+                              highlight ? { cursor: "pointer" } : undefined
+                            }
+                            tabIndex={highlight ? 0 : undefined}
+                            role={highlight ? "button" : undefined}
+                            aria-label={
+                              highlight
+                                ? highlight.detail
+                                  ? `${highlight.label}: ${highlight.detail}`
+                                  : highlight.label
+                                : undefined
+                            }
+                            onMouseEnter={
+                              highlight ? () => setHoveredId(id) : undefined
+                            }
+                            onMouseLeave={
+                              highlight ? () => setHoveredId(null) : undefined
+                            }
+                            onFocus={
+                              highlight ? () => setHoveredId(id) : undefined
+                            }
+                            onBlur={
+                              highlight ? () => setHoveredId(null) : undefined
+                            }
+                            onKeyDown={
+                              highlight
+                                ? (e: React.KeyboardEvent) => {
+                                    if (e.key === "Enter" || e.key === " ") {
+                                      e.preventDefault();
+                                    }
+                                  }
+                                : undefined
+                            }
                           />
                         );
                       })}
@@ -100,20 +151,39 @@ export function InteractiveMap() {
         </ParentSize>
       </div>
 
+      {/* Visually-hidden text alternative (WCAG 1.1.1) */}
+      <ul className={srOnlyStyles}>
+        {highlights
+          .filter((h) => h.detail)
+          .map((h) => (
+            <li key={h.id}>
+              {h.label}: {h.detail}
+            </li>
+          ))}
+      </ul>
+
+      {/* Hover/focus callout */}
+      {activeHighlight ? (
+        <div className={calloutStyles} role="status" aria-live="polite">
+          <span className="font-semibold text-foreground">
+            {activeHighlight.label}:
+          </span>{" "}
+          {activeHighlight.detail}
+        </div>
+      ) : (
+        hoverPrompt && <p className={promptStyles}>{hoverPrompt}</p>
+      )}
+
       {/* Legend */}
-      <div
-        className={legendStyles}
-        role="list"
-        aria-label={t("legendLabel")}
-      >
-        {legendItems.map(({ id, label, fill }) => (
-          <div key={id} role="listitem" className={legendItemStyles}>
+      <div className={legendStyles} role="list" aria-label={legendLabel}>
+        {highlights.map((h) => (
+          <div key={h.id} role="listitem" className={legendItemStyles}>
             <span
               aria-hidden="true"
-              className="inline-block h-3 w-3 rounded-full"
-              style={{ background: fill }}
+              className="inline-block h-3 w-3 rounded-full flex-shrink-0"
+              style={{ background: h.fill }}
             />
-            {label}
+            {h.label}
           </div>
         ))}
       </div>

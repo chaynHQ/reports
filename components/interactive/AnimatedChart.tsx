@@ -6,44 +6,44 @@ import { ParentSize } from "@visx/responsive";
 import { scaleBand, scaleLinear } from "@visx/scale";
 import { Bar } from "@visx/shape";
 import gsap from "gsap";
-import { useTranslations } from "next-intl";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
+import { useAppStore } from "@/lib/store/useAppStore";
 
-// TODO (A11y): Before shipping this component:
-// 1. Add role="img" and aria-label on the <svg> summarising the chart's key finding.
-// 2. Provide a visually-hidden <table> below the chart listing every category and
-//    value (WCAG 1.1.1) — this is the primary text alternative for screen readers.
-// 3. Axis labels and value text must maintain ≥ 4.5:1 contrast ratio.
-// 4. If bars become individually interactive: role="graphics-symbol img" +
-//    aria-label="{category}: {value} cases" on each <rect>.
+gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-gsap.registerPlugin(useGSAP);
+const CHART_HEIGHT = 300;
+const LABEL_WIDTH = 185;
+const VALUE_GAP = 8;
+const MARGIN = { top: 12, right: 56, bottom: 12 };
 
-interface Datum {
+const cardStyles = "card-bordered flex flex-col gap-4 bg-background p-6";
+const sourceStyles = "font-sans text-xs text-foreground/80";
+const srOnlyStyles = "sr-only";
+
+export interface AnimatedChartDatum {
   label: string;
   value: number;
 }
 
-// Fixed pixel dimensions
-const CHART_HEIGHT = 300;
-const LABEL_WIDTH = 185; // px reserved for category labels
-const VALUE_GAP = 8;     // gap between bar end and its value label
-const MARGIN = { top: 12, right: 56, bottom: 12 };
-
-const cardStyles = "card-bordered flex flex-col gap-4 bg-background p-6";
-const sourceStyles = "font-sans text-xs text-foreground/50";
-
-// ── Inner chart (receives measured width from ParentSize) ─────────────────────
-
-interface ChartInnerProps {
-  data: Datum[];
-  width: number;
+export interface AnimatedChartProps {
+  data: AnimatedChartDatum[];
+  ariaLabel: string;
+  source?: string;
+  tableCaption?: string;
+  categoryHeader?: string;
+  valueHeader?: string;
 }
 
-function ChartInner({ data, width }: ChartInnerProps) {
-  // barsRef targets the single <g> that owns all <rect> elements so
-  // GSAP's querySelectorAll("rect") reliably finds every bar.
+interface ChartInnerProps {
+  data: AnimatedChartDatum[];
+  width: number;
+  ariaLabel: string;
+}
+
+function ChartInner({ data, width, ariaLabel }: ChartInnerProps) {
   const barsRef = useRef<SVGGElement>(null);
+  const reduceMotion = useAppStore((s) => s.reduceMotion);
 
   const innerHeight = CHART_HEIGHT - MARGIN.top - MARGIN.bottom;
   const innerWidth = width - LABEL_WIDTH - MARGIN.right;
@@ -61,18 +61,22 @@ function ChartInner({ data, width }: ChartInnerProps) {
     nice: true,
   });
 
-  // Animate all bars from width=0 on mount, respecting prefers-reduced-motion.
   useGSAP(
     () => {
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      if (reduceMotion || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
       gsap.from(barsRef.current!.querySelectorAll("rect"), {
         attr: { width: 0 },
         duration: 0.7,
-        stagger: 0.1,
+        stagger: 0.08,
         ease: "power2.out",
+        scrollTrigger: {
+          trigger: barsRef.current,
+          start: "top 82%",
+          once: true,
+        },
       });
     },
-    { scope: barsRef }
+    { scope: barsRef, dependencies: [reduceMotion] },
   );
 
   const bandwidth = yScale.bandwidth();
@@ -83,10 +87,10 @@ function ChartInner({ data, width }: ChartInnerProps) {
       width={width}
       height={CHART_HEIGHT}
       className="block font-sans"
-      // TODO (A11y): add role="img" aria-label="..." here
+      role="img"
+      aria-label={ariaLabel}
     >
       <Group top={MARGIN.top}>
-        {/* Category labels — rendered in the left-hand margin */}
         {data.map((d) => (
           <text
             key={`label-${d.label}`}
@@ -102,7 +106,6 @@ function ChartInner({ data, width }: ChartInnerProps) {
           </text>
         ))}
 
-        {/* All bars in one <g> so barsRef and querySelectorAll("rect") are stable */}
         <g ref={barsRef} transform={`translate(${LABEL_WIDTH}, 0)`}>
           {data.map((d) => (
             <Bar
@@ -114,12 +117,10 @@ function ChartInner({ data, width }: ChartInnerProps) {
               fill="var(--color-red)"
               fillOpacity={0.85}
               rx={4}
-              // TODO (A11y): add role aria-label per bar when data is finalised
             />
           ))}
         </g>
 
-        {/* Value labels — positioned at bar end, outside the bars group */}
         {data.map((d) => (
           <text
             key={`val-${d.label}`}
@@ -140,29 +141,40 @@ function ChartInner({ data, width }: ChartInnerProps) {
   );
 }
 
-// ── Public component ──────────────────────────────────────────────────────────
-
-export function AnimatedChart() {
-  const t = useTranslations("home.chart");
-
-  // Labels are translated; values are research data (not UI copy).
-  const data: Datum[] = [
-    { label: t("nonConsensualSharing"), value: 847 },
-    { label: t("threatsToShare"),       value: 623 },
-    { label: t("deepfakeImages"),       value: 412 },
-    { label: t("sextortion"),           value: 298 },
-    { label: t("otherUnknown"),         value: 201 },
-  ];
-
+export function AnimatedChart({
+  data,
+  ariaLabel,
+  source,
+  tableCaption,
+  categoryHeader,
+  valueHeader,
+}: AnimatedChartProps) {
   return (
     <div className={cardStyles}>
       <ParentSize>
         {({ width }) => {
           if (width === 0) return null;
-          return <ChartInner data={data} width={width} />;
+          return <ChartInner data={data} width={width} ariaLabel={ariaLabel} />;
         }}
       </ParentSize>
-      <p className={sourceStyles}>{t("source")}</p>
+      <table className={srOnlyStyles}>
+        {tableCaption && <caption>{tableCaption}</caption>}
+        <thead>
+          <tr>
+            <th scope="col">{categoryHeader}</th>
+            <th scope="col">{valueHeader}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((d) => (
+            <tr key={d.label}>
+              <td>{d.label}</td>
+              <td>{d.value.toLocaleString()}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      {source && <p className={sourceStyles}>{source}</p>}
     </div>
   );
 }

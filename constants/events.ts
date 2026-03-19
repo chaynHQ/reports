@@ -19,4 +19,7 @@ export const EVENTS = {
   COOKIE_CONSENT_ACCEPTED: "cookie_consent_accepted",
   COOKIE_CONSENT_DECLINED: "cookie_consent_declined",
   COOKIE_CONSENT_REVOKED: "cookie_consent_revoked",
+
+  // ── Safety ───────────────────────────────────────────────────────────
+  LEAVE_SITE_BUTTON_CLICKED: "leave_site_button_clicked",
 } as const;

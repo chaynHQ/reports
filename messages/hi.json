@@ -4,37 +4,135 @@
     "description": "Chayn ke interactive reports — ek global charity jo lingo aur himsa ke shikar logon ki madad karti hai."
   },
   "home": {
-    "heading": "Chayn Prabhav Report",
-    "intro": "Chayn ke prabhav report mein aapka swagat hai.",
-    "audioSectionHeading": "Audio Narration",
-    "audioTrackTitle": "Grounding audio",
-    "audioNarrationLabel": "Adhyay 1 ke liye audio narration",
-    "dataSectionHeading": "Prakar ke anusar report",
-    "mapSectionHeading": "Vaishvik pahunch",
-    "chart": {
-      "nonConsensualSharing": "Bina sahmat ke sajha karna",
-      "threatsToShare": "Sajha karne ki dhamki",
-      "deepfakeImages": "Deepfake chitra",
-      "sextortion": "Sextortion",
-      "otherUnknown": "Anya / Anjaan",
-      "casesLabel": "mamle",
-      "source": "Strot: Chayn Image-based Abuse Research, 2024"
+    "heading": "Interactive Storytelling Capabilities",
+    "intro": "Chayn ke scrollytelling reports ke liye animation aur data-visualisation components ka ek designer showcase. Interactions dekhne ke liye scroll karein.",
+    "sections": {
+      "pullQuote": "Pull Quote",
+      "stats": "Animated Statistics",
+      "barChart": "Animated Bar Chart",
+      "areaChart": "Trend Area Chart",
+      "map": "Interactive Map",
+      "audio": "Audio Narration",
+      "cards": "Horizontal Scroll Cards",
+      "stickyScroll": "Sticky Scroll Narrative",
+      "horizontalScroll": "Horizontal Scroll (scroll-driven)"
     },
-    "map": {
-      "ukLabel": "Yunaited Kingdom",
-      "pakistanLabel": "Pakistan",
-      "legendLabel": "Highlighted desh"
+    "demoNotes": {
+      "pullQuote": "Mukhya nishkarsho ke liye puri-chadi typographic pal. Server Component ke roop mein render — zero JavaScript bheja gaya.",
+      "stats": "Padhak ke scroll karne par sankkhyaein shunya se count up hoti hain. GSAP ScrollTrigger se sanchalit.",
+      "barChart": "Horizontal bars scroll par GSAP ScrollTrigger use karke animate hote hain. Data values translations se aate hain.",
+      "areaChart": "Ek trend line aur filled area jo scroll par baayi se daayi or draw hoti hai. Visx area shapes, GSAP clip-path animation aur LinearGradient fill ka upyog karta hai.",
+      "map": "Visx Mercator projection ka upyog karke world map. Highlighted desh hover aur focus par contextual details dikhaate hain.",
+      "audio": "Howler.js ke zariye audio clips aur animated waveform indicator. Play button state toggle karta hai; GSAP se waveform real time mein respond karta hai.",
+      "cards": "CSS scroll-snap use karte hue full-width swipeable pal. Pratyek card ek bold statistic hai — survivor snippets ke liye upyukt.",
+      "stickyScroll": "Mukhya scrollytelling pattern. Baayi taraf visual panel stick karta hai jabki adhyay daayi taraf scroll hote hain. GSAP ScrollTrigger se sanchalit.",
+      "horizontalScroll": "Vertical scrolling horizontal content movement ko drive karta hai. Outer container ki height JS mein track ki pixel width se match karne ke liye compute hoti hai. GSAP track ke x-position ko scroll distance ke saath scrub karta hai."
     }
   },
-  "interactive": {
-    "audio": {
-      "play": "Play karein",
-      "pause": "Pause karein",
-      "loading": "Load ho raha hai…",
-      "playLabel": "Play karein: {title}",
-      "pauseLabel": "Pause karein: {title}",
-      "duration": "Awadhi: {duration}"
-    }
+  "pullQuote": {
+    "quote": "Technology-facilitated himsa akele nahi hoti — yeh shakti, niyantran aur asamanta ki vyaapak pranaliyon mein samahit hai.",
+    "attribution": "Chayn, Image-based Abuse Research 2024"
+  },
+  "statCounter": {
+    "casesLabel": "2024 mein documented image-based abuse ke mamle",
+    "countriesLabel": "Chayn ki research mein represented desh",
+    "survivorsLabel": "survivors ne lasting psychological impact report kiya"
+  },
+  "animatedChart": {
+    "title": "Prakar ke anusar Image-based Abuse",
+    "nonConsensualSharing": "Bina sahmat ke sajha karna",
+    "threatsToShare": "Sajha karne ki dhamki",
+    "deepfakeImages": "Deepfake chitra",
+    "sextortion": "Sextortion",
+    "otherUnknown": "Anya / Anjaan",
+    "casesLabel": "mamle",
+    "source": "Strot: Chayn Image-based Abuse Research, 2024",
+    "ariaLabel": "Bar chart: 2024 mein prakar ke anusar image-based abuse ke mamle. Bina sahmat ke sajha karna 847, Sajha karne ki dhamki 623, Deepfake chitra 412, Sextortion 298, Anya ya anjaan 201.",
+    "tableCaption": "Prakar ke anusar image-based abuse ke mamle, 2024",
+    "categoryHeader": "Abuse ka prakar",
+    "casesHeader": "Mamle"
+  },
+  "areaChart": {
+    "title": "Samay ke saath Report Hue Mamle",
+    "yAxisLabel": "Mamle",
+    "source": "Strot: Chayn aggregate data, 2019–2023",
+    "ariaLabel": "2019 se 2023 tak har saal report hue mamlon ka area chart, 412 se 847 mamlon ki badhti pravrutti ke saath."
+  },
+  "interactiveMap": {
+    "title": "Research Sthan",
+    "ukLabel": "Yunaited Kingdom",
+    "pakistanLabel": "Pakistan",
+    "legendLabel": "Research sthan",
+    "ukDetail": "England, Scotland aur Wales mein 247 pratibbhaagi",
+    "pakistanDetail": "Lahore, Karachi aur Islamabad mein 600 pratibbhaagi",
+    "hoverPrompt": "Vivaran ke liye highlighted desh par hover ya tap karein",
+    "mapAriaLabel": "Chayn ke research sthanon ko dikhata vishwa naksha — Yunaited Kingdom aur Pakistan mein"
+  },
+  "audioTrigger": {
+    "play": "Play karein",
+    "pause": "Pause karein",
+    "loading": "Load ho raha hai…",
+    "playLabel": "Play karein: {title}",
+    "pauseLabel": "Pause karein: {title}",
+    "duration": "Awadhi: {duration}",
+    "title": "Prarambhik Narration",
+    "narrationLabel": "Audio narration — prarambhik khand",
+    "statusPlaying": "Chal raha hai",
+    "statusPaused": "Ruka hua hai"
+  },
+  "horizontalCards": {
+    "scrollPrompt": "Dekhne ke liye scroll karein",
+    "listLabel": "Mukhya aankde",
+    "source": "Strot: Chayn Research, 2024",
+    "card1Stat": "3 mein 1",
+    "card1Label": "mahilaon ne globally online harassment ya himsa ka anubhav kiya hai",
+    "card2Stat": "90%",
+    "card2Label": "image-based abuse pidit mahilaen ya ladkiyan hain",
+    "card3Stat": "2×",
+    "card3Label": "reporting tools ke bina platforms par himsa anubhav karne ki adhik sambhavna",
+    "card4Stat": "7 saal",
+    "card4Label": "ek survivor ko sahayata lene mein lagane wala ausat samay",
+    "card5Stat": "£0",
+    "card5Label": "adhikanssh nyay kshetron mein aparadhi ko lagat"
+  },
+  "horizontalScroll": {
+    "scrollCue": "Jaari rakhne ke liye scroll karein",
+    "panel1Eyebrow": "Chayn Research 2024",
+    "panel1Heading": "Image-Based Abuse: Ek Vaishvik Sankat",
+    "panel1Body": "Yunaited Kingdom aur Pakistan mein technology-facilitated himsa ki survivor-centred jaanch.",
+    "panel2Eyebrow": "Vaishvik daayra",
+    "panel2Stat": "1.2M",
+    "panel2Body": "har saal duniya bhar mein image-based abuse ke anumānit mamle report hote hain",
+    "panel3Eyebrow": "Survivor ki awaaz",
+    "panel3Quote": "Mujhe laga jaise internet ko mere khilaf kar diya gaya ho. Kahin jaane ki jagah nahi thi, aur koi samajhne wala bhi nahi.",
+    "panel3Attribution": "Ananm survivor, UK, 2024",
+    "panel4Eyebrow": "Kadam uthayein",
+    "panel4Heading": "Survivors ka Sahyog Karein",
+    "panel4Body": "Chayn ki poori research, survivor tools, aur resources tak pahunchein — ya jari kaam ke liye daan karein.",
+    "panel4Cta": "Chayn jaayein",
+    "panel4Cta2": "Daan karein"
+  },
+  "stickyScroll": {
+    "step1Category": "Himsa ka daayra",
+    "step1Heading": "Har saal hazaaron mamle darj kiye jaate hain",
+    "step1Body": "Chayn ki research ne 2024 mein akele 847 image-based abuse ke mamle record kiye — yeh sirf unhe darshata hai jo sahayata lene aye. Asli daayra bahut bada hai kyunki adhikanssh survivors report nahi karte.",
+    "step1Stat": "847",
+    "step1StatLabel": "2024 mein documented mamle",
+    "step2Category": "Kaun prabhavit hota hai",
+    "step2Heading": "Mahilaen aur ladkiyaan sabse zyada prabhavit hoti hain",
+    "step2Body": "Hamare research mein identified image-based abuse pidit mein se 90 pratishat mahilaen ya ladkiyaan thin. Yeh himsa unhe zyada nishana banati hai jo pehle se marginalized hain.",
+    "step2Stat": "90%",
+    "step2StatLabel": "piditon mein mahilaen ya ladkiyaan hain",
+    "step3Category": "Maansik prabhav",
+    "step3Heading": "Nuksan prarambhik ghatna se kahin aage jata hai",
+    "step3Body": "Survivors ne chinta, avसाद, aur post-traumatic stress jaisi lasting maansik takleefon ki report ki hai. Kai log digital spaces se hat jaate hain — rozgaar, samudaay, aur sahayata networks khote hain.",
+    "step3Stat": "78%",
+    "step3StatLabel": "ek saal se adhik samay tak maansik nuksan report kiya",
+    "step4Category": "Pranaaligat kami",
+    "step4Heading": "Report karne ke raaste adhikanssh ke liye pahunch se bahar hain",
+    "step4Body": "Gambhir nuksan ke bavajood, sirf aath mein se ek survivor ne police ko suchna di. Baadhaon mein avishwas, sharam, kanooni raston ki jaankari ka abhav, aur punah-pida ka darr shamil hai.",
+    "step4Stat": "1 mein 1 in 8",
+    "step4StatLabel": "survivors ne police ko suchit kiya"
   },
   "nav": {
     "skipToContent": "Mukhya saamagri par jaayein",
@@ -73,11 +171,30 @@
     "copyright": "© {year} Chayn. Sabhi adhikar surakshit.",
     "backToReports": "Chayn Reports par wapas jaayein"
   },
+  "leaveSite": {
+    "button": "Yeh site chhodein",
+    "ariaLabel": "Jaldi yeh site chhodein — ek surakshit page khuliga aur browser history replace hogi"
+  },
   "error": {
     "heading": "Kuch galat ho gaya",
     "tryAgain": "Phir koshish karein",
     "critical": "Ek mahatvapurna error aaya",
     "refreshPrompt": "Kuch galat ho gaya. Kripaya page ko refresh karein."
+  },
+  "accessibility": {
+    "openPanel": "Accessibility",
+    "closePanel": "Accessibility panel band karein",
+    "panelTitle": "Accessibility",
+    "reduceMotion": "Motion kam karein",
+    "reduceMotionDesc": "Animations aur smooth scroll rokta hai",
+    "muteAudio": "Mute",
+    "muteAudioDesc": "Sabhi audio narration band karta hai",
+    "highContrast": "High contrast",
+    "highContrastDesc": "Text aur background ka contrast badhata hai",
+    "prefsSaved": "Preferences save ho gayi",
+    "prefsNotSaved": "Preferences save karne ke liye cookies accept karein",
+    "muteAudioLabel": "Mute",
+    "unmuteAudioLabel": "Unmute"
   },
   "cookieBanner": {
     "regionLabel": "Cookie samati",
