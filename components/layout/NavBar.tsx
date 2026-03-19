@@ -1,8 +1,13 @@
 "use client";
 
-import { ChevronDownIcon, MenuToggleIcon } from "@/components/icons";
+import {
+  ChevronDownIcon,
+  ExternalLinkIcon,
+  MenuToggleIcon,
+} from "@/components/icons";
 import { Link } from "@/i18n/navigation";
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 import { NavDropdown } from "./NavDropdown";
 
 export type NavLinkItem = { type: "link"; href: string; label: string };
@@ -16,7 +21,7 @@ export type NavDropdownItem = {
 export type NavItem = NavLinkItem | NavDropdownItem;
 
 const navLinkStyles =
-  "relative inline-flex min-h-[44px] items-center gap-1.5 px-1 text-sm font-medium text-foreground " +
+  "relative inline-flex min-h-[44px] items-center gap-1.5 px-1 text-sm font-semibold text-foreground " +
   "after:absolute after:bottom-0.75 after:left-0 after:h-[5px] after:w-0 after:rounded-full after:bg-peach " +
   "after:transition-all after:duration-200 after:content-[''] motion-reduce:after:transition-none " +
   "hover:after:w-full " +
@@ -33,7 +38,7 @@ const mobileItemStyles =
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red";
 
 const mobileSubItemStyles =
-  "flex w-full min-h-[44px] items-center gap-2.5 rounded-lg pl-5 pr-3 text-sm font-medium text-foreground/65 " +
+  "flex w-full min-h-[44px] items-center gap-2.5 rounded-lg pl-5 pr-3 text-sm font-medium text-foreground/80 " +
   "transition-colors hover:bg-peach/25 hover:text-foreground focus-visible:bg-peach/25 focus-visible:text-foreground " +
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red";
 
@@ -47,7 +52,14 @@ interface NavBarProps {
   /** Plain serialisable data — safe to pass across the RSC/client boundary. */
   navItems: NavItem[];
   cta: { href: string; label: string; ariaLabel: string };
-  labels: { header: string; nav: string; openMenu: string; closeMenu: string };
+  labels: {
+    header: string;
+    nav: string;
+    openMenu: string;
+    closeMenu: string;
+    changeLanguage: string;
+    languageMenu: string;
+  };
 }
 
 /**
@@ -160,9 +172,13 @@ export function NavBar({ children, navItems, cta, labels }: NavBarProps) {
                 <NavDropdown key={item.id} {...item} />
               ),
             )}
-            {navItems.length > 0 && (
-              <span aria-hidden="true" className="h-4 w-px bg-foreground/15" />
-            )}
+            <LanguageSwitcher
+              labels={{
+                changeLanguage: labels.changeLanguage,
+                languageMenu: labels.languageMenu,
+              }}
+            />
+            <span aria-hidden="true" className="h-4 w-px bg-foreground/15" />
             <a
               href={cta.href}
               target="_blank"
@@ -171,20 +187,22 @@ export function NavBar({ children, navItems, cta, labels }: NavBarProps) {
               className={ctaStyles}
             >
               {cta.label}
+              <ExternalLinkIcon
+                width={12}
+                height={12}
+                className="opacity-80 ml-1"
+              />
             </a>
           </div>
 
-          {/* Mobile: CTA + hamburger */}
-          <div className="flex items-center gap-2 sm:hidden">
-            <a
-              href={cta.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={cta.ariaLabel}
-              className={ctaStyles}
-            >
-              {cta.label}
-            </a>
+          {/* Mobile: language switcher + hamburger */}
+          <div className="flex items-center sm:hidden">
+            <LanguageSwitcher
+              labels={{
+                changeLanguage: labels.changeLanguage,
+                languageMenu: labels.languageMenu,
+              }}
+            />
             <button
               ref={hamburgerRef}
               type="button"
@@ -255,6 +273,22 @@ export function NavBar({ children, navItems, cta, labels }: NavBarProps) {
               );
             })}
           </ul>
+          <div className="mt-2 px-1 pt-2 border-t border-foreground/[0.06]">
+            <a
+              href={cta.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={cta.ariaLabel}
+              className={`${ctaStyles} w-full justify-center`}
+            >
+              {cta.label}
+              <ExternalLinkIcon
+                width={12}
+                height={12}
+                className="opacity-80 ml-1"
+              />
+            </a>
+          </div>
         </div>
       </nav>
     </header>

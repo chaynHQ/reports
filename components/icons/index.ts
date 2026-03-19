@@ -1,5 +1,6 @@
 export { ArrowRightIcon } from "./ArrowRightIcon";
 export { ChevronDownIcon } from "./ChevronDownIcon";
+export { GlobeIcon } from "./GlobeIcon";
 export { CookieIcon } from "./CookieIcon";
 export { ExternalLinkIcon } from "./ExternalLinkIcon";
 export { FacebookIcon } from "./FacebookIcon";

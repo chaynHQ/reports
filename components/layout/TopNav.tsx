@@ -41,6 +41,8 @@ export async function TopNav() {
         nav: t("primaryNav"),
         openMenu: t("openMenu"),
         closeMenu: t("closeMenu"),
+        changeLanguage: t("changeLanguage"),
+        languageMenu: t("languageMenu"),
       }}
     >
       <Link href="/" aria-label={t("logoLabel")} className={logoLinkStyles}>
@@ -57,7 +59,7 @@ export async function TopNav() {
           aria-hidden="true"
           className="hidden h-6 w-px bg-foreground/20 sm:block"
         />
-        <span className="hidden text-base font-semibold text-foreground/70 sm:inline">
+        <span className="hidden text-base font-semibold text-foreground/80 sm:inline">
           {t("reportsSiteLabel")}
         </span>
       </Link>
