@@ -181,6 +181,21 @@
     "critical": "Ek mahatvapurna error aaya",
     "refreshPrompt": "Kuch galat ho gaya. Kripaya page ko refresh karein."
   },
+  "accessibility": {
+    "openPanel": "Accessibility",
+    "closePanel": "Accessibility panel band karein",
+    "panelTitle": "Accessibility",
+    "reduceMotion": "Motion kam karein",
+    "reduceMotionDesc": "Animations aur smooth scroll rokta hai",
+    "muteAudio": "Mute",
+    "muteAudioDesc": "Sabhi audio narration band karta hai",
+    "highContrast": "High contrast",
+    "highContrastDesc": "Text aur background ka contrast badhata hai",
+    "prefsSaved": "Preferences save ho gayi",
+    "prefsNotSaved": "Preferences save karne ke liye cookies accept karein",
+    "muteAudioLabel": "Mute",
+    "unmuteAudioLabel": "Unmute"
+  },
   "cookieBanner": {
     "regionLabel": "Cookie samati",
     "heading": "Hum analytics cookies ka upyog karte hain",

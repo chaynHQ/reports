@@ -4,6 +4,7 @@ import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import gsap from "gsap";
 import { useRef } from "react";
+import { useAppStore } from "@/lib/store/useAppStore";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -23,10 +24,11 @@ export function ScrollReveal({
   delay = 0,
 }: ScrollRevealProps) {
   const ref = useRef<HTMLDivElement>(null);
+  const reduceMotion = useAppStore((s) => s.reduceMotion);
 
   useGSAP(
     () => {
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      if (reduceMotion || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
       gsap.from(ref.current, {
         opacity: 0,
         y,
@@ -40,7 +42,7 @@ export function ScrollReveal({
         },
       });
     },
-    { scope: ref }
+    { scope: ref, dependencies: [reduceMotion] }
   );
 
   return (

@@ -8,6 +8,14 @@
 
 import dynamic from "next/dynamic";
 
+const AccessibilityPanel = dynamic(
+  () =>
+    import("../accessibility/AccessibilityPanel").then(
+      (m) => m.AccessibilityPanel
+    ),
+  { ssr: false },
+);
+
 const CookieBanner = dynamic(
   () => import("./CookieBanner").then((m) => m.CookieBanner),
   { ssr: false },
@@ -35,10 +43,16 @@ export function ClientProviders() {
       <AnalyticsManager />
       {/* cookie consent banner: shown once per visitor */}
       <CookieBanner />
-      {/* floating settings button: visible after initial choice (GDPR Art. 7(3)) */}
-      <CookieSettingsButton />
       {/* leave site button: always visible for user safety */}
       <LeaveSiteButton />
+      {/* Cookie settings — bottom-left, shown after consent choice (GDPR Art. 7(3)) */}
+      <div className="fixed bottom-4 left-4 z-40">
+        <CookieSettingsButton />
+      </div>
+      {/* Accessibility + quick-mute cluster — bottom-right, always visible */}
+      <div className="fixed bottom-4 right-4 z-50">
+        <AccessibilityPanel />
+      </div>
     </>
   );
 }

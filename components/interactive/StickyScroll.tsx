@@ -4,6 +4,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect, useRef, useState } from "react";
+import { useAppStore } from "@/lib/store/useAppStore";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -77,6 +78,7 @@ export function StickyScroll({ steps }: StickyScrollProps) {
   const stepRefs = useRef<(HTMLDivElement | null)[]>([]);
   const prevStepRef = useRef(0);
   const hasMounted = useRef(false);
+  const reduceMotion = useAppStore((s) => s.reduceMotion);
 
   useGSAP(
     () => {
@@ -100,7 +102,10 @@ export function StickyScroll({ steps }: StickyScrollProps) {
       return;
     }
     if (!statRef.current) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (
+      reduceMotion ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
       prevStepRef.current = activeStep;
       return;
     }
@@ -113,7 +118,7 @@ export function StickyScroll({ steps }: StickyScrollProps) {
       { opacity: 0, y: direction * 36 },
       { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" },
     );
-  }, [activeStep]);
+  }, [activeStep, reduceMotion]);
 
   const theme = STEP_THEMES[activeStep % STEP_THEMES.length];
   const activeStepData = steps[activeStep];

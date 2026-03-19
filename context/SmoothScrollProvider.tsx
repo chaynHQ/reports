@@ -4,6 +4,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import { useEffect, type ReactNode } from "react";
+import { useAppStore } from "@/lib/store/useAppStore";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -15,17 +16,24 @@ interface SmoothScrollProviderProps {
  * Initialises Lenis smooth scrolling for the entire page and synchronises it
  * with GSAP's ticker so scroll position and animations share a single rAF loop.
  *
- * Skips initialisation entirely when the user has enabled reduced-motion at the
- * OS level (A11y AA requirement) — native browser scroll is used in that case.
+ * Skips initialisation when the user has enabled reduced-motion — either at the
+ * OS level (A11y AA) or via the in-app accessibility panel. Reacts live when
+ * the store preference changes, destroying or recreating Lenis accordingly.
  *
  * Place this high in the layout tree (inside <body>) so all scrollytelling
  * sections inherit the same scroll context. Use @gsap/react's `useGSAP` hook
  * in individual animation components — do not create separate rAF loops.
  */
 export function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
+  const reduceMotion = useAppStore((s) => s.reduceMotion);
+
   useEffect(() => {
-    // Respect the user's OS-level reduced-motion preference (A11y AA).
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // Respect both the in-app pref and the OS-level preference.
+    if (
+      reduceMotion ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    )
+      return;
 
     // autoRaf: false — GSAP's ticker drives the loop; Lenis must not start its own.
     const lenis = new Lenis({ autoRaf: false });
@@ -46,7 +54,7 @@ export function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
       gsap.ticker.remove(onTick);
       lenis.destroy();
     };
-  }, []);
+  }, [reduceMotion]);
 
   return <>{children}</>;
 }

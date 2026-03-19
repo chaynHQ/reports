@@ -181,6 +181,21 @@
     "critical": "A critical error occurred",
     "refreshPrompt": "Something went wrong. Please try refreshing the page."
   },
+  "accessibility": {
+    "openPanel": "Accessibility",
+    "closePanel": "Close accessibility panel",
+    "panelTitle": "Accessibility",
+    "reduceMotion": "Reduce motion",
+    "reduceMotionDesc": "Stops animations and smooth scroll",
+    "muteAudio": "Mute",
+    "muteAudioDesc": "Silences all audio narration",
+    "highContrast": "High contrast",
+    "highContrastDesc": "Increases text and background contrast",
+    "prefsSaved": "Preferences saved",
+    "prefsNotSaved": "Accept cookies to save preferences",
+    "muteAudioLabel": "Mute",
+    "unmuteAudioLabel": "Unmute"
+  },
   "cookieBanner": {
     "regionLabel": "Cookie consent",
     "heading": "We use analytics cookies",

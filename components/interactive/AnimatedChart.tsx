@@ -8,6 +8,7 @@ import { Bar } from "@visx/shape";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
+import { useAppStore } from "@/lib/store/useAppStore";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -42,6 +43,7 @@ interface ChartInnerProps {
 
 function ChartInner({ data, width, ariaLabel }: ChartInnerProps) {
   const barsRef = useRef<SVGGElement>(null);
+  const reduceMotion = useAppStore((s) => s.reduceMotion);
 
   const innerHeight = CHART_HEIGHT - MARGIN.top - MARGIN.bottom;
   const innerWidth = width - LABEL_WIDTH - MARGIN.right;
@@ -61,7 +63,7 @@ function ChartInner({ data, width, ariaLabel }: ChartInnerProps) {
 
   useGSAP(
     () => {
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      if (reduceMotion || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
       gsap.from(barsRef.current!.querySelectorAll("rect"), {
         attr: { width: 0 },
         duration: 0.7,
@@ -74,7 +76,7 @@ function ChartInner({ data, width, ariaLabel }: ChartInnerProps) {
         },
       });
     },
-    { scope: barsRef },
+    { scope: barsRef, dependencies: [reduceMotion] },
   );
 
   const bandwidth = yScale.bandwidth();

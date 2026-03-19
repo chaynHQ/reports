@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { Howl } from "howler";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
+import { useAppStore } from "@/lib/store/useAppStore";
 
 gsap.registerPlugin(useGSAP);
 
@@ -30,6 +31,8 @@ const durationStyles = "font-sans text-xs text-foreground/80";
 
 export function AudioTrigger({ src, label, title }: AudioTriggerProps) {
   const t = useTranslations("audioTrigger");
+  const isAudioMuted = useAppStore((s) => s.isAudioMuted);
+  const setIsAudioMuted = useAppStore((s) => s.setIsAudioMuted);
   const soundRef = useRef<Howl | null>(null);
   const waveRef = useRef<HTMLDivElement>(null);
   const waveTl = useRef<gsap.core.Timeline | null>(null);
@@ -79,19 +82,37 @@ export function AudioTrigger({ src, label, title }: AudioTriggerProps) {
     { scope: waveRef },
   );
 
+  const reduceMotion = useAppStore((s) => s.reduceMotion);
+
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (reduceMotion || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      waveTl.current?.pause(0);
+      return;
+    }
     if (isPlaying) {
       waveTl.current?.play();
     } else {
       waveTl.current?.pause(0);
     }
-  }, [isPlaying]);
+  }, [isPlaying, reduceMotion]);
+
+  // Pause playback immediately when muted via the accessibility panel
+  useEffect(() => {
+    const s = soundRef.current;
+    if (!s) return;
+    if (isAudioMuted && isPlaying) s.pause();
+  }, [isAudioMuted, isPlaying]);
 
   const toggle = () => {
     const s = soundRef.current;
     if (!s) return;
-    if (isPlaying) { s.pause(); } else { s.play(); }
+    if (isPlaying) {
+      s.pause();
+      return;
+    }
+    // Clicking play whilst muted implicitly unmutes — the intent is clear.
+    if (isAudioMuted) setIsAudioMuted(false);
+    s.play();
   };
 
   const buttonLabel = isPlaying

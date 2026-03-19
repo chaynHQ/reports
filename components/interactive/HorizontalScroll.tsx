@@ -4,6 +4,7 @@ import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import gsap from "gsap";
 import { useRef } from "react";
+import { useAppStore } from "@/lib/store/useAppStore";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -102,10 +103,15 @@ function Panel({ children, theme, centered = false }: PanelProps) {
 export function HorizontalScroll({ panels }: HorizontalScrollProps) {
   const outerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const reduceMotion = useAppStore((s) => s.reduceMotion);
 
   useGSAP(
     () => {
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      if (reduceMotion || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        // Reset any previously applied height so panels flow naturally
+        if (outerRef.current) outerRef.current.style.height = "";
+        return;
+      }
       if (!outerRef.current || !trackRef.current) return;
 
       const outer = outerRef.current;
@@ -133,7 +139,7 @@ export function HorizontalScroll({ panels }: HorizontalScrollProps) {
         },
       });
     },
-    { scope: outerRef }
+    { scope: outerRef, dependencies: [reduceMotion] }
   );
 
   return (

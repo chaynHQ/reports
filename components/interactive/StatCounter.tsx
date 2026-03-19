@@ -4,6 +4,7 @@ import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import gsap from "gsap";
 import { useRef } from "react";
+import { useAppStore } from "@/lib/store/useAppStore";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -30,12 +31,13 @@ export function StatCounter({
 }: StatCounterProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const countRef = useRef<HTMLSpanElement>(null);
+  const reduceMotion = useAppStore((s) => s.reduceMotion);
 
   useGSAP(
     () => {
-      const reducedMotion = window.matchMedia(
-        "(prefers-reduced-motion: reduce)"
-      ).matches;
+      const reducedMotion =
+        reduceMotion ||
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
       if (reducedMotion) {
         if (countRef.current) {
@@ -63,7 +65,7 @@ export function StatCounter({
         },
       });
     },
-    { scope: containerRef }
+    { scope: containerRef, dependencies: [reduceMotion] }
   );
 
   return (

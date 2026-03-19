@@ -11,6 +11,7 @@ import { Area, LinePath } from "@visx/shape";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useId, useRef } from "react";
+import { useAppStore } from "@/lib/store/useAppStore";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -42,6 +43,7 @@ interface AreaInnerProps {
 function AreaInner({ data, width, gradientId, clipId, ariaLabel }: AreaInnerProps) {
   const containerRef = useRef<SVGSVGElement>(null);
   const clipRectRef = useRef<SVGRectElement>(null);
+  const reduceMotion = useAppStore((s) => s.reduceMotion);
 
   const innerWidth = width - MARGIN.left - MARGIN.right;
   const innerHeight = CHART_HEIGHT - MARGIN.top - MARGIN.bottom;
@@ -60,7 +62,7 @@ function AreaInner({ data, width, gradientId, clipId, ariaLabel }: AreaInnerProp
 
   useGSAP(
     () => {
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      if (reduceMotion || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         if (clipRectRef.current) {
           clipRectRef.current.setAttribute("width", String(innerWidth + 8));
         }
@@ -81,7 +83,7 @@ function AreaInner({ data, width, gradientId, clipId, ariaLabel }: AreaInnerProp
         },
       );
     },
-    { scope: containerRef },
+    { scope: containerRef, dependencies: [reduceMotion, innerWidth] },
   );
 
   const axisColor = "var(--color-foreground)";
